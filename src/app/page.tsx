@@ -171,7 +171,7 @@ export default function Home() {
   const personalDetails = [
     { label: "Full Name", value: "Ahmed Mohamed Abdelatif" },
     { label: "Nationality", value: "Egyptian (مصري)" },
-    { label: "Degree & Specialization", value: "B.Sc. Computer Science (Graduation 2026)" },
+    { label: "Degree & Specialization", value: "B.Sc. Computer Science (Graduation 2029)" },
     { label: "University", value: "Egyptian Chinese University (ECU) — Cairo, Egypt" },
     { label: "Current Location", value: "Cairo, Egypt" },
     { label: "Military Service Status", value: "Postponed / Student Status (مؤجل للدراسة)" },
@@ -607,9 +607,9 @@ export default function Home() {
       // Rule 5: Education, ECU, Graduation & Military Status
       else if (q.includes("ecu") || q.includes("education") || q.includes("university") || q.includes("degree") || q.includes("study") || q.includes("graduation") || q.includes("military") || q.includes("تجنيد") || q.includes("جيش") || q.includes("جامعة") || q.includes("دراسة") || q.includes("تعليم")) {
         if (isAr) {
-          aiReply = "أحمد طالب علوم حاسب بـ الجامعة المصرية الصينية (ECU) بالقاهرة، متوقع تخرجه عام 2026. موقفه من التجنيد: مؤجل للدراسة.";
+          aiReply = "أحمد طالب علوم حاسب بـ الجامعة المصرية الصينية (ECU) بالقاهرة، متوقع تخرجه عام 2029. موقفه من التجنيد: مؤجل للدراسة.";
         } else {
-          aiReply = "Ahmed is a Computer Science student at the Egyptian Chinese University (ECU) in Cairo, expected to graduate in 2026. Military status: Postponed for study.";
+          aiReply = "Ahmed is a Computer Science student at the Egyptian Chinese University (ECU) in Cairo, expected to graduate in 2029. Military status: Postponed for study.";
         }
       }
       // Rule 6: Hobbies & Personal Mindset
@@ -790,7 +790,7 @@ export default function Home() {
               EG Nationality: Egyptian
             </span>
             <span className="bg-emerald-950/60 text-emerald-400 px-3 py-1 rounded-md border border-emerald-800/40">
-              Graduation: 2026 (ECU)
+              Graduation: 2029 (ECU)
             </span>
           </div>
 
@@ -917,7 +917,7 @@ export default function Home() {
             </div>
             <div className="md:text-right shrink-0 space-y-1">
               <span className="text-xs font-mono bg-gray-800 text-gray-200 px-3 py-1.5 rounded-md border border-gray-700 block font-semibold">
-                Expected Graduation: 2026
+                Expected Graduation: 2029
               </span>
               <span className="text-xs text-emerald-400 font-mono block">Status: Currently Enrolled</span>
             </div>
