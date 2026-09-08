@@ -263,21 +263,21 @@ export default function Home() {
       const utterance = new SpeechSynthesisUtterance(cleanText);
       const isAr = isArabicText(cleanText);
       
-      utterance.rate = 0.90; // Calm, medium-slow clear pace
-      utterance.pitch = 0.92; // Deep, calm male pitch tone
+      utterance.rate = 0.83; // Relaxed, calm, steady clear pace (reduced speed)
+      utterance.pitch = 0.98; // Pure, natural, non-warped pitch
 
       const voices = window.speechSynthesis.getVoices();
       if (isAr) {
         utterance.lang = "ar-EG";
         const arMale = voices.find(
-          (v) => v.lang.startsWith("ar") && (v.name.includes("Maged") || v.name.includes("TarIK") || v.name.includes("Male") || v.name.includes("Google"))
+          (v) => v.lang.startsWith("ar") && (v.name.includes("Natural") || v.name.includes("Shakir") || v.name.includes("Maged") || v.name.includes("TarIK") || v.name.includes("Male") || v.name.includes("Google"))
         ) || voices.find((v) => v.lang.startsWith("ar"));
         if (arMale) utterance.voice = arMale;
       } else {
         utterance.lang = "en-US";
-        // Lock to Male Voice
+        // Lock to Calm Natural Male Voice
         const enMale = voices.find(
-          (v) => v.lang.startsWith("en") && (v.name.includes("Guy") || v.name.includes("Daniel") || v.name.includes("David") || v.name.includes("Alex") || v.name.includes("Male") || v.name.includes("George") || v.name.includes("Natural"))
+          (v) => v.lang.startsWith("en") && (v.name.includes("Natural") || v.name.includes("Guy") || v.name.includes("Ryan") || v.name.includes("Daniel") || v.name.includes("David") || v.name.includes("Alex") || v.name.includes("George") || v.name.includes("Google"))
         ) || voices.find((v) => v.lang.startsWith("en"));
         if (enMale) utterance.voice = enMale;
       }
