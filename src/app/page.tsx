@@ -447,18 +447,29 @@ export default function Home() {
   // Contextual Assistant Awareness when HR views a project modal
   const handleOpenProjectModal = (proj: typeof projects[0]) => {
     setSelectedProject(proj);
+    setChatOpen(true); // Open AI Chat Drawer automatically
+    
+    const isAr = currentLangRef.current === "ar-EG";
     let contextualNarrative = "";
+
     if (proj.id === "01") {
-      contextualNarrative = "Welcome! For the AI Customer Support Platform, Ahmed built FastAPI REST APIs for tickets and WhatsApp Cloud API integration, offloading message processing to Redis RQ background workers.";
+      contextualNarrative = isAr
+        ? "أهلاً بك! في مشروع منصة دعم العملاء بالذكاء الاصطناعي، أحمد بنى REST APIs للتذاكر وربط Meta WhatsApp Cloud API مع معالجة الرسائل غير المتزامنة بـ Redis RQ."
+        : "Welcome! For the AI Customer Support Platform, Ahmed built FastAPI REST APIs for tickets and WhatsApp Cloud API integration, offloading message processing to Redis RQ background workers.";
     } else if (proj.id === "02") {
-      contextualNarrative = "This is the Enterprise RAG Knowledge Assistant! Ahmed implemented document chunking, Sentence Transformers embeddings, and ChromaDB vector search for source-aware answers.";
+      contextualNarrative = isAr
+        ? "ده مشروع مساعد المعرفة RAG للمؤسسات! أحمد نفذ تقسيم المستندات وSentence Transformers وبحث المتجهات عبر ChromaDB مع استشهاد المصادر."
+        : "This is the Enterprise RAG Knowledge Assistant! Ahmed implemented document chunking, Sentence Transformers embeddings, and ChromaDB vector search for source-aware answers.";
     } else if (proj.id === "03") {
-      contextualNarrative = "The AI Document Intelligence Platform asynchronously extracts structured text data from PDF and DOCX uploads using Redis RQ background workers.";
+      contextualNarrative = isAr
+        ? "منصة مستندات الذكاء الاصطناعي بتستخرج البيانات الهيكلية من ملفات PDF وDOCX بشكل غير متزامن Asynchronous باستخدام عمال Redis RQ."
+        : "The AI Document Intelligence Platform asynchronously extracts structured text data from PDF and DOCX uploads using Redis RQ background workers.";
     } else if (proj.id === "04") {
-      contextualNarrative = "The Medical Event Automation Platform manages attendee registrations and dispatches automated email notifications asynchronously using Redis RQ and SMTP.";
+      contextualNarrative = isAr
+        ? "منصة أتمتة الفعاليات الطبية بتدير تسجيل الحضور وتدفقات الفعاليات وإرسال الإيميلات التلقائية في الخلفية باستخدام Redis RQ وSMTP."
+        : "The Medical Event Automation Platform manages attendee registrations and dispatches automated email notifications asynchronously using Redis RQ and SMTP.";
     }
     
-    // Narrate contextual explanation
     setMessages((prev) => [...prev, { sender: "ai", text: `🔎 ${proj.title}:\n${contextualNarrative}` }]);
     speakText(contextualNarrative);
   };
@@ -466,7 +477,17 @@ export default function Home() {
   // Contextual Assistant Awareness when HR clicks a Skill Category
   const handleOpenSkillCategoryModal = (cat: typeof skillCategories[0]) => {
     setSelectedSkillCategory(cat);
-    const contextualNarrative = `For ${cat.category}, Ahmed mastered ${cat.skills.join(", ")}. ${cat.description} Practical Experience: ${cat.experienceSummary}`;
+    setChatOpen(true); // Open AI Chat Drawer automatically
+    
+    const isAr = currentLangRef.current === "ar-EG";
+    let contextualNarrative = "";
+
+    if (isAr) {
+      contextualNarrative = `في فئة ${cat.category}، أحمد بيتقن مهارات: ${cat.skills.join(", ")}. ${cat.description} والخبرة المطبقة: ${cat.experienceSummary}`;
+    } else {
+      contextualNarrative = `For ${cat.category}, Ahmed mastered ${cat.skills.join(", ")}. ${cat.description} Practical Experience: ${cat.experienceSummary}`;
+    }
+
     setMessages((prev) => [...prev, { sender: "ai", text: `🛠️ ${cat.category}:\n${contextualNarrative}` }]);
     speakText(contextualNarrative);
   };
@@ -1144,6 +1165,12 @@ export default function Home() {
                   className="text-xs text-gray-400 hover:text-white transition font-medium"
                 >
                   Return to Skills
+                </button>
+                <button
+                  onClick={() => handleOpenSkillCategoryModal(selectedSkillCategory)}
+                  className="flex items-center gap-2 bg-purple-900/80 hover:bg-purple-800 text-purple-200 font-semibold text-xs px-4 py-2 rounded-lg border border-purple-700/60 transition shadow-md"
+                >
+                  <Bot className="w-4 h-4 text-purple-300" /> Ask AI to Explain Domain 🔊
                 </button>
               </div>
             </div>
