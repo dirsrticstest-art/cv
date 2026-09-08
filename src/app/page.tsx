@@ -15,7 +15,12 @@ import {
   Award, 
   FileText,
   ChevronRight,
-  UserCheck
+  Shield,
+  Workflow,
+  Database,
+  Layers,
+  CheckCircle2,
+  Server
 } from "lucide-react";
 
 export default function Home() {
@@ -24,7 +29,7 @@ export default function Home() {
   const [messages, setMessages] = useState([
     {
       sender: "ai",
-      text: "👋 Hi! I am Ahmed's AI Resume Assistant. Ask me anything about his experience, technical stack, or projects!"
+      text: "👋 Hi! I am Ahmed's AI Assistant. Ask me anything about his experience with Meta WhatsApp Cloud API, FastAPI backends, or AI Automation!"
     }
   ]);
   const [inputMsg, setInputMsg] = useState("");
@@ -37,88 +42,107 @@ export default function Home() {
     setMessages((prev) => [...prev, { sender: "user", text: userText }]);
     setInputMsg("");
 
-    // Simulate AI response based on CV query
+    // Professional AI responses customized to Ahmed's profile
     setTimeout(() => {
-      let aiReply = "Ahmed has over 4+ years of experience building scalable Web Apps & AI integrations. He specializes in Next.js, React, Node.js, and cloud architectures.";
-      if (userText.toLowerCase().includes("project") || userText.toLowerCase().includes("مشروع")) {
-        aiReply = "Some of Ahmed's featured projects include InsightFlow (AI Analytics SaaS) and SynergyCloud (Distributed Systems Dashboard). Check out the Projects section below!";
-      } else if (userText.toLowerCase().includes("contact") || userText.toLowerCase().includes("تواصل") || userText.toLowerCase().includes("email")) {
-        aiReply = "You can reach Ahmed directly via email at ahmed@example.com or via LinkedIn!";
+      let aiReply = "Ahmed is an AI Automation Engineer & Python Backend Developer. He specializes in FastAPI, Meta WhatsApp Cloud API integrations, workflow automation, and scalable backend architecture.";
+      const query = userText.toLowerCase();
+      
+      if (query.includes("h2m") || query.includes("work") || query.includes("experience") || query.includes("خبرة")) {
+        aiReply = "At H2M, Ahmed built core backend systems & financial tools for profitability, pricing, and campaign analytics from scratch. He also architected messaging workflows using the Meta WhatsApp Cloud API.";
+      } else if (query.includes("whatsapp") || query.includes("meta") || query.includes("automation") || query.includes("أتمتة")) {
+        aiReply = "Ahmed has extensive hands-on experience with Meta WhatsApp Cloud API: webhooks, automated reply workflows, campaign scheduling, and customer support automation.";
+      } else if (query.includes("skill") || query.includes("python") || query.includes("stack") || query.includes("مهارات")) {
+        aiReply = "Ahmed's stack includes Python, C++, SQL (FastAPI, REST APIs, SQLite, Database Design), Async & Background Processing, Webhooks, Git, and Linux.";
+      } else if (query.includes("contact") || query.includes("email") || query.includes("تواصل") || query.includes("إيميل")) {
+        aiReply = "You can email Ahmed directly at ahmeeedmohaaamed1@gmail.com or explore his GitHub at https://github.com/dirsrticstest-art !";
       }
+
       setMessages((prev) => [...prev, { sender: "ai", text: aiReply }]);
     }, 600);
   };
 
   const projects = [
     {
-      title: "InsightFlow AI Analytics Platform",
-      description: "Enterprise SaaS platform providing real-time predictive data analytics, automated anomaly detection, and interactive visual dashboards.",
-      metrics: "⚡ 45% faster query times | 10k+ Daily Active Users",
-      tags: ["Next.js 15", "TypeScript", "Python / FastAPI", "PostgreSQL", "Tailwind CSS"],
-      github: "#",
+      title: "Meta WhatsApp Cloud API Automation Suite",
+      description: "Enterprise messaging workflow & customer support automation system. Integrates webhooks, conversation management, automated reply triggers, and targeted campaign scheduling.",
+      metrics: "⚡ Real-time Webhook Processing | Automated Customer Journeys",
+      tags: ["Python", "FastAPI", "Meta WhatsApp API", "Webhooks", "Async Tasks"],
+      github: "https://github.com/dirsrticstest-art",
       demo: "#"
     },
     {
-      title: "SynergyCloud Infrastructure Visualizer",
-      description: "Real-time distributed system architecture monitoring panel with automated latency alert triggers and Kubernetes cluster metric streams.",
-      metrics: "🚀 99.99% Uptime Monitored | Reduced Incident Response by 30m",
-      tags: ["React", "Node.js", "Docker", "Kubernetes", "GraphQL", "Tailwind"],
-      github: "#",
+      title: "E-Commerce Profitability & Analytics Engine",
+      description: "Custom backend financial computation tools built for pricing optimization, marketing campaign performance tracking, shipping analytics, and customer profitability metrics.",
+      metrics: "📈 Accurate Financial Analytics | Built from Scratch",
+      tags: ["Python", "REST APIs", "SQL", "Database Design", "Business Intelligence"],
+      github: "https://github.com/dirsrticstest-art",
       demo: "#"
     },
     {
-      title: "NeuralNet Visualizer & AI Playground",
-      description: "Browser-based interactive neural network architecture builder and real-time weight visualization tool for educational machine learning model design.",
-      metrics: "🌟 Featured in Developer Tech Weekly | 2.5k Star Rating",
-      tags: ["TypeScript", "PyTorch", "WebGL", "Next.js", "Tailwind CSS"],
-      github: "#",
+      title: "Automated Email & Event Dispatcher Service",
+      description: "Background processing service utilizing SMTP and event-driven architecture for transactional email delivery, customer notifications, and automated error logging.",
+      metrics: "🚀 Reliable Background Processing | Zero Message Loss",
+      tags: ["Python", "SMTP", "Background Queues", "JSON API", "Linux"],
+      github: "https://github.com/dirsrticstest-art",
       demo: "#"
     }
   ];
 
-  const experiences = [
+  const skillCategories = [
     {
-      period: "2024 - Present",
-      role: "Senior Full-Stack & AI Systems Engineer",
-      company: "Tech Global Innovations",
-      details: "Leading frontend architecture and AI service integrations for enterprise clients. Improved application rendering performance by 40% and mentored 5 junior developers."
+      category: "Programming Languages",
+      icon: Code2,
+      skills: ["Python", "C++", "SQL"]
     },
     {
-      period: "2022 - 2024",
-      role: "Full-Stack Software Engineer",
-      company: "Nexus Digital Systems",
-      details: "Designed and maintained microservices using Node.js, Express, and Next.js. Reduced API response latency by 35% through optimized caching strategies."
+      category: "Backend & API Architecture",
+      icon: Server,
+      skills: ["FastAPI", "REST APIs", "Backend Architecture", "Webhooks", "Background Processing", "Async Queues"]
     },
     {
-      period: "2021 - 2022",
-      role: "Frontend Developer",
-      company: "Innovate Labs",
-      details: "Built responsive, high-accessibility UI components using React, Redux, and Tailwind CSS for high-traffic SaaS applications."
+      category: "AI & Workflow Automation",
+      icon: Workflow,
+      skills: ["AI Automation", "Workflow Automation", "Event-Driven Systems", "Automated Messaging", "Customer Support Bots"]
+    },
+    {
+      category: "Integrations & APIs",
+      icon: Layers,
+      skills: ["Meta WhatsApp Cloud API", "Webhooks", "SMTP / Email Automation", "Third-Party API Integration"]
+    },
+    {
+      category: "Databases & Storage",
+      icon: Database,
+      skills: ["SQLite", "SQL", "Database Design", "CRUD Operations"]
+    },
+    {
+      category: "Core Computer Science",
+      icon: Shield,
+      skills: ["Object-Oriented Programming (OOP)", "Data Structures", "Algorithms", "Error Handling", "Software Architecture"]
     }
   ];
 
   return (
     <div className="min-h-screen bg-[#090d16] text-gray-100 relative selection:bg-purple-500 selection:text-white">
-      {/* Glow Ambient Background Highlights */}
+      {/* Ambient Glow Background Accents */}
       <div className="fixed top-0 left-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="fixed bottom-10 right-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[140px] pointer-events-none" />
 
-      {/* Navigation Header */}
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-[#090d16]/75 border-b border-white/5 px-6 py-4">
+      {/* Navigation Bar */}
+      <header className="sticky top-0 z-40 backdrop-blur-md bg-[#090d16]/80 border-b border-white/5 px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <a href="#" className="text-xl font-bold tracking-tight flex items-center gap-2">
-            <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-              AHMED
+            <span className="bg-gradient-to-r from-purple-400 via-indigo-400 to-blue-400 bg-clip-text text-transparent">
+              AHMED MOHAMED
             </span>
-            <span className="text-xs px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 font-mono">
-              PORTFOLIO 2026
+            <span className="text-xs px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 font-mono">
+              AI & BACKEND
             </span>
           </a>
 
           <nav className="hidden md:flex items-center gap-8 text-sm text-gray-300 font-medium">
             <a href="#about" className="hover:text-purple-400 transition">About</a>
-            <a href="#projects" className="hover:text-purple-400 transition">Projects</a>
             <a href="#experience" className="hover:text-purple-400 transition">Experience</a>
+            <a href="#projects" className="hover:text-purple-400 transition">Projects</a>
             <a href="#skills" className="hover:text-purple-400 transition">Skills</a>
             <a href="#contact" className="hover:text-purple-400 transition">Contact</a>
           </nav>
@@ -128,7 +152,7 @@ export default function Home() {
               href="#contact" 
               className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-xs font-semibold px-4 py-2 rounded-full transition shadow-lg shadow-purple-900/30"
             >
-              <FileText className="w-3.5 h-3.5" /> Resume PDF
+              <Mail className="w-3.5 h-3.5" /> Get In Touch
             </a>
           </div>
         </div>
@@ -139,18 +163,18 @@ export default function Home() {
         <div className="md:col-span-7 space-y-6">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-purple-300">
             <Sparkles className="w-3.5 h-3.5 text-purple-400" />
-            <span>Available for Senior & Remote Opportunities</span>
+            <span>AI Automation Engineer & Python Backend Developer</span>
           </div>
 
           <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
-            Building High-Impact <br />
+            Architecting Intelligent <br />
             <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
-              Full-Stack & AI Systems
+              Backends & Automation
             </span>
           </h1>
 
-          <p className="text-gray-400 text-lg leading-relaxed max-w-xl">
-            Passionate Software Engineer specializing in modern web architecture, scalable cloud services, and real-time interactive user experiences crafted for top global tech products.
+          <p className="text-gray-300 text-base sm:text-lg leading-relaxed max-w-xl">
+            I build robust backend systems, RESTful APIs, and intelligent automation workflows that solve real business problems. Focused on AI integration, scalable architecture, Meta WhatsApp APIs, and software reliability.
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -158,24 +182,21 @@ export default function Home() {
               href="#projects" 
               className="flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white font-medium px-6 py-3 rounded-xl transition shadow-lg shadow-purple-900/40"
             >
-              Explore Featured Work <ChevronRight className="w-4 h-4" />
+              View Work & Systems <ChevronRight className="w-4 h-4" />
             </a>
             
             <div className="flex items-center gap-3 pl-2">
-              <a href="https://github.com" target="_blank" rel="noreferrer" className="p-3 bg-white/5 hover:bg-white/10 rounded-xl text-gray-300 hover:text-white border border-white/10 transition">
+              <a href="https://github.com/dirsrticstest-art" target="_blank" rel="noreferrer" className="p-3 bg-white/5 hover:bg-white/10 rounded-xl text-gray-300 hover:text-white border border-white/10 transition" title="GitHub">
                 <Globe className="w-5 h-5" />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="p-3 bg-white/5 hover:bg-white/10 rounded-xl text-gray-300 hover:text-white border border-white/10 transition">
-                <UserCheck className="w-5 h-5" />
-              </a>
-              <a href="mailto:ahmed@example.com" className="p-3 bg-white/5 hover:bg-white/10 rounded-xl text-gray-300 hover:text-white border border-white/10 transition">
+              <a href="mailto:ahmeeedmohaaamed1@gmail.com" className="p-3 bg-white/5 hover:bg-white/10 rounded-xl text-gray-300 hover:text-white border border-white/10 transition" title="Direct Email">
                 <Mail className="w-5 h-5" />
               </a>
             </div>
           </div>
         </div>
 
-        {/* Code Snippet Card */}
+        {/* Live Code Snippet Terminal */}
         <div className="md:col-span-5">
           <div className="glass-card rounded-2xl p-5 shadow-2xl relative overflow-hidden border border-white/10">
             <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
@@ -185,26 +206,76 @@ export default function Home() {
                 <span className="w-3 h-3 rounded-full bg-green-500/80 inline-block" />
               </div>
               <div className="flex items-center gap-1.5 text-xs text-gray-400 font-mono">
-                <Terminal className="w-3.5 h-3.5 text-purple-400" /> developer-core.ts
+                <Terminal className="w-3.5 h-3.5 text-purple-400" /> ahmed_backend.py
               </div>
             </div>
 
             <pre className="font-mono text-xs text-purple-200/90 leading-relaxed overflow-x-auto">
               <code>
-<span className="text-purple-400">interface</span> Developer &#123;<br/>
-&nbsp;&nbsp;name: <span className="text-green-300">&quot;Ahmed&quot;</span>;<br/>
-&nbsp;&nbsp;role: <span className="text-green-300">&quot;Senior Software Engineer&quot;</span>;<br/>
-&nbsp;&nbsp;location: <span className="text-green-300">&quot;Global / Remote&quot;</span>;<br/>
-&nbsp;&nbsp;coreStack: [<span className="text-green-300">&quot;Next.js&quot;</span>, <span className="text-green-300">&quot;TypeScript&quot;</span>, <span className="text-green-300">&quot;Node.js&quot;</span>, <span className="text-green-300">&quot;AI/LLMs&quot;</span>];<br/>
-&nbsp;&nbsp;passion: <span className="text-green-300">&quot;Architecting fast & scalable products&quot;</span>;<br/>
-&#125;<br/><br/>
-<span className="text-purple-400">async function</span> buildImpact() &#123;<br/>
-&nbsp;&nbsp;<span className="text-blue-400">await</span> codeCleanArchitecture();<br/>
-&nbsp;&nbsp;<span className="text-blue-400">await</span> optimizePerformance();<br/>
-&nbsp;&nbsp;<span className="text-purple-400">return</span> <span className="text-green-300">&quot;🚀 Ready to deliver enterprise value&quot;</span>;<br/>
-&#125;
+<span className="text-purple-400">class</span> <span className="text-yellow-300">BackendEngineer</span>:<br/>
+&nbsp;&nbsp;name = <span className="text-green-300">&quot;Ahmed Mohamed Abdelatif&quot;</span><br/>
+&nbsp;&nbsp;role = <span className="text-green-300">&quot;AI Automation & Backend Developer&quot;</span><br/>
+&nbsp;&nbsp;primary_language = <span className="text-green-300">&quot;Python / C++&quot;</span><br/>
+&nbsp;&nbsp;specialties = [<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-green-300">&quot;FastAPI / REST APIs&quot;</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-green-300">&quot;Meta WhatsApp Cloud API&quot;</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-green-300">&quot;Workflow Automation&quot;</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-green-300">&quot;Database & Async Queues&quot;</span><br/>
+&nbsp;&nbsp;]<br/><br/>
+&nbsp;&nbsp;<span className="text-purple-400">def</span> <span className="text-blue-400">solve_business_problem</span>(self, requirements):<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;architecture = self.design_clean_backend()<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;automation = self.integrate_ai_workflows()<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-purple-400">return</span> <span className="text-green-300">&quot;🚀 Scalable & Reliable Business Solution&quot;</span>
               </code>
             </pre>
+          </div>
+        </div>
+      </section>
+
+      {/* Experience Section */}
+      <section id="experience" className="max-w-6xl mx-auto px-6 py-20 border-t border-white/5">
+        <div className="mb-12">
+          <h2 className="text-xs font-mono text-purple-400 tracking-wider uppercase mb-2">Professional Work</h2>
+          <p className="text-3xl font-bold text-white">Work Experience</p>
+        </div>
+
+        <div className="glass-card rounded-3xl p-6 sm:p-8 border border-white/10 relative overflow-hidden">
+          <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-6">
+            <div className="space-y-1">
+              <span className="text-xs font-mono text-purple-400 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 inline-block mb-2">
+                Recent Full-time Role | On-site
+              </span>
+              <h3 className="text-2xl font-bold text-white">Backend Developer</h3>
+              <p className="text-base text-purple-300 flex items-center gap-2 font-medium">
+                <Briefcase className="w-4 h-4 text-blue-400" /> H2M (3 Months Full-time)
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-4 text-gray-300 text-sm leading-relaxed">
+            <p className="text-gray-200 font-medium">
+              Engineered core backend infrastructure and custom business intelligence tools from scratch based on strict operational requirements:
+            </p>
+            
+            <div className="grid sm:grid-cols-2 gap-4 pt-2">
+              <div className="p-4 rounded-xl bg-white/5 border border-white/5 space-y-2">
+                <h4 className="font-semibold text-purple-300 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Business & Financial Analytics Tools
+                </h4>
+                <p className="text-xs text-gray-400 leading-normal">
+                  Built pricing algorithms, profitability calculators, campaign tracking, shipping metrics, and customer analytics engines.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-white/5 border border-white/5 space-y-2">
+                <h4 className="font-semibold text-purple-300 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Meta WhatsApp Cloud API Integration
+                </h4>
+                <p className="text-xs text-gray-400 leading-normal">
+                  Architected webhooks, message templates, automated reply workflows, customer conversation pipelines, and scheduled marketing campaigns.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -213,11 +284,11 @@ export default function Home() {
       <section id="projects" className="max-w-6xl mx-auto px-6 py-20 border-t border-white/5">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div>
-            <h2 className="text-xs font-mono text-purple-400 tracking-wider uppercase mb-2">Selected Projects</h2>
-            <p className="text-3xl font-bold text-white">Proof of Technical Depth</p>
+            <h2 className="text-xs font-mono text-purple-400 tracking-wider uppercase mb-2">Technical Proof</h2>
+            <p className="text-3xl font-bold text-white">Featured Systems & Automations</p>
           </div>
           <p className="text-gray-400 text-sm max-w-md mt-2 md:mt-0">
-            Real-world systems engineered with focus on scalability, maintainability, and measurable results.
+            Real-world backend tools engineered for business automation, reliability, and scale.
           </p>
         </div>
 
@@ -229,14 +300,9 @@ export default function Home() {
                   <div className="p-2.5 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
                     <Code2 className="w-5 h-5" />
                   </div>
-                  <div className="flex items-center gap-2">
-                    <a href={proj.github} className="text-gray-400 hover:text-white transition p-1">
-                      <Globe className="w-4 h-4" />
-                    </a>
-                    <a href={proj.demo} className="text-gray-400 hover:text-white transition p-1">
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
-                  </div>
+                  <a href={proj.github} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-white transition p-1" title="View Source on GitHub">
+                    <Globe className="w-4 h-4" />
+                  </a>
                 </div>
 
                 <h3 className="text-xl font-bold text-white mb-2">{proj.title}</h3>
@@ -261,80 +327,63 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Experience Section */}
-      <section id="experience" className="max-w-6xl mx-auto px-6 py-20 border-t border-white/5">
-        <div className="mb-12">
-          <h2 className="text-xs font-mono text-purple-400 tracking-wider uppercase mb-2">Career Journey</h2>
-          <p className="text-3xl font-bold text-white">Work Experience</p>
-        </div>
-
-        <div className="space-y-6">
-          {experiences.map((exp, idx) => (
-            <div key={idx} className="glass-card rounded-2xl p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
-              <div className="space-y-2 md:w-1/3">
-                <span className="text-xs font-mono text-purple-400 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 inline-block">
-                  {exp.period}
-                </span>
-                <h3 className="text-xl font-bold text-white">{exp.role}</h3>
-                <p className="text-sm text-gray-400 flex items-center gap-1.5">
-                  <Briefcase className="w-4 h-4 text-blue-400" /> {exp.company}
-                </p>
-              </div>
-              <div className="md:w-2/3 text-gray-300 text-sm leading-relaxed">
-                {exp.details}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Skills Radar Section */}
+      {/* Categorized Skills Section */}
       <section id="skills" className="max-w-6xl mx-auto px-6 py-20 border-t border-white/5">
         <div className="mb-12">
-          <h2 className="text-xs font-mono text-purple-400 tracking-wider uppercase mb-2">Core Competencies</h2>
-          <p className="text-3xl font-bold text-white">Tech Stack & Tools</p>
+          <h2 className="text-xs font-mono text-purple-400 tracking-wider uppercase mb-2">Technical Mastery</h2>
+          <p className="text-3xl font-bold text-white">Skills & Technology Stack</p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {[
-            { name: "TypeScript / JavaScript", category: "Languages", icon: Code2 },
-            { name: "React / Next.js", category: "Frontend Frameworks", icon: Cpu },
-            { name: "Node.js / Express", category: "Backend Architecture", icon: Terminal },
-            { name: "Python / FastAPI", category: "AI Services & APIs", icon: Sparkles },
-            { name: "PostgreSQL / MongoDB", category: "Database Systems", icon: Award },
-            { name: "Tailwind CSS", category: "UI/UX Styling", icon: Code2 },
-            { name: "Docker / CI/CD", category: "DevOps & Deployment", icon: Briefcase },
-            { name: "GraphQL / REST APIs", category: "API Design", icon: UserCheck },
-          ].map((skill, idx) => (
-            <div key={idx} className="glass-card p-4 rounded-xl flex items-center gap-3">
-              <div className="p-2.5 rounded-lg bg-white/5 text-purple-400">
-                <skill.icon className="w-5 h-5" />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {skillCategories.map((cat, idx) => (
+            <div key={idx} className="glass-card p-6 rounded-2xl space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                  <cat.icon className="w-5 h-5" />
+                </div>
+                <h3 className="text-base font-bold text-white">{cat.category}</h3>
               </div>
-              <div>
-                <h4 className="text-sm font-semibold text-white">{skill.name}</h4>
-                <p className="text-[11px] text-gray-400">{skill.category}</p>
+
+              <div className="flex flex-wrap gap-2">
+                {cat.skills.map((s, i) => (
+                  <span key={i} className="text-xs font-medium px-3 py-1 rounded-lg bg-white/5 text-gray-300 border border-white/10">
+                    {s}
+                  </span>
+                ))}
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Contact Section */}
+      {/* Direct Contact Section */}
       <section id="contact" className="max-w-6xl mx-auto px-6 py-20 border-t border-white/5">
-        <div className="glass-card rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden">
+        <div className="glass-card rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden border border-white/10">
           <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-blue-900/20 pointer-events-none" />
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white mb-4 relative z-10">
-            Let&apos;s Build Something Incredible Together
+          
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4 relative z-10">
+            Let&apos;s Build Powerful Automations Together
           </h2>
+          
           <p className="text-gray-300 max-w-xl mx-auto mb-8 text-sm sm:text-base relative z-10">
-            Interested in hiring for a senior/remote role or discussing a strategic technical project? Send a message directly.
+            Available for Python Backend Development, AI Automation, and API Integration roles. Reach out directly via email.
           </p>
-          <div className="flex justify-center gap-4 relative z-10">
+
+          <div className="flex flex-wrap justify-center gap-4 relative z-10">
             <a 
-              href="mailto:ahmed@example.com" 
+              href="mailto:ahmeeedmohaaamed1@gmail.com" 
               className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-medium px-8 py-3.5 rounded-xl transition shadow-xl shadow-purple-900/50 text-sm"
             >
-              <Mail className="w-4 h-4" /> Send Direct Email
+              <Mail className="w-4 h-4" /> ahmeeedmohaaamed1@gmail.com
+            </a>
+
+            <a 
+              href="https://github.com/dirsrticstest-art" 
+              target="_blank" 
+              rel="noreferrer"
+              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-medium px-6 py-3.5 rounded-xl border border-white/10 transition text-sm"
+            >
+              <Globe className="w-4 h-4" /> GitHub Profile
             </a>
           </div>
         </div>
@@ -342,10 +391,10 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t border-white/5 py-8 text-center text-xs text-gray-500 font-mono">
-        <p>© 2026 Ahmed | Modern Developer Portfolio. Built with Next.js & Tailwind CSS.</p>
+        <p>© 2026 Ahmed Mohamed Abdelatif | AI Automation Engineer & Python Backend Developer.</p>
       </footer>
 
-      {/* Interactive AI Resume Widget */}
+      {/* Interactive AI Assistant Widget */}
       <div className="fixed bottom-6 right-6 z-50">
         {!chatOpen ? (
           <button
@@ -353,21 +402,21 @@ export default function Home() {
             className="flex items-center gap-2.5 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-medium px-4 py-3 rounded-full shadow-2xl transition transform hover:scale-105 border border-white/20"
           >
             <Bot className="w-5 h-5 text-purple-200" />
-            <span className="text-xs font-semibold">Talk to my AI Resume</span>
+            <span className="text-xs font-semibold">Talk to Ahmed&apos;s AI Bot</span>
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           </button>
         ) : (
           <div className="glass-card w-[340px] sm:w-[380px] h-[460px] rounded-2xl shadow-2xl flex flex-col border border-purple-500/30 overflow-hidden">
             {/* Widget Header */}
-            <div className="p-3.5 bg-purple-950/60 border-b border-white/10 flex items-center justify-between">
+            <div className="p-3.5 bg-purple-950/70 border-b border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 rounded-lg bg-purple-500/20 text-purple-300">
                   <Bot className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-white">AI Resume Assistant</h4>
+                  <h4 className="text-xs font-bold text-white">Ahmed&apos;s AI Assistant</h4>
                   <p className="text-[10px] text-emerald-400 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> Online (2026 Engine)
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> Active 24/7
                   </p>
                 </div>
               </div>
@@ -379,7 +428,7 @@ export default function Home() {
               </button>
             </div>
 
-            {/* Widget Messages Container */}
+            {/* Messages Container */}
             <div className="flex-1 p-4 overflow-y-auto space-y-3 text-xs">
               {messages.map((m, i) => (
                 <div 
@@ -387,7 +436,7 @@ export default function Home() {
                   className={`flex ${m.sender === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <div 
-                    className={`max-w-[80%] p-3 rounded-xl leading-relaxed ${
+                    className={`max-w-[82%] p-3 rounded-xl leading-relaxed ${
                       m.sender === "user" 
                         ? "bg-purple-600 text-white rounded-br-none" 
                         : "bg-white/10 text-gray-200 rounded-bl-none border border-white/10"
@@ -399,11 +448,11 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Widget Input Form */}
+            {/* Input Form */}
             <form onSubmit={handleSendMessage} className="p-3 border-t border-white/10 flex gap-2">
               <input
                 type="text"
-                placeholder="Ask about my experience..."
+                placeholder="Ask about my FastAPI or WhatsApp API experience..."
                 value={inputMsg}
                 onChange={(e) => setInputMsg(e.target.value)}
                 className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-400"
