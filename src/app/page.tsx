@@ -531,12 +531,26 @@ export default function Home() {
           aiReply = "At H2M (a 3-month full-time on-site position), Ahmed developed product pricing tools, marketing campaign analytics, shipping cost calculators, and automated Meta WhatsApp Cloud API workflows for MAXP Online.";
         }
       }
-      // Rule 4: Tech Stack & Skills
+      // Rule 4: Detailed Tech Stack & Skills
+      else if (q.includes("database") || q.includes("postgres") || q.includes("sql") || q.includes("داتابيز") || q.includes("قواعد بيانات")) {
+        if (isAr) {
+          aiReply = "في قواعد البيانات والصفوف، أحمد بيستخدم PostgreSQL كقاعدة بيانات علاقات أساسية، SQLAlchemy كـ ORM، SQLite للتطوير السريع، وRedis مع RQ إدارة المهام في الخلفية غير المتزامنة Asynchronous.";
+        } else {
+          aiReply = "For databases and queues, Ahmed utilizes PostgreSQL for relational data persistence, SQLAlchemy ORM, SQLite, and Redis with RQ queues for asynchronous background job execution.";
+        }
+      }
+      else if (q.includes("docker") || q.includes("git") || q.includes("pytest") || q.includes("linux") || q.includes("اختبار") || q.includes("أدوات")) {
+        if (isAr) {
+          aiReply = "في أدوات التطوير والاختبار، أحمد بيستخدم Git وGitHub للتحكم في الإصدارات، Docker للحاويات والحزم، Pytest لاختبارات الباك إند، وبيئة العمل Linux.";
+        } else {
+          aiReply = "For tools and testing, Ahmed uses Git & GitHub for version control, Docker for containerization, Pytest for backend testing suite, and Linux environments.";
+        }
+      }
       else if (q.includes("fastapi") || q.includes("python") || q.includes("postgresql") || q.includes("redis") || q.includes("tech") || q.includes("stack") || q.includes("skill") || q.includes("tool") || q.includes("language") || q.includes("مهارات") || q.includes("تقنيات")) {
         if (isAr) {
-          aiReply = "مهارات أحمد التقنية الأساسية تشمل: Python 3.11+, FastAPI, PostgreSQL, SQLAlchemy, Pydantic, Redis, RQ Queues, ChromaDB, Docker, Git, وC++ لحل المشكلات البرمجية.";
+          aiReply = "مهارات أحمد التقنية بالتفصيل تشمل 6 محاور: 1. الباك إند (Python, FastAPI, REST APIs, Webhooks, Pydantic, C++). 2. قواعد البيانات والمهام (PostgreSQL, SQLAlchemy, Redis, RQ Queues). 3. الأتمتة والربط (Meta WhatsApp Cloud API, SMTP). 4. الذكاء الاصطناعي (RAG Pipelines, ChromaDB, Sentence Transformers). 5. الأساسيات البرمجية (Data Structures, Algorithms, OOP, Clean Code). 6. الأدوات والاختبار (Docker, Git, Pytest, Linux).";
         } else {
-          aiReply = "Ahmed's tech stack includes Python 3.11+, FastAPI REST APIs, PostgreSQL, SQLAlchemy, Pydantic validation, Redis & RQ task queues, ChromaDB vector search, Docker, Git, and C++ for algorithms.";
+          aiReply = "Ahmed's complete technical stack spans 6 key domains: 1. Backend API Engineering (Python, FastAPI, REST APIs, Webhooks, Pydantic, C++). 2. Databases & Queues (PostgreSQL, SQLAlchemy, Redis, RQ Queues). 3. Integrations (Meta WhatsApp Cloud API, SMTP). 4. AI & Retrieval (RAG Pipelines, ChromaDB, Sentence Transformers). 5. CS Fundamentals (Data Structures, Algorithms, OOP, Clean Code). 6. Tools & Testing (Docker, Git, Pytest, Linux).";
         }
       }
       // Rule 5: Education, ECU, Graduation & Military Status
