@@ -607,7 +607,14 @@ export default function Home() {
           aiReply = "Ahmed's key strengths are designing clean asynchronous REST APIs and building reliable Redis background worker queues. He is based in Cairo, Egypt, and available for on-site, hybrid, or remote backend roles.";
         }
       }
-      // Rule 8: Contact & Email
+      // Rule 8: Contact, Email & Social Media
+      else if (q.includes("linkedin") || q.includes("facebook") || q.includes("social") || q.includes("سوشيال") || q.includes("حسابات") || q.includes("مجتمع")) {
+        if (isAr) {
+          aiReply = "أحمد نشط جداً في مجتمعات المطورين وعلى السوشيال ميديا! تقدر تتابع أحدث الكود والمشاريع على GitHub: github.com/ahmed-abdelatif أو تتواصل معاه على الإيميل مباشرة: ahmeeedmohaaamed1@gmail.com.";
+        } else {
+          aiReply = "Ahmed is active in developer communities! You can follow his open-source work on GitHub at github.com/ahmed-abdelatif or email him directly at ahmeeedmohaaamed1@gmail.com.";
+        }
+      }
       else if (q.includes("email") || q.includes("contact") || q.includes("reach") || q.includes("hire") || q.includes("github") || q.includes("تواصل") || q.includes("إيميل") || q.includes("وظيفة")) {
         if (isAr) {
           aiReply = "تقدر تتواصل مع أحمد مباشرة عبر الإيميل: ahmeeedmohaaamed1@gmail.com أو تشوف كوده المفتوح المصدر على GitHub: github.com/ahmed-abdelatif";
@@ -615,8 +622,23 @@ export default function Home() {
           aiReply = "You can reach Ahmed directly via email at ahmeeedmohaaamed1@gmail.com or view his GitHub repositories at github.com/ahmed-abdelatif.";
         }
       }
-      // Rule 9: Conversational Greetings
-      else if (q.includes("hello") || q.includes("hi") || q.includes("hey") || q.includes("welcome") || q.includes("مرحبا") || q.includes("اهلاً") || q.includes("السلام")) {
+      // Rule 9: Friendly Social Banter & Gratitude (Egyptian Dialect)
+      else if (q.includes("ازيك") || q.includes("إزيك") || q.includes("اخبارك") || q.includes("أخبارك") || q.includes("عامل ايه") || q.includes("كيفك") || q.includes("شلونك")) {
+        if (isAr) {
+          aiReply = "الحمد لله تمام جداً! أنا بخير وتسلم على السؤال. أقدر أساعدك بإيه النهاردة في مشاريع أو خبرات أحمد في الباك إند؟";
+        } else {
+          aiReply = "Doing great! Thanks for asking. How can I help you today regarding Ahmed's backend experience and projects?";
+        }
+      }
+      else if (q.includes("شكرا") || q.includes("شكراً") || q.includes("تسلم") || q.includes("عاش") || q.includes("جامد") || q.includes("الله ينور") || q.includes("ربنا يخليك") || q.includes("ممتاز") || q.includes("حبيبي") || q.includes("thanks") || q.includes("thank you")) {
+        if (isAr) {
+          aiReply = "حبيبي تحت أمرك في أي وقت! يسعدني جداً مساعدتك. لو عندك أي أسئلة تانية عن الباك إند أو الخبرات أنا معاك كـ مساعد شخصي لأحمد.";
+        } else {
+          aiReply = "You're very welcome! Glad I could help. Feel free to ask any further questions about Ahmed's work!";
+        }
+      }
+      // Rule 10: Conversational Greetings
+      else if (q.includes("hello") || q.includes("hi") || q.includes("hey") || q.includes("welcome") || q.includes("مرحبا") || q.includes("اهلاً") || q.includes("أهلاً") || q.includes("السلام")) {
         if (isAr) {
           const prefix = !hasIntroducedRef.current ? "أهلاً بك في السي في الخاص بأحمد، وأنا المساعد الشخصي بتاعه! " : "أهلاً بك! ";
           hasIntroducedRef.current = true;
