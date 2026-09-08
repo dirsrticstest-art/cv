@@ -1152,34 +1152,72 @@ export default function Home() {
 
         {/* Section 6: Categorized Skills */}
         <section className="space-y-6">
-          <div className="flex items-center gap-3 border-b border-gray-800 pb-3">
-            <Wrench className="w-5 h-5 text-purple-400" />
-            <h2 className="text-2xl font-bold text-white">Technical Stack & Skills</h2>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-800 pb-3">
+            <div className="flex items-center gap-3">
+              <Wrench className="w-5 h-5 text-purple-400" />
+              <h2 className="text-2xl font-bold text-white">Technical Stack & Skills</h2>
+            </div>
+            <span className="text-xs text-gray-400 font-mono">Interactive Domain Breakdowns</span>
           </div>
 
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
+          <div className="grid md:grid-cols-2 gap-6">
             {skillCategories.map((cat, idx) => (
               <div 
                 key={idx} 
                 onClick={() => handleOpenSkillCategoryModal(cat)}
-                className="bg-gray-900/70 hover:bg-gray-900 border border-gray-800 hover:border-purple-800/60 rounded-xl p-5 space-y-3.5 cursor-pointer transition group shadow-sm"
+                className="bg-gray-900/70 hover:bg-gray-900 border border-gray-800 hover:border-purple-800/60 rounded-xl p-6 flex flex-col justify-between cursor-pointer transition space-y-5 group shadow-sm"
               >
-                <div className="flex items-center justify-between border-b border-gray-800 pb-2.5">
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded bg-purple-950/60 text-purple-400 border border-purple-800/40 group-hover:border-purple-600 transition">
-                      <cat.icon className="w-4 h-4" />
-                    </div>
-                    <h3 className="text-xs font-bold text-white uppercase tracking-wider group-hover:text-purple-300 transition">{cat.category}</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-mono text-purple-400 bg-purple-950/60 px-2.5 py-0.5 rounded border border-purple-800/40 font-semibold">
+                      Skill Category #0{idx + 1}
+                    </span>
+                    <span className="text-xs text-purple-300 font-mono flex items-center gap-1 group-hover:text-purple-200">
+                      Inspect & Project Breakdown <ChevronRight className="w-3.5 h-3.5" />
+                    </span>
                   </div>
-                  <span className="text-[10px] font-mono text-purple-400 opacity-0 group-hover:opacity-100 transition">Inspect &rarr;</span>
+
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-purple-950/60 text-purple-400 border border-purple-800/40 group-hover:border-purple-600 transition shrink-0">
+                      <cat.icon className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-white group-hover:text-purple-300 transition">
+                        {cat.category}
+                      </h3>
+                      <p className="text-xs font-mono text-purple-400 pt-0.5">
+                        {cat.experienceSummary}
+                      </p>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-gray-300 leading-relaxed">
+                    {cat.description}
+                  </p>
                 </div>
 
-                <div className="flex flex-wrap gap-1.5">
-                  {cat.skills.map((s, i) => (
-                    <span key={i} className="text-xs bg-gray-800 text-gray-300 px-2.5 py-1 rounded-md border border-gray-700 font-mono font-medium">
-                      {s}
-                    </span>
-                  ))}
+                <div className="space-y-3 pt-2 border-t border-gray-800/80">
+                  <div>
+                    <div className="text-[11px] font-mono text-gray-400 uppercase font-semibold mb-1">Skills & Tools:</div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {cat.skills.map((s, i) => (
+                        <span key={i} className="text-[11px] font-mono bg-gray-800 text-gray-300 px-2 py-0.5 rounded border border-gray-700 font-medium">
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="text-[11px] font-mono text-purple-400 uppercase font-semibold mb-1">Applied In Projects:</div>
+                    <div className="flex flex-wrap gap-1">
+                      {cat.appliedProjects.map((p, i) => (
+                        <span key={i} className="text-[10px] font-mono bg-purple-950/40 text-purple-300 px-2 py-0.5 rounded border border-purple-900/50">
+                          {p}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
