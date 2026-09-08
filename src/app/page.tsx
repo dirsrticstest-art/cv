@@ -107,42 +107,63 @@ export default function Home() {
     }
   ];
 
-  // Skill Categories
+  // Skill Categories with Deep Metadata & Project Mapping
   const skillCategories = [
     {
       category: "Backend Engineering",
       icon: Server,
-      skills: ["Python", "FastAPI", "REST APIs", "Webhooks", "Pydantic", "C++"]
+      skills: ["Python", "FastAPI", "REST APIs", "Webhooks", "Pydantic", "C++"],
+      description: "Engineering high-performance asynchronous REST APIs, handling webhooks, and implementing input validation with Pydantic.",
+      experienceSummary: "Applied at H2M for MAXP Online backend endpoints & product financial calculation tools.",
+      appliedProjects: ["AI Customer Support Platform", "Enterprise RAG Knowledge Assistant", "AI Document Intelligence Platform", "Medical Event Automation Platform"]
     },
     {
       category: "Databases & Queues",
       icon: Database,
-      skills: ["PostgreSQL", "SQLite", "SQLAlchemy", "Redis", "RQ (Redis Queue)"]
+      skills: ["PostgreSQL", "SQLite", "SQLAlchemy", "Redis", "RQ (Redis Queue)"],
+      description: "Designing relational database schemas, query ORM models, and offloading heavy tasks to asynchronous Redis RQ queues.",
+      experienceSummary: "Applied at H2M for database models, user session storage, and scheduled dispatches.",
+      appliedProjects: ["AI Customer Support Platform", "Medical Event Automation Platform", "AI Document Intelligence Platform"]
     },
     {
       category: "Integrations & Automation",
       icon: Layers,
-      skills: ["Meta WhatsApp Cloud API", "SMTP", "Third-party APIs"]
+      skills: ["Meta WhatsApp Cloud API", "SMTP", "Third-party APIs"],
+      description: "Integrating business webhooks and third-party communication APIs for automated WhatsApp messaging and email dispatches.",
+      experienceSummary: "Applied at H2M for Meta WhatsApp Cloud API webhooks & marketing dispatches for MAXP Online.",
+      appliedProjects: ["AI Customer Support Platform", "Medical Event Automation Platform"]
     },
     {
       category: "AI & Vector Retrieval",
       icon: Workflow,
-      skills: ["RAG Pipelines", "ChromaDB", "Sentence Transformers", "Embeddings"]
+      skills: ["RAG Pipelines", "ChromaDB", "Sentence Transformers", "Embeddings"],
+      description: "Building end-to-end document retrieval pipelines, text chunking, semantic vector search, and source-referenced QA.",
+      experienceSummary: "Self-engineered RAG architecture and local vector database indexing.",
+      appliedProjects: ["Enterprise RAG Knowledge Assistant"]
     },
     {
       category: "Computer Science Core",
       icon: Shield,
-      skills: ["Data Structures", "Algorithms", "Object-Oriented Programming (OOP)", "Clean Code & Logging"]
+      skills: ["Data Structures", "Algorithms", "Object-Oriented Programming (OOP)", "Clean Code & Logging"],
+      description: "Applying solid computer science principles, C++ algorithmic problem solving, structured OOP, and clean code logging.",
+      experienceSummary: "Degree coursework at Egyptian Chinese University (ECU) & C++ problem solving practice.",
+      appliedProjects: ["Clean architecture across all 4 repos (Missing dedicated standalone C++ Algorithmic Repo)"]
     },
     {
       category: "Tools & Testing",
       icon: Wrench,
-      skills: ["Git", "GitHub", "Docker", "Linux", "Pytest"]
+      skills: ["Git", "GitHub", "Docker", "Linux", "Pytest"],
+      description: "Containerizing backend services, managing multi-stage Docker builds, writing unit tests with Pytest, and version control with Git.",
+      experienceSummary: "Used daily across all H2M workflows and independent development.",
+      appliedProjects: ["Included in Dockerfile & Pytest configurations across all 4 projects (Missing dedicated CI/CD Automation Repo)"]
     },
     {
       category: "Languages",
       icon: LanguagesIcon,
-      skills: ["Arabic (Native)", "English (Professional Working Proficiency)"]
+      skills: ["Arabic (Native)", "English (Professional Working Proficiency)"],
+      description: "Native Arabic speaker with fluent professional working proficiency in technical English for international documentation.",
+      experienceSummary: "Applied in international developer communities, documentation, and multi-lingual AI assistants.",
+      appliedProjects: ["Implemented across multi-lingual AI voice assistant & portfolio"]
     }
   ];
 
@@ -194,6 +215,7 @@ export default function Home() {
 
   // Modal State
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  const [selectedSkillCategory, setSelectedSkillCategory] = useState<any>(null);
 
   // Chatbot State & Hands-Free Voice Interactive AI Assistant Engine
   const [chatOpen, setChatOpen] = useState(false);
@@ -438,6 +460,14 @@ export default function Home() {
     
     // Narrate contextual explanation
     setMessages((prev) => [...prev, { sender: "ai", text: `🔎 ${proj.title}:\n${contextualNarrative}` }]);
+    speakText(contextualNarrative);
+  };
+
+  // Contextual Assistant Awareness when HR clicks a Skill Category
+  const handleOpenSkillCategoryModal = (cat: typeof skillCategories[0]) => {
+    setSelectedSkillCategory(cat);
+    const contextualNarrative = `For ${cat.category}, Ahmed mastered ${cat.skills.join(", ")}. ${cat.description} Practical Experience: ${cat.experienceSummary}`;
+    setMessages((prev) => [...prev, { sender: "ai", text: `🛠️ ${cat.category}:\n${contextualNarrative}` }]);
     speakText(contextualNarrative);
   };
 
@@ -1032,6 +1062,72 @@ export default function Home() {
           </div>
         )}
 
+        {/* Modal: Skill Category Details */}
+        {selectedSkillCategory && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="bg-[#0b0f17] border border-purple-800/60 rounded-2xl max-w-2xl w-full p-6 sm:p-8 space-y-6 shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4">
+                <button 
+                  onClick={() => setSelectedSkillCategory(null)}
+                  className="p-2 text-gray-400 hover:text-white rounded-lg bg-gray-900 border border-gray-800 transition"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="space-y-1">
+                <span className="text-xs font-mono text-purple-400 font-semibold uppercase">Skill Domain Deep Dive</span>
+                <h3 className="text-2xl font-bold text-white">{selectedSkillCategory.category}</h3>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <h4 className="text-xs font-mono text-gray-400 uppercase font-semibold mb-1">Core Competencies & Tools</h4>
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {selectedSkillCategory.skills.map((s: string, i: number) => (
+                      <span key={i} className="text-xs font-mono bg-purple-950/60 text-purple-300 px-3 py-1 rounded-md border border-purple-800/40 font-medium">
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-xs font-mono text-gray-400 uppercase font-semibold mb-1">Engineering Mastery</h4>
+                  <p className="text-xs text-gray-300 leading-relaxed bg-gray-800/70 p-4 rounded-lg border border-gray-700">
+                    {selectedSkillCategory.description}
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="text-xs font-mono text-gray-400 uppercase font-semibold mb-1">Practical Experience & Application</h4>
+                  <p className="text-xs text-gray-300 leading-relaxed bg-gray-800/40 p-4 rounded-lg border border-gray-800">
+                    {selectedSkillCategory.experienceSummary}
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="text-xs font-mono text-gray-400 uppercase font-semibold mb-2">Applied Projects & Repositories</h4>
+                  <ul className="text-xs text-gray-300 space-y-2 list-disc list-inside bg-purple-950/30 p-4 rounded-lg border border-purple-900/40">
+                    {selectedSkillCategory.appliedProjects.map((projName: string, i: number) => (
+                      <li key={i} className="font-mono text-purple-300">{projName}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-gray-800 flex items-center justify-between">
+                <button 
+                  onClick={() => setSelectedSkillCategory(null)}
+                  className="text-xs text-gray-400 hover:text-white transition font-medium"
+                >
+                  Return to Skills
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Section 6: Categorized Skills */}
         <section className="space-y-6">
           <div className="flex items-center gap-3 border-b border-gray-800 pb-3">
@@ -1041,12 +1137,19 @@ export default function Home() {
 
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
             {skillCategories.map((cat, idx) => (
-              <div key={idx} className="bg-gray-900/70 border border-gray-800 rounded-xl p-5 space-y-3.5">
-                <div className="flex items-center gap-2.5 border-b border-gray-800 pb-2.5">
-                  <div className="p-1.5 rounded bg-purple-950/60 text-purple-400 border border-purple-800/40">
-                    <cat.icon className="w-4 h-4" />
+              <div 
+                key={idx} 
+                onClick={() => handleOpenSkillCategoryModal(cat)}
+                className="bg-gray-900/70 hover:bg-gray-900 border border-gray-800 hover:border-purple-800/60 rounded-xl p-5 space-y-3.5 cursor-pointer transition group shadow-sm"
+              >
+                <div className="flex items-center justify-between border-b border-gray-800 pb-2.5">
+                  <div className="flex items-center gap-2.5">
+                    <div className="p-1.5 rounded bg-purple-950/60 text-purple-400 border border-purple-800/40 group-hover:border-purple-600 transition">
+                      <cat.icon className="w-4 h-4" />
+                    </div>
+                    <h3 className="text-xs font-bold text-white uppercase tracking-wider group-hover:text-purple-300 transition">{cat.category}</h3>
                   </div>
-                  <h3 className="text-xs font-bold text-white uppercase tracking-wider">{cat.category}</h3>
+                  <span className="text-[10px] font-mono text-purple-400 opacity-0 group-hover:opacity-100 transition">Inspect &rarr;</span>
                 </div>
 
                 <div className="flex flex-wrap gap-1.5">
