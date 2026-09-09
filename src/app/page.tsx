@@ -52,7 +52,8 @@ export default function Home() {
         "Added error handling for failed background jobs."
       ],
       builtWith: ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Pydantic", "Redis", "RQ", "Docker", "Pytest"],
-      github: "https://github.com/ahmed-abdelatif/AI_Customer_Support_Platform"
+      github: "https://github.com/ahmed-abdelatif/AI_Customer_Support_Platform",
+      liveDemo: null
     },
     {
       id: "02",
@@ -69,7 +70,8 @@ export default function Home() {
         "Added Redis/RQ background indexing and failed-job handling."
       ],
       builtWith: ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Redis", "RQ", "ChromaDB", "Sentence Transformers", "Docker", "Pytest"],
-      github: "https://github.com/ahmed-abdelatif/Enterprise_RAG_Knowledge_Assistant"
+      github: "https://github.com/ahmed-abdelatif/Enterprise_RAG_Knowledge_Assistant",
+      liveDemo: null
     },
     {
       id: "03",
@@ -86,7 +88,8 @@ export default function Home() {
         "Designed the extraction layer so external AI/OCR services can be integrated later."
       ],
       builtWith: ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Pydantic", "Redis", "RQ", "Docker", "Pytest"],
-      github: "https://github.com/ahmed-abdelatif/AI_Document_Intelligence_Platform"
+      github: "https://github.com/ahmed-abdelatif/AI_Document_Intelligence_Platform",
+      liveDemo: null
     },
     {
       id: "04",
@@ -103,7 +106,8 @@ export default function Home() {
         "Added error and rollback handling for failed operations."
       ],
       builtWith: ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Pydantic", "Redis", "RQ", "SMTP", "Docker", "Pytest"],
-      github: "https://github.com/ahmed-abdelatif/Medical_Event_Automation_Platform"
+      github: "https://github.com/ahmed-abdelatif/Medical_Event_Automation_Platform",
+      liveDemo: null
     }
   ];
 
@@ -226,7 +230,7 @@ export default function Home() {
   const [messages, setMessages] = useState([
     {
       sender: "ai",
-      text: "👋 Hello! Welcome to Ahmed Mohamed Abdelatif's developer CV. I am Ahmed's AI Personal Assistant—how can I help you today?"
+      text: "👋 Hello! Welcome to Ahmed Mohamed Abdelatif's developer CV. I am Ahmed's AI Personal Assistant—how can I help you?"
     }
   ]);
   const [inputMsg, setInputMsg] = useState("");
@@ -249,8 +253,33 @@ export default function Home() {
   ];
 
   const isArabicText = (str: string) => /[\u0600-\u06FF]/.test(str);
+  const [voicesList, setVoicesList] = useState<SpeechSynthesisVoice[]>([]);
 
-  // Text-To-Speech Engine (Calm, Clear, Medium-Paced Male Voice)
+  useEffect(() => {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      const loadVoices = () => {
+        const available = window.speechSynthesis.getVoices();
+        if (available && available.length > 0) {
+          setVoicesList(available);
+        }
+      };
+      loadVoices();
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+  }, []);
+
+  const selectBestEnglishVoice = (availableVoices: SpeechSynthesisVoice[]) => {
+    if (!availableVoices || availableVoices.length === 0) return null;
+
+    return (
+      availableVoices.find((v) => v.lang.startsWith("en") && v.name.includes("Online (Natural)") && (v.name.includes("Guy") || v.name.includes("Ryan") || v.name.includes("Male"))) ||
+      availableVoices.find((v) => v.lang.startsWith("en") && v.name.includes("Natural")) ||
+      availableVoices.find((v) => v.lang.startsWith("en") && (v.name.includes("Guy") || v.name.includes("Ryan") || v.name.includes("Daniel") || v.name.includes("David") || v.name.includes("Google"))) ||
+      availableVoices.find((v) => v.lang.startsWith("en"))
+    );
+  };
+
+  // Text-To-Speech Engine (High-Fidelity English Natural Male Voice)
   const speakText = (text: string) => {
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
       window.speechSynthesis.cancel(); // Cancel any existing speech
@@ -259,27 +288,35 @@ export default function Home() {
       isSpeakingRef.current = true;
       setIsSpeaking(true);
 
-      const cleanText = text.replace(/[*#_~]/g, "").replace(/\n/g, ". ");
-      const utterance = new SpeechSynthesisUtterance(cleanText);
-      const isAr = isArabicText(cleanText);
-      
-      utterance.rate = 0.83; // Relaxed, calm, steady clear pace (reduced speed)
-      utterance.pitch = 0.98; // Pure, natural, non-warped pitch
+      // Clean & polish text for smooth, human-like speech flow and pauses
+      let cleanText = text
+        .replace(/[*#_~`>]/g, "")
+        .replace(/\(([^)]+)\)/g, ", $1,") // Convert parentheses into natural pause clauses
+        .replace(/https?:\/\/\S+/g, "")
+        .replace(/\bFastAPI\b/gi, "Fast API")
+        .replace(/\bPostgreSQL\b/gi, "Postgres Q L")
+        .replace(/\bSQLAlchemy\b/gi, "SQL Alchemy")
+        .replace(/\bChromaDB\b/gi, "Chroma D B")
+        .replace(/\bREST APIs?\b/gi, "REST A P I s")
+        .replace(/\bRESTful\b/gi, "REST ful")
+        .replace(/\bAPI\b/g, "A P I")
+        .replace(/\bRAG\b/g, "R A G")
+        .replace(/\bECU\b/g, "E C U")
+        .replace(/\bRQ\b/g, "R Q")
+        .replace(/\bSMTP\b/g, "S M T P")
+        .replace(/\n+/g, ". ")
+        .replace(/\s+/g, " ")
+        .trim();
 
-      const voices = window.speechSynthesis.getVoices();
-      if (isAr) {
-        utterance.lang = "ar-EG";
-        const arMale = voices.find(
-          (v) => v.lang.startsWith("ar") && (v.name.includes("Natural") || v.name.includes("Shakir") || v.name.includes("Maged") || v.name.includes("TarIK") || v.name.includes("Male") || v.name.includes("Google"))
-        ) || voices.find((v) => v.lang.startsWith("ar"));
-        if (arMale) utterance.voice = arMale;
-      } else {
-        utterance.lang = "en-US";
-        // Lock to Calm Natural Male Voice
-        const enMale = voices.find(
-          (v) => v.lang.startsWith("en") && (v.name.includes("Natural") || v.name.includes("Guy") || v.name.includes("Ryan") || v.name.includes("Daniel") || v.name.includes("David") || v.name.includes("Alex") || v.name.includes("George") || v.name.includes("Google"))
-        ) || voices.find((v) => v.lang.startsWith("en"));
-        if (enMale) utterance.voice = enMale;
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      utterance.lang = "en-US";
+      utterance.rate = 0.92; // Optimized natural conversational velocity
+      utterance.pitch = 1.0; // Pure human natural pitch tone
+
+      const available = voicesList.length > 0 ? voicesList : window.speechSynthesis.getVoices();
+      const bestVoice = selectBestEnglishVoice(available);
+      if (bestVoice) {
+        utterance.voice = bestVoice;
       }
 
       utterance.onstart = () => {
@@ -316,7 +353,7 @@ export default function Home() {
     }
   };
 
-  // Continuous Interruptible Voice STT (Ref-Governed for Infinite Multi-Turn Interaction)
+  // Continuous Interruptible English STT
   const startListening = () => {
     if (typeof window === "undefined" || isSpeakingRef.current) return;
     const SpeechRecognition = (window as unknown as { SpeechRecognition?: any; webkitSpeechRecognition?: any }).SpeechRecognition || (window as unknown as { SpeechRecognition?: any; webkitSpeechRecognition?: any }).webkitSpeechRecognition;
@@ -333,7 +370,7 @@ export default function Home() {
 
       const recognition = new SpeechRecognition();
       recognitionRef.current = recognition;
-      recognition.lang = currentLangRef.current || "ar-EG";
+      recognition.lang = "en-US";
       recognition.continuous = false;
       recognition.interimResults = false;
 
@@ -345,7 +382,6 @@ export default function Home() {
       recognition.onend = () => {
         isListeningRef.current = false;
         setIsListening(false);
-        // Keep mic listening continuously if AI is not speaking
         if (autoListenMode && !isSpeakingRef.current) {
           if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
           restartTimerRef.current = setTimeout(() => {
@@ -395,14 +431,14 @@ export default function Home() {
     }
   };
 
-  // Auto-Greeting on Page Load in English Mode with user gesture fallback
+  // Auto-Greeting on Page Load in English Mode
   useEffect(() => {
     let timer: NodeJS.Timeout;
     
     const playGreeting = () => {
       if (!hasGreeted) {
         setHasGreeted(true);
-        speakText("Hello! Welcome to Ahmed Mohamed Abdelatif's developer CV. I am Ahmed's AI Personal Assistant—how can I help you today?");
+        speakText("Hello! Welcome to Ahmed Mohamed Abdelatif's developer CV. I am Ahmed's AI Personal Assistant—how can I help you?");
       }
     };
 
@@ -438,7 +474,7 @@ export default function Home() {
     } else {
       if (!hasGreeted) {
         setHasGreeted(true);
-        speakText("Hello! Welcome to Ahmed Mohamed Abdelatif's developer CV. I am Ahmed's AI Personal Assistant—how can I help you today?");
+        speakText("Hello! Welcome to Ahmed Mohamed Abdelatif's developer CV. I am Ahmed's AI Personal Assistant—how can I help you?");
       }
       setTimeout(() => startListening(), 300);
     }
@@ -449,25 +485,16 @@ export default function Home() {
     setSelectedProject(proj);
     setChatOpen(true); // Open AI Chat Drawer automatically
     
-    const isAr = currentLangRef.current === "ar-EG";
     let contextualNarrative = "";
 
     if (proj.id === "01") {
-      contextualNarrative = isAr
-        ? "أهلاً بك! في مشروع منصة دعم العملاء بالذكاء الاصطناعي، أحمد بنى REST APIs للتذاكر وربط Meta WhatsApp Cloud API مع معالجة الرسائل غير المتزامنة بـ Redis RQ."
-        : "Welcome! For the AI Customer Support Platform, Ahmed built FastAPI REST APIs for tickets and WhatsApp Cloud API integration, offloading message processing to Redis RQ background workers.";
+      contextualNarrative = "For the AI Customer Support Platform, Ahmed built FastAPI REST APIs for tickets and WhatsApp Cloud API integration, offloading message processing to Redis RQ background workers.";
     } else if (proj.id === "02") {
-      contextualNarrative = isAr
-        ? "ده مشروع مساعد المعرفة RAG للمؤسسات! أحمد نفذ تقسيم المستندات وSentence Transformers وبحث المتجهات عبر ChromaDB مع استشهاد المصادر."
-        : "This is the Enterprise RAG Knowledge Assistant! Ahmed implemented document chunking, Sentence Transformers embeddings, and ChromaDB vector search for source-aware answers.";
+      contextualNarrative = "This is the Enterprise RAG Knowledge Assistant! Ahmed implemented document chunking, Sentence Transformers embeddings, and ChromaDB vector search for source-aware answers.";
     } else if (proj.id === "03") {
-      contextualNarrative = isAr
-        ? "منصة مستندات الذكاء الاصطناعي بتستخرج البيانات الهيكلية من ملفات PDF وDOCX بشكل غير متزامن Asynchronous باستخدام عمال Redis RQ."
-        : "The AI Document Intelligence Platform asynchronously extracts structured text data from PDF and DOCX uploads using Redis RQ background workers.";
+      contextualNarrative = "The AI Document Intelligence Platform asynchronously extracts structured text data from PDF and DOCX uploads using Redis RQ background workers.";
     } else if (proj.id === "04") {
-      contextualNarrative = isAr
-        ? "منصة أتمتة الفعاليات الطبية بتدير تسجيل الحضور وتدفقات الفعاليات وإرسال الإيميلات التلقائية في الخلفية باستخدام Redis RQ وSMTP."
-        : "The Medical Event Automation Platform manages attendee registrations and dispatches automated email notifications asynchronously using Redis RQ and SMTP.";
+      contextualNarrative = "The Medical Event Automation Platform manages attendee registrations and dispatches automated email notifications asynchronously using Redis RQ and SMTP.";
     }
     
     setMessages((prev) => [...prev, { sender: "ai", text: `🔎 ${proj.title}:\n${contextualNarrative}` }]);
@@ -479,14 +506,7 @@ export default function Home() {
     setSelectedSkillCategory(cat);
     setChatOpen(true); // Open AI Chat Drawer automatically
     
-    const isAr = currentLangRef.current === "ar-EG";
-    let contextualNarrative = "";
-
-    if (isAr) {
-      contextualNarrative = `في فئة ${cat.category}، أحمد بيتقن مهارات: ${cat.skills.join(", ")}. ${cat.description} والخبرة المطبقة: ${cat.experienceSummary}`;
-    } else {
-      contextualNarrative = `For ${cat.category}, Ahmed mastered ${cat.skills.join(", ")}. ${cat.description} Practical Experience: ${cat.experienceSummary}`;
-    }
+    const contextualNarrative = `For ${cat.category}, Ahmed mastered ${cat.skills.join(", ")}. ${cat.description} Practical Experience: ${cat.experienceSummary}`;
 
     setMessages((prev) => [...prev, { sender: "ai", text: `🛠️ ${cat.category}:\n${contextualNarrative}` }]);
     speakText(contextualNarrative);
@@ -498,194 +518,150 @@ export default function Home() {
     }
   }, [messages, chatOpen]);
 
-  // Recruiter Interview AI Engine - Comprehensive Arabic & English Knowledge Base
-  const processUserQuery = (userText: string) => {
+  // Recruiter Interview AI Engine - Groq LLM API Integration with Zero-Downtime Fallback
+  const processUserQuery = async (userText: string) => {
     setMessages((prev) => [...prev, { sender: "user", text: userText }]);
     setInputMsg("");
+    currentLangRef.current = "en-US";
 
-    const isAr = isArabicText(userText);
-    currentLangRef.current = isAr ? "ar-EG" : "en-US";
+    const localFallbackReply = (qText: string) => {
+      const q = qText.toLowerCase().trim();
 
-    setTimeout(() => {
-      let aiReply = "";
-      const q = userText.toLowerCase().trim();
-
-      // Rule 1: Self Introduction & Overview
-      if (
-        q.includes("tell me about yourself") ||
-        q.includes("about yourself") ||
-        q.includes("introduce yourself") ||
-        q.includes("who are you") ||
-        q.includes("who is ahmed") ||
-        q.includes("tell me about ahmed") ||
-        q.includes("overview") ||
-        q.includes("summary") ||
-        q.includes("profile") ||
-        q.includes("عرف نفسك") ||
-        q.includes("مين احمد") ||
-        q.includes("من انت") ||
-        q.includes("كلمني عن نفسك") ||
-        q.includes("نبذة") ||
-        q.includes("من هو")
-      ) {
-        if (isAr) {
-          const prefix = !hasIntroducedRef.current ? "أهلاً بك في السي في الخاص بأحمد، وأنا المساعد الشخصي بتاعه! " : "";
-          hasIntroducedRef.current = true;
-          aiReply = `${prefix}أحمد مهندس باكد إند بيستخدم Python وFastAPI وPostgreSQL وRedis. يمتلك خبرة عمل في شركة H2M وبنى 4 مشاريع أنظمة باكد إند قوية تشمل RAG وWhatsApp Automation. أقدر أساعدك بإيه في التفاصيل؟`;
-        } else {
-          const prefix = !hasIntroducedRef.current ? "Welcome to Ahmed's CV! I'm his personal assistant. " : "";
-          hasIntroducedRef.current = true;
-          aiReply = `${prefix}Ahmed is a Python Backend Developer proficient in FastAPI, PostgreSQL, and Redis task queues. He has hands-on experience at H2M and engineered 4 solid backend systems including RAG and WhatsApp API automation. How can I help you today?`;
-        }
-      }
-      // Rule 2: Projects Overview & Deep Dive
-      else if (q.includes("rag") || q.includes("vector") || q.includes("chromadb") || q.includes("embeddings")) {
-        if (isAr) {
-          aiReply = "مشروع Enterprise RAG Assistant بيعمل استخراج ونصوص من ملفات PDF وDOCX وTXT، وبيقسمها لـ Chunks، وبيولد Embeddings باستخدام Sentence Transformers، وبيبحث في المتجهات عن طريق ChromaDB مع الاستشهاد بالمصادر.";
-        } else {
-          aiReply = "The Enterprise RAG Knowledge Assistant ingests PDF, DOCX, and TXT files, performs text chunking, generates embeddings with Sentence Transformers, and conducts vector similarity searches via ChromaDB with source references.";
-        }
-      }
-      else if (q.includes("whatsapp") || q.includes("meta") || q.includes("cloud api")) {
-        if (isAr) {
-          aiReply = "أحمد ربط Meta WhatsApp Cloud API واستقبل Webhooks مباشرة لبناء محادثات الرد التلقائي وإدارة الرسائل غير المتزامنة عبر Redis وRQ queues.";
-        } else {
-          aiReply = "Ahmed implemented Meta WhatsApp Cloud API webhooks for real-time customer support messaging, automated reply workflows, and Redis/RQ background message queues.";
-        }
-      }
-      else if (q.includes("document intelligence") || q.includes("pdf parsing") || q.includes("ocr")) {
-        if (isAr) {
-          aiReply = "منصة AI Document Intelligence تعالج المستندات بشكل غير متزامن Asynchronous بعمال Redis/RQ لاستخراج البيانات الهيكلية ومتابعة حالة المعالجة ورسائل الفشل.";
-        } else {
-          aiReply = "The AI Document Intelligence Platform processes document uploads asynchronously using Redis/RQ background workers and extracts structured data from PDF, DOCX, and TXT files.";
-        }
-      }
-      else if (q.includes("medical event") || q.includes("smtp") || q.includes("email automation")) {
-        if (isAr) {
-          aiReply = "منصة Medical Event Automation بتدير تسجيل الحضور وتدفقات الفعاليات وتتولى إرسال الإيميلات التلقائية في الخلفية باستخدام Redis/RQ بروتوكول SMTP.";
-        } else {
-          aiReply = "The Medical Event Automation Platform manages attendee registrations and dispatches background email notifications asynchronously using Redis/RQ queues and SMTP.";
-        }
-      }
-      else if (q.includes("project") || q.includes("built") || q.includes("what projects") || q.includes("portfolio") || q.includes("مشاريع") || q.includes("اعمال")) {
-        if (isAr) {
-          aiReply = "أحمد بنى 4 مشاريع باكد إند متكاملة: 1. AI Customer Support Platform (WhatsApp API), 2. Enterprise RAG Assistant (ChromaDB Vector Search), 3. AI Document Intelligence Platform (Async Queue), و4. Medical Event Automation Platform (Email Automation).";
-        } else {
-          aiReply = "Ahmed engineered 4 backend systems: 1. AI Customer Support Platform (FastAPI & WhatsApp API), 2. Enterprise RAG Knowledge Assistant (ChromaDB vector search), 3. AI Document Intelligence Platform (Async processing), and 4. Medical Event Automation Platform (Redis/RQ email dispatches).";
-        }
-      }
-      // Rule 3: Experience & H2M Details
-      else if (q.includes("h2m") || q.includes("experience") || q.includes("work") || q.includes("job") || q.includes("position") || q.includes("maxp") || q.includes("خبرة") || q.includes("عمل") || q.includes("شغل")) {
-        if (isAr) {
-          aiReply = "في شركة H2M (لمدة 3 أشهر دوام كامل أونسايت)، أحمد طور أدوات التحليل المالي لحساب أرباح المنتجات وتكاليف الشحن، وربط Meta WhatsApp Cloud API لإرسال الرسائل التلقائية وحملات التسويق لمنصة MAXP Online.";
-        } else {
-          aiReply = "At H2M (a 3-month full-time on-site position), Ahmed developed product pricing tools, marketing campaign analytics, shipping cost calculators, and automated Meta WhatsApp Cloud API workflows for MAXP Online.";
-        }
-      }
-      // Rule 4: Detailed Tech Stack & Skills
-      else if (q.includes("database") || q.includes("postgres") || q.includes("sql") || q.includes("داتابيز") || q.includes("قواعد بيانات")) {
-        if (isAr) {
-          aiReply = "في قواعد البيانات والصفوف، أحمد بيستخدم PostgreSQL كقاعدة بيانات علاقات أساسية، SQLAlchemy كـ ORM، SQLite للتطوير السريع، وRedis مع RQ إدارة المهام في الخلفية غير المتزامنة Asynchronous.";
-        } else {
-          aiReply = "For databases and queues, Ahmed utilizes PostgreSQL for relational data persistence, SQLAlchemy ORM, SQLite, and Redis with RQ queues for asynchronous background job execution.";
-        }
-      }
-      else if (q.includes("docker") || q.includes("git") || q.includes("pytest") || q.includes("linux") || q.includes("اختبار") || q.includes("أدوات")) {
-        if (isAr) {
-          aiReply = "في أدوات التطوير والاختبار، أحمد بيستخدم Git وGitHub للتحكم في الإصدارات، Docker للحاويات والحزم، Pytest لاختبارات الباك إند، وبيئة العمل Linux.";
-        } else {
-          aiReply = "For tools and testing, Ahmed uses Git & GitHub for version control, Docker for containerization, Pytest for backend testing suite, and Linux environments.";
-        }
-      }
-      else if (q.includes("fastapi") || q.includes("python") || q.includes("postgresql") || q.includes("redis") || q.includes("tech") || q.includes("stack") || q.includes("skill") || q.includes("tool") || q.includes("language") || q.includes("مهارات") || q.includes("تقنيات")) {
-        if (isAr) {
-          aiReply = "مهارات أحمد التقنية بالتفصيل تشمل 6 محاور: 1. الباك إند (Python, FastAPI, REST APIs, Webhooks, Pydantic, C++). 2. قواعد البيانات والمهام (PostgreSQL, SQLAlchemy, Redis, RQ Queues). 3. الأتمتة والربط (Meta WhatsApp Cloud API, SMTP). 4. الذكاء الاصطناعي (RAG Pipelines, ChromaDB, Sentence Transformers). 5. الأساسيات البرمجية (Data Structures, Algorithms, OOP, Clean Code). 6. الأدوات والاختبار (Docker, Git, Pytest, Linux).";
-        } else {
-          aiReply = "Ahmed's complete technical stack spans 6 key domains: 1. Backend API Engineering (Python, FastAPI, REST APIs, Webhooks, Pydantic, C++). 2. Databases & Queues (PostgreSQL, SQLAlchemy, Redis, RQ Queues). 3. Integrations (Meta WhatsApp Cloud API, SMTP). 4. AI & Retrieval (RAG Pipelines, ChromaDB, Sentence Transformers). 5. CS Fundamentals (Data Structures, Algorithms, OOP, Clean Code). 6. Tools & Testing (Docker, Git, Pytest, Linux).";
-        }
-      }
-      // Rule 5: Education, ECU, Graduation & Military Status
-      else if (q.includes("ecu") || q.includes("education") || q.includes("university") || q.includes("degree") || q.includes("study") || q.includes("graduation") || q.includes("military") || q.includes("تجنيد") || q.includes("جيش") || q.includes("جامعة") || q.includes("دراسة") || q.includes("تعليم")) {
-        if (isAr) {
-          aiReply = "أحمد طالب علوم حاسب بـ الجامعة المصرية الصينية (ECU) بالقاهرة، متوقع تخرجه عام 2029. موقفه من التجنيد: مؤجل للدراسة.";
-        } else {
-          aiReply = "Ahmed is a Computer Science student at the Egyptian Chinese University (ECU) in Cairo, expected to graduate in 2029. Military status: Postponed for study.";
-        }
-      }
-      // Rule 6: Hobbies & Personal Mindset
-      else if (q.includes("hobby") || q.includes("hobbies") || q.includes("interest") || q.includes("mindset") || q.includes("هواية") || q.includes("هوايات") || q.includes("اهتمامات")) {
-        if (isAr) {
-          aiReply = "هوايات أحمد واهتماماته الشخصية تشمل: حل المسائل البرمجية الخوارزمية بلغة C++، دراسة هندسة الأنظمة ومبادئ Clean Code للباكد إند، واستكشاف أدوات الذكاء الاصطناعي مفتوحة المصدر.";
-        } else {
-          aiReply = "Ahmed's personal hobbies include competitive algorithmic problem solving in C++, studying backend clean architecture & system reliability, and exploring open-source AI tooling.";
-        }
-      }
-      // Rule 7: Recruiter Questions (Strengths, Weaknesses, Relocation, Availability)
-      else if (q.includes("strength") || q.includes("weakness") || q.includes("why hire") || q.includes("relocate") || q.includes("cairo") || q.includes("قوة") || q.includes("ضعف") || q.includes("توظيف") || q.includes("متاح")) {
-        if (isAr) {
-          aiReply = "أبرز نقاط قوة أحمد هي تصميم الـ REST APIs النظيفة وتنفيذ معالجة المهام الثقيلة في الخلفية بـ Redis/RQ. هو مقيم بالقاهرة ومتاح للعمل أونسايت، هايبرد، أو ريموتلي فوراً.";
-        } else {
-          aiReply = "Ahmed's key strengths are designing clean asynchronous REST APIs and building reliable Redis background worker queues. He is based in Cairo, Egypt, and available for on-site, hybrid, or remote backend roles.";
-        }
-      }
-      // Rule 8: Contact, Email & Social Media
-      else if (q.includes("linkedin") || q.includes("facebook") || q.includes("social") || q.includes("سوشيال") || q.includes("حسابات") || q.includes("مجتمع")) {
-        if (isAr) {
-          aiReply = "أحمد نشط جداً في مجتمعات المطورين وعلى السوشيال ميديا! تقدر تتابع أحدث الكود والمشاريع على GitHub: github.com/ahmed-abdelatif أو تتواصل معاه على الإيميل مباشرة: ahmeeedmohaaamed1@gmail.com.";
-        } else {
-          aiReply = "Ahmed is active in developer communities! You can follow his open-source work on GitHub at github.com/ahmed-abdelatif or email him directly at ahmeeedmohaaamed1@gmail.com.";
-        }
-      }
-      else if (q.includes("email") || q.includes("contact") || q.includes("reach") || q.includes("hire") || q.includes("github") || q.includes("تواصل") || q.includes("إيميل") || q.includes("وظيفة")) {
-        if (isAr) {
-          aiReply = "تقدر تتواصل مع أحمد مباشرة عبر الإيميل: ahmeeedmohaaamed1@gmail.com أو تشوف كوده المفتوح المصدر على GitHub: github.com/ahmed-abdelatif";
-        } else {
-          aiReply = "You can reach Ahmed directly via email at ahmeeedmohaaamed1@gmail.com or view his GitHub repositories at github.com/ahmed-abdelatif.";
-        }
-      }
-      // Rule 9: Friendly Social Banter & Gratitude (Egyptian Dialect)
-      else if (q.includes("ازيك") || q.includes("إزيك") || q.includes("اخبارك") || q.includes("أخبارك") || q.includes("عامل ايه") || q.includes("كيفك") || q.includes("شلونك")) {
-        if (isAr) {
-          aiReply = "الحمد لله تمام جداً! أنا بخير وتسلم على السؤال. أقدر أساعدك بإيه النهاردة في مشاريع أو خبرات أحمد في الباك إند؟";
-        } else {
-          aiReply = "Doing great! Thanks for asking. How can I help you today regarding Ahmed's backend experience and projects?";
-        }
-      }
-      else if (q.includes("شكرا") || q.includes("شكراً") || q.includes("تسلم") || q.includes("عاش") || q.includes("جامد") || q.includes("الله ينور") || q.includes("ربنا يخليك") || q.includes("ممتاز") || q.includes("حبيبي") || q.includes("thanks") || q.includes("thank you")) {
-        if (isAr) {
-          aiReply = "حبيبي تحت أمرك في أي وقت! يسعدني جداً مساعدتك. لو عندك أي أسئلة تانية عن الباك إند أو الخبرات أنا معاك كـ مساعد شخصي لأحمد.";
-        } else {
-          aiReply = "You're very welcome! Glad I could help. Feel free to ask any further questions about Ahmed's work!";
-        }
-      }
-      // Rule 10: Conversational Greetings
-      else if (q.includes("hello") || q.includes("hi") || q.includes("hey") || q.includes("welcome") || q.includes("مرحبا") || q.includes("اهلاً") || q.includes("أهلاً") || q.includes("السلام")) {
-        if (isAr) {
-          const prefix = !hasIntroducedRef.current ? "أهلاً بك في السي في الخاص بأحمد، وأنا المساعد الشخصي بتاعه! " : "أهلاً بك! ";
-          hasIntroducedRef.current = true;
-          aiReply = `${prefix}أقدر أساعدك بإيه؟ تقدر تسألني عن مشاريع الباك إند، خبرته في H2M، دراسته، أو مهاراته!`;
-        } else {
-          const prefix = !hasIntroducedRef.current ? "Welcome to Ahmed's CV! I am his personal assistant—" : "";
-          hasIntroducedRef.current = true;
-          aiReply = `${prefix}how can I help you today? You can ask me about his 4 backend projects, H2M experience, CS degree at ECU, or tech stack!`;
-        }
-      }
-      // Natural Friendly Fallback
-      else {
-        if (isAr) {
-          const prefix = !hasIntroducedRef.current ? "أهلاً بك في السي في الخاص بأحمد، وأنا المساعد الشخصي بتاعه! " : "";
-          hasIntroducedRef.current = true;
-          aiReply = `${prefix}أحمد مهندس باكد إند بيستخدم FastAPI وPostgreSQL وRedis. أقدر أكلمك عن مشاريع الباك إند الـ 4، خبرته بـ H2M، دراسته بجامعة ECU، أو مهاراته التقنية. تحب تعرف إيه بالتفصيل؟`;
-        } else {
-          const prefix = !hasIntroducedRef.current ? "Welcome to Ahmed's CV! " : "";
-          hasIntroducedRef.current = true;
-          aiReply = `${prefix}Ahmed is a Python Backend Developer with experience in FastAPI, PostgreSQL, and Redis queues. I can share details about his 4 backend projects, H2M experience, ECU degree, or skills. What would you like to explore?`;
-        }
+      // 1. Full Name, Personal Details & Academic Profile
+      if (q.includes("full name") || q.includes("who is ahmed") || q.includes("nationality") || q.includes("egyptian") || q.includes("personal profile") || q.includes("academic profile") || q.includes("student status") || q.includes("bio")) {
+        return "Ahmed Mohamed Abdelatif is an Egyptian Python Backend Developer & AI Automation Specialist based in Cairo. He is currently pursuing his B.Sc. in Computer Science at the Egyptian Chinese University (ECU) in Cairo with expected graduation in 2029. His military service status is officially postponed for study.";
       }
 
-      setMessages((prev) => [...prev, { sender: "ai", text: aiReply }]);
-      speakText(aiReply);
-    }, 300);
+      // 2. Work Experience & H2M / MAXP Online
+      if (q.includes("h2m") || q.includes("maxp") || q.includes("max p") || q.includes("financial") || q.includes("experience") || q.includes("work") || q.includes("job") || q.includes("company") || q.includes("position")) {
+        return "At H2M for MAXP Online, Ahmed solved the problem of manual financial tracking and campaign marketing dispatches. As a Python Backend Developer, he engineered product financial calculation tools for profit margins and shipping costs, marketing campaign analytics, and Meta WhatsApp Cloud API automated marketing dispatches.";
+      }
+
+      // 3. Project 1: AI Customer Support Platform
+      if (q.includes("customer support") || q.includes("whatsapp") || q.includes("meta cloud") || q.includes("ticket") || q.includes("project 1") || q.includes("first project") || q.includes("ai support")) {
+        return "The AI Customer Support Platform (github.com/ahmed-abdelatif/AI_Customer_Support_Platform) is a backend system built with FastAPI for ticket management and WhatsApp automation. Ahmed built REST APIs, integrated Meta WhatsApp Cloud API webhooks, and implemented Redis/RQ background workers for message classification and automated AI response generation.";
+      }
+
+      // 4. Project 2: Enterprise RAG Knowledge Assistant
+      if (q.includes("rag") || q.includes("vector") || q.includes("chromadb") || q.includes("sentence transformer") || q.includes("embedding") || q.includes("chunking") || q.includes("project 2") || q.includes("second project")) {
+        return "The Enterprise RAG Knowledge Assistant (github.com/ahmed-abdelatif/Enterprise_RAG_Knowledge_Assistant) is a document-based semantic search backend. Ahmed implemented document ingestion for PDF, DOCX, and TXT files, recursive text chunking, Sentence Transformers embeddings, ChromaDB vector indexing, and source-referenced question answering.";
+      }
+
+      // 5. Project 3: AI Document Intelligence Platform
+      if (q.includes("document intelligence") || q.includes("pdf parsing") || q.includes("ocr") || q.includes("extraction") || q.includes("upload") || q.includes("project 3") || q.includes("third project")) {
+        return "The AI Document Intelligence Platform (github.com/ahmed-abdelatif/AI_Document_Intelligence_Platform) handles long-running document workloads. Ahmed designed multipart PDF/DOCX upload validation APIs and offloaded structured data extraction to Redis/RQ background workers with processing status tracking and retry mechanisms.";
+      }
+
+      // 6. Project 4: Medical Event Automation Platform
+      if (q.includes("medical event") || q.includes("smtp") || q.includes("email automation") || q.includes("event management") || q.includes("registration") || q.includes("project 4") || q.includes("fourth project")) {
+        return "The Medical Event Automation Platform (github.com/ahmed-abdelatif/Medical_Event_Automation_Platform) manages event registrations and attendee workflows. Ahmed modeled relational database schemas with PostgreSQL and SQLAlchemy, and automated background email dispatches via Redis/RQ queues and SMTP integration.";
+      }
+
+      // 7. Projects Overview (Catch-All)
+      if (q.includes("project") || q.includes("projects") || q.includes("built") || q.includes("portfolio") || q.includes("repos") || q.includes("systems")) {
+        return "Ahmed engineered 4 production-ready backend systems: 1. AI Customer Support Platform (FastAPI & WhatsApp API), 2. Enterprise RAG Knowledge Assistant (ChromaDB vector search), 3. AI Document Intelligence Platform (Async PDF parsing), and 4. Medical Event Automation Platform (SMTP dispatches). Which project would you like to explore?";
+      }
+
+      // 8. Value Propositions & Core Capabilities
+      if (q.includes("value") || q.includes("proposition") || q.includes("capability") || q.includes("specialist") || q.includes("asynchronous") || q.includes("background")) {
+        return "Ahmed's core value propositions center around: 1. Asynchronous REST API engineering with FastAPI & Pydantic. 2. Offloading heavy background tasks & notification dispatches using Redis/RQ. 3. Building RAG vector search pipelines with ChromaDB and integrating Meta WhatsApp Cloud API webhooks.";
+      }
+
+      // 9. Technical Stack & Specific Skill Categories (Specific Categories First)
+      if (q.includes("back-end engineering") || q.includes("backend engineering") || q.includes("backend skill")) {
+        return "In Backend Engineering, Ahmed specializes in Python, FastAPI for high-performance async REST APIs, Pydantic for strict schema validation, webhooks processing, and C++ for algorithmic problem solving. Applied across all his 4 backend systems and at H2M.";
+      }
+
+      if (q.includes("databases & queues") || q.includes("database") || q.includes("databases") || q.includes("queues") || q.includes("postgres") || q.includes("sqlalchemy") || q.includes("redis queue")) {
+        return "In Databases & Queues, Ahmed designs relational database schemas with PostgreSQL and SQLAlchemy ORM, uses SQLite for rapid prototyping, and offloads heavy async background tasks to Redis and RQ (Redis Queue).";
+      }
+
+      if (q.includes("integrations & automation") || q.includes("integrations") || q.includes("whatsapp cloud") || q.includes("smtp email")) {
+        return "In Integrations & Automation, Ahmed integrates Meta WhatsApp Cloud API webhooks for automated customer messaging and SMTP integration for automated background email dispatches.";
+      }
+
+      if (q.includes("ai & vector") || q.includes("vector retrieval") || q.includes("rag pipeline") || q.includes("chromadb") || q.includes("sentence transformers")) {
+        return "In AI & Vector Retrieval, Ahmed builds end-to-end RAG pipelines, document text chunking, dense vector embeddings with Sentence Transformers, and semantic vector search using ChromaDB with source references.";
+      }
+
+      if (q.includes("computer science core") || q.includes("cs core") || q.includes("data structures") || q.includes("algorithms") || q.includes("oop")) {
+        return "In Computer Science Core, Ahmed applies solid OOP principles, clean code architecture, logging standards, and competitive algorithmic problem solving in C++.";
+      }
+
+      if (q.includes("tools & testing") || q.includes("devops") || q.includes("docker") || q.includes("pytest") || q.includes("linux")) {
+        return "In Tools & Testing, Ahmed containerizes backend services with Docker, writes automated backend test suites with Pytest, manages version control with Git/GitHub, and works natively in Linux environments.";
+      }
+
+      // Generic Technical Stack & Skills Overview (Lists the 6 Main Categories)
+      if (q.includes("skill") || q.includes("skills") || q.includes("tech") || q.includes("stack") || q.includes("technical")) {
+        return "Ahmed's Technical Stack spans 6 core categories: 1. Backend Engineering (Python, FastAPI, C++). 2. Databases & Queues (PostgreSQL, SQLAlchemy, Redis/RQ). 3. Integrations (WhatsApp API, SMTP). 4. AI & Vector Retrieval (RAG, ChromaDB). 5. CS Core (Data Structures, OOP). 6. Tools (Docker, Pytest, Git, Linux). Which category would you like details on?";
+      }
+
+      // 10. Education, ECU, Graduation & Military Status
+      if (q.includes("ecu") || q.includes("education") || q.includes("university") || q.includes("degree") || q.includes("college") || q.includes("graduation") || q.includes("military") || q.includes("army") || q.includes("2029")) {
+        return "Ahmed is studying Computer Science at the Egyptian Chinese University (ECU) in Cairo, expected to graduate in 2029. His military service status is officially postponed for study.";
+      }
+
+      // 11. Hobbies & Mindset
+      if (q.includes("hobby") || q.includes("hobbies") || q.includes("interest") || q.includes("mindset") || q.includes("free time") || q.includes("passion")) {
+        return "Ahmed's personal hobbies include: 1. Practicing competitive algorithmic problem solving in C++. 2. Studying backend system architecture and clean code reliability. 3. Exploring open-source AI tools and local vector search pipelines.";
+      }
+
+      // 12. Recruiter Questions (Strengths, Weaknesses, Relocation, Availability)
+      if (q.includes("strength") || q.includes("weakness") || q.includes("why hire") || q.includes("location") || q.includes("cairo") || q.includes("available") || q.includes("relocate") || q.includes("remote")) {
+        return "Ahmed's main strengths are designing clean asynchronous REST APIs with FastAPI and engineering reliable Redis background worker queues. He is based in Cairo, Egypt, and available for On-site, Hybrid, or Remote backend roles.";
+      }
+
+      // 13. Contact Information
+      if (q.includes("email") || q.includes("contact") || q.includes("reach") || q.includes("hire") || q.includes("gmail") || q.includes("github") || q.includes("linkedin")) {
+        return "You can reach Ahmed directly via email at ahmeeedmohaaamed1@gmail.com or explore his open-source code repositories on GitHub at github.com/ahmed-abdelatif.";
+      }
+
+      // 14. Conversational Greetings & Banter
+      if (q.includes("hello") || q.includes("hi") || q.includes("hey") || q.includes("greetings") || q.includes("good morning") || q.includes("good afternoon")) {
+        return "Hello! How can I assist you today? Feel free to ask me about Ahmed's 4 backend projects, H2M work experience, ECU computer science degree, or tech stack!";
+      }
+
+      if (q.includes("thanks") || q.includes("thank you") || q.includes("great") || q.includes("awesome") || q.includes("perfect")) {
+        return "You're very welcome! Feel free to ask any other questions about Ahmed's experience, background, or projects!";
+      }
+
+      return "Ahmed Mohamed Abdelatif is a Python Backend Developer based in Cairo, studying Computer Science at ECU (graduation 2029). He has hands-on experience at H2M and engineered 4 production-ready backend systems. How can I help you explore his profile?";
+    };
+
+    try {
+      const formattedHistory = messages
+        .filter((m) => m.sender === "user" || m.sender === "ai")
+        .slice(-6)
+        .map((m) => ({
+          role: m.sender === "user" ? "user" : "assistant",
+          content: m.text
+        }));
+
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [...formattedHistory, { role: "user", content: userText }]
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.reply) {
+          setMessages((prev) => [...prev, { sender: "ai", text: data.reply }]);
+          speakText(data.reply);
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn("LLM API fallback activated:", e);
+    }
+
+    // Seamless Local Fallback Execution
+    const fallbackText = localFallbackReply(userText);
+    setMessages((prev) => [...prev, { sender: "ai", text: fallbackText }]);
+    speakText(fallbackText);
   };
 
   const handleChipClick = (queryText: string) => {
@@ -767,12 +743,30 @@ export default function Home() {
             </a>
             
             <a 
+              href="https://www.linkedin.com/in/ahmed-abdelatif" 
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-1.5 bg-blue-950/60 hover:bg-blue-900/60 text-blue-300 px-3.5 py-1.5 rounded-lg border border-blue-800/50 transition"
+            >
+              <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              LinkedIn
+            </a>
+            
+            <a 
               href="https://github.com/ahmed-abdelatif" 
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-1.5 bg-gray-800/80 hover:bg-gray-700 text-gray-200 px-3.5 py-1.5 rounded-lg border border-gray-700 transition"
             >
               <Globe className="w-3.5 h-3.5 text-gray-400" /> GitHub Profile
+            </a>
+
+            <a 
+              href="/Ahmed_Abdelatif_CV.pdf" 
+              download
+              className="flex items-center gap-1.5 bg-emerald-950/60 hover:bg-emerald-900/60 text-emerald-300 px-3.5 py-1.5 rounded-lg border border-emerald-800/50 transition"
+            >
+              <FileText className="w-3.5 h-3.5 text-emerald-400" /> Download CV
             </a>
           </div>
         </div>
@@ -1041,11 +1035,11 @@ export default function Home() {
 
         {/* Modal */}
         {selectedProject && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
-            <div className="bg-gray-900 border border-gray-700 rounded-xl max-w-2xl w-full p-6 sm:p-8 space-y-6 relative shadow-2xl">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#0b0f17]/80 backdrop-blur-md animate-in fade-in duration-200">
+            <div className="bg-[#0b0f17] border border-purple-800/60 rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-8 space-y-6 relative shadow-2xl shadow-purple-950/50">
               <button 
                 onClick={() => setSelectedProject(null)}
-                className="absolute top-5 right-5 text-gray-400 hover:text-white p-1.5 rounded-lg bg-gray-800 border border-gray-700 transition text-xs font-mono flex items-center gap-1"
+                className="absolute top-5 right-5 text-gray-400 hover:text-white p-1.5 rounded-lg bg-gray-900 border border-gray-800 transition text-xs font-mono flex items-center gap-1 z-10"
               >
                 <X className="w-4 h-4" /> Close
               </button>
@@ -1092,14 +1086,26 @@ export default function Home() {
                 >
                   Return to Portfolio
                 </button>
-                <a 
-                  href={selectedProject.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs px-5 py-2.5 rounded-lg transition shadow-md"
-                >
-                  <Globe className="w-4 h-4" /> View GitHub Repository <ExternalLink className="w-3.5 h-3.5" />
-                </a>
+                <div className="flex items-center gap-3">
+                  {selectedProject.liveDemo && (
+                    <a 
+                      href={selectedProject.liveDemo}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-5 py-2.5 rounded-lg transition shadow-md"
+                    >
+                      <Zap className="w-4 h-4" /> Live Demo <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+                  <a 
+                    href={selectedProject.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs px-5 py-2.5 rounded-lg transition shadow-md"
+                  >
+                    <Globe className="w-4 h-4" /> View GitHub Repository <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -1107,9 +1113,9 @@ export default function Home() {
 
         {/* Modal: Skill Category Details */}
         {selectedSkillCategory && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="bg-[#0b0f17] border border-purple-800/60 rounded-2xl max-w-2xl w-full p-6 sm:p-8 space-y-6 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#0b0f17]/80 backdrop-blur-md animate-in fade-in duration-200">
+            <div className="bg-[#0b0f17] border border-purple-800/60 rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl relative shadow-purple-950/50">
+              <div className="absolute top-4 right-4 z-10">
                 <button 
                   onClick={() => setSelectedSkillCategory(null)}
                   className="p-2 text-gray-400 hover:text-white rounded-lg bg-gray-900 border border-gray-800 transition"
@@ -1295,12 +1301,30 @@ export default function Home() {
               </a>
 
               <a 
+                href="https://www.linkedin.com/in/ahmed-abdelatif" 
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-2 bg-blue-700 hover:bg-blue-600 text-white font-semibold px-6 py-3.5 rounded-lg transition text-sm"
+              >
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+
+              <a 
                 href="https://github.com/ahmed-abdelatif" 
                 target="_blank" 
                 rel="noreferrer"
                 className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-gray-200 font-semibold px-6 py-3.5 rounded-lg border border-gray-700 transition text-sm"
               >
                 <Globe className="w-4 h-4" /> GitHub Profile
+              </a>
+
+              <a 
+                href="/Ahmed_Abdelatif_CV.pdf" 
+                download
+                className="flex items-center gap-2 bg-emerald-700 hover:bg-emerald-600 text-white font-semibold px-6 py-3.5 rounded-lg transition text-sm"
+              >
+                <FileText className="w-4 h-4" /> Download CV PDF
               </a>
             </div>
           </div>
