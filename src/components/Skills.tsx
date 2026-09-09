@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Wrench, ChevronRight, Bot, X } from "lucide-react";
 import { skillCategories } from "./data";
 
@@ -10,11 +10,23 @@ interface SkillsProps {
 
 export default function Skills({ onSkillOpen }: SkillsProps) {
   const [selectedSkillCategory, setSelectedSkillCategory] = useState<typeof skillCategories[number] | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const handleOpenSkillCategoryModal = (cat: typeof skillCategories[number]) => {
     setSelectedSkillCategory(cat);
     onSkillOpen?.(cat);
   };
+
+  useEffect(() => {
+    if (selectedSkillCategory) {
+      closeButtonRef.current?.focus();
+      const handleEscape = (e: KeyboardEvent) => {
+        if (e.key === "Escape") setSelectedSkillCategory(null);
+      };
+      document.addEventListener("keydown", handleEscape);
+      return () => document.removeEventListener("keydown", handleEscape);
+    }
+  }, [selectedSkillCategory]);
 
   return (
     <>
@@ -32,6 +44,10 @@ export default function Skills({ onSkillOpen }: SkillsProps) {
             <div
               key={idx}
               onClick={() => handleOpenSkillCategoryModal(cat)}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleOpenSkillCategoryModal(cat); } }}
+              tabIndex={0}
+              role="button"
+              aria-label={`View details for ${cat.category}`}
               className="bg-gray-900/70 hover:bg-gray-900 border border-gray-800 hover:border-purple-800/60 rounded-xl p-6 flex flex-col justify-between cursor-pointer transition space-y-5 group shadow-sm"
             >
               <div className="space-y-3">
@@ -93,11 +109,18 @@ export default function Skills({ onSkillOpen }: SkillsProps) {
 
       {selectedSkillCategory && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#0b0f17]/80 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="bg-[#0b0f17] border border-purple-800/60 rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl relative shadow-purple-950/50">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="skill-modal-title"
+            className="bg-[#0b0f17] border border-purple-800/60 rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl relative shadow-purple-950/50"
+          >
             <div className="absolute top-4 right-4 z-10">
               <button
+                ref={closeButtonRef}
                 onClick={() => setSelectedSkillCategory(null)}
                 className="p-2 text-gray-400 hover:text-white rounded-lg bg-gray-900 border border-gray-800 transition"
+                aria-label="Close skill details"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -105,7 +128,7 @@ export default function Skills({ onSkillOpen }: SkillsProps) {
 
             <div className="space-y-1">
               <span className="text-xs font-mono text-purple-400 font-semibold uppercase">Skill Domain Deep Dive</span>
-              <h3 className="text-2xl font-bold text-white">{selectedSkillCategory.category}</h3>
+              <h3 id="skill-modal-title" className="text-2xl font-bold text-white">{selectedSkillCategory.category}</h3>
             </div>
 
             <div className="space-y-4">

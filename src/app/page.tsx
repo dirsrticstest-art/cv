@@ -16,8 +16,6 @@ import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Home() {
   const [chatOpen, setChatOpen] = useState(false);
-  const [isSpeaking] = useState(false);
-  const [isListening] = useState(false);
 
   const handleToggleChat = () => setChatOpen(!chatOpen);
   const handleProjectOpen = () => {
@@ -36,13 +34,11 @@ export default function Home() {
 
       <ThemeToggle />
       <Header 
-        isSpeaking={isSpeaking} 
-        isListening={isListening} 
         chatOpen={chatOpen} 
         onToggleChat={handleToggleChat} 
       />
 
-      <main className="max-w-5xl mx-auto px-6 space-y-20 pt-10">
+      <main id="main-content" className="max-w-5xl mx-auto px-6 space-y-20 pt-10">
         <Hero />
         <Profile />
         <Capabilities />

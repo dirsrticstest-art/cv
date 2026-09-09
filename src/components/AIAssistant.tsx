@@ -1,21 +1,24 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Bot, Send, X } from "lucide-react";
-import { quickQuestions } from "./data";
+import { quickQuestions, projects, skillCategories } from "./data";
+
+type ProjectType = (typeof projects)[number];
+type SkillType = (typeof skillCategories)[number];
 
 interface AIAssistantProps {
   chatOpen: boolean;
   onToggleChat: () => void;
-  onProjectOpen?: (project: any) => void;
-  onSkillOpen?: (skill: any) => void;
+  onProjectOpen?: (project: ProjectType) => void;
+  onSkillOpen?: (skill: SkillType) => void;
 }
 
 export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onSkillOpen }: AIAssistantProps) {
   const [messages, setMessages] = useState([
     {
       sender: "ai",
-      text: "👋 Hello! Welcome to Ahmed Mohamed Abdelatif's developer CV. I am Ahmed's AI Personal Assistant—how can I help you?"
+      text: "Hello! Welcome to Ahmed Mohamed Abdelatif's developer CV. I am Ahmed's AI Personal Assistant—how can I help you?"
     }
   ]);
   const [inputMsg, setInputMsg] = useState("");
@@ -26,10 +29,30 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
   const recognitionRef = useRef<any>(null);
   const isSpeakingRef = useRef(false);
   const isListeningRef = useRef(false);
-  const restartTimerRef = useRef<any>(null);
+  const restartTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const currentLangRef = useRef<string>("en-US");
+  const messagesRef = useRef(messages);
+  const chatOpenRef = useRef(chatOpen);
+  const retryCountRef = useRef(0);
+  const MAX_RETRIES = 3;
 
   const [voicesList, setVoicesList] = useState<SpeechSynthesisVoice[]>([]);
+
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
+
+  useEffect(() => {
+    chatOpenRef.current = chatOpen;
+  }, [chatOpen]);
+
+  useEffect(() => {
+    return () => {
+      if (restartTimerRef.current) {
+        clearTimeout(restartTimerRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
@@ -40,7 +63,10 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
         }
       };
       loadVoices();
-      window.speechSynthesis.onvoiceschanged = loadVoices;
+      window.speechSynthesis.addEventListener("voiceschanged", loadVoices);
+      return () => {
+        window.speechSynthesis.removeEventListener("voiceschanged", loadVoices);
+      };
     }
   }, []);
 
@@ -54,7 +80,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
     );
   };
 
-  const speakText = (text: string) => {
+  const speakText = useCallback((text: string) => {
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
       window.speechSynthesis.cancel();
       stopListening();
@@ -101,10 +127,12 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
       utterance.onend = () => {
         isSpeakingRef.current = false;
         setIsSpeaking(false);
-        if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
-        restartTimerRef.current = setTimeout(() => {
-          startListening();
-        }, 350);
+        if (chatOpenRef.current) {
+          if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
+          restartTimerRef.current = setTimeout(() => {
+            startListening();
+          }, 350);
+        }
       };
 
       utterance.onerror = () => {
@@ -114,31 +142,38 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
 
       window.speechSynthesis.speak(utterance);
     }
-  };
+  }, [voicesList]);
 
-  const stopSpeaking = () => {
+  const stopSpeaking = useCallback(() => {
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
       window.speechSynthesis.cancel();
       isSpeakingRef.current = false;
       setIsSpeaking(false);
     }
-  };
+  }, []);
 
-  const startListening = () => {
-    if (typeof window === "undefined" || isSpeakingRef.current) return;
-    const SpeechRecognition = (window as unknown as { SpeechRecognition?: any; webkitSpeechRecognition?: any }).SpeechRecognition || (window as unknown as { SpeechRecognition?: any; webkitSpeechRecognition?: any }).webkitSpeechRecognition;
-    if (!SpeechRecognition) return;
+  const stopListening = useCallback(() => {
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.onend = null;
+        recognitionRef.current.onerror = null;
+        recognitionRef.current.stop();
+      } catch (e) {}
+      recognitionRef.current = null;
+      isListeningRef.current = false;
+      setIsListening(false);
+    }
+  }, []);
+
+  const startListening = useCallback(() => {
+    if (typeof window === "undefined" || isSpeakingRef.current || !chatOpenRef.current) return;
+      const SpeechRecognitionClass = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognitionClass) return;
 
     try {
-      if (recognitionRef.current) {
-        try {
-          recognitionRef.current.onend = null;
-          recognitionRef.current.onerror = null;
-          recognitionRef.current.abort();
-        } catch (e) {}
-      }
+      stopListening();
 
-      const recognition = new SpeechRecognition();
+      const recognition = new SpeechRecognitionClass();
       recognitionRef.current = recognition;
       recognition.lang = "en-US";
       recognition.continuous = false;
@@ -147,24 +182,32 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
       recognition.onstart = () => {
         isListeningRef.current = true;
         setIsListening(true);
+        retryCountRef.current = 0;
       };
 
       recognition.onend = () => {
         isListeningRef.current = false;
         setIsListening(false);
-        if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
-        restartTimerRef.current = setTimeout(() => {
-          startListening();
-        }, 250);
+        if (chatOpenRef.current && retryCountRef.current < MAX_RETRIES) {
+          if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
+          restartTimerRef.current = setTimeout(() => {
+            startListening();
+          }, 250);
+        }
       };
 
-      recognition.onerror = () => {
+      recognition.onerror = (event: any) => {
         isListeningRef.current = false;
         setIsListening(false);
-        if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
-        restartTimerRef.current = setTimeout(() => {
-          startListening();
-        }, 500);
+        if (event.error === "no-speech" || event.error === "aborted") {
+          if (chatOpenRef.current && retryCountRef.current < MAX_RETRIES) {
+            retryCountRef.current++;
+            if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
+            restartTimerRef.current = setTimeout(() => {
+              startListening();
+            }, 500);
+          }
+        }
       };
 
       recognition.onresult = (event: any) => {
@@ -183,32 +226,23 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
       isListeningRef.current = false;
       setIsListening(false);
     }
-  };
-
-  const stopListening = () => {
-    if (recognitionRef.current) {
-      try {
-        recognitionRef.current.onend = null;
-        recognitionRef.current.onerror = null;
-        recognitionRef.current.stop();
-      } catch (e) {}
-      isListeningRef.current = false;
-      setIsListening(false);
-    }
-  };
+  }, [stopListening, stopSpeaking]);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer: ReturnType<typeof setTimeout>;
     if (chatOpen) {
+      retryCountRef.current = 0;
       timer = setTimeout(() => {
         startListening();
       }, 300);
+    } else {
+      stopListening();
     }
     return () => {
       clearTimeout(timer);
       stopListening();
     };
-  }, [chatOpen]);
+  }, [chatOpen, startListening, stopListening]);
 
   useEffect(() => {
     if (chatOpen) {
@@ -292,7 +326,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
     }
 
     if (q.includes("email") || q.includes("contact") || q.includes("reach") || q.includes("hire") || q.includes("gmail") || q.includes("github") || q.includes("linkedin")) {
-      return "You can reach Ahmed directly via email at ahmeeedmohaaamed1@gmail.com or explore his open-source code repositories on GitHub at github.com/ahmed-abdelatif.";
+      return "You can reach Ahmed directly via email or explore his open-source code repositories on GitHub at github.com/ahmed-abdelatif.";
     }
 
     if (q.includes("hello") || q.includes("hi") || q.includes("hey") || q.includes("greetings") || q.includes("good morning") || q.includes("good afternoon")) {
@@ -311,15 +345,16 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
     setInputMsg("");
     currentLangRef.current = "en-US";
 
-    try {
-      const formattedHistory = messages
-        .filter((m) => m.sender === "user" || m.sender === "ai")
-        .slice(-6)
-        .map((m) => ({
-          role: m.sender === "user" ? "user" : "assistant",
-          content: m.text
-        }));
+    const currentMessages = messagesRef.current;
+    const formattedHistory = currentMessages
+      .filter((m) => m.sender === "user" || m.sender === "ai")
+      .slice(-6)
+      .map((m) => ({
+        role: m.sender === "user" ? "user" : "assistant",
+        content: m.text
+      }));
 
+    try {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -364,16 +399,22 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
         <button
           onClick={onToggleChat}
           className="flex items-center gap-3 bg-purple-600 hover:bg-purple-500 text-white font-medium px-5 py-3 rounded-full shadow-2xl transition transform hover:scale-105 border border-purple-400/30 group"
+          aria-label="Open AI assistant chat"
         >
           <Bot className="w-5 h-5 text-purple-200 group-hover:rotate-12 transition" />
           <div className="text-left">
-            <span className="text-xs font-bold block">Ask Ahmed&apos;s Assistant 🤖</span>
-            <span className="text-[10px] text-purple-200/80 block font-mono">🔊 Interactive Voice Mode Active</span>
+            <span className="text-xs font-bold block">Ask Ahmed&apos;s Assistant</span>
+            <span className="text-[10px] text-purple-200/80 block font-mono">Interactive Voice Mode Active</span>
           </div>
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse ml-1" />
         </button>
       ) : (
-        <div className="bg-gray-900 w-[350px] sm:w-[390px] h-[510px] rounded-2xl shadow-2xl flex flex-col border border-purple-800/60 overflow-hidden">
+        <div
+          className="bg-gray-900 w-[350px] sm:w-[390px] h-[510px] rounded-2xl shadow-2xl flex flex-col border border-purple-800/60 overflow-hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="AI Assistant Chat"
+        >
           {/* Header */}
           <div className="p-4 bg-purple-950/90 border-b border-gray-800 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
@@ -415,16 +456,17 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
                 <button
                   onClick={stopSpeaking}
                   className="text-xs bg-red-950/80 text-red-300 px-2 py-1 rounded border border-red-800 font-mono"
-                  title="Mute Voice"
+                  aria-label="Mute voice"
                 >
-                  ⏹ Mute
+                  Mute
                 </button>
               )}
               <button
                 onClick={onToggleChat}
                 className="text-gray-400 hover:text-white text-xs font-mono p-1"
+                aria-label="Close chat"
               >
-                ✕
+                X
               </button>
             </div>
           </div>
@@ -473,9 +515,9 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
                   ? "bg-red-600 text-white border-red-400 animate-pulse"
                   : "bg-gray-800 text-purple-300 hover:bg-purple-900/50 border-gray-700"
               }`}
-              title="Speak to Assistant (Voice Mic)"
+              aria-label={isListening ? "Stop listening" : "Start voice input"}
             >
-              🎙️
+              Mic
             </button>
 
             <input
@@ -484,10 +526,12 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
               value={inputMsg}
               onChange={(e) => setInputMsg(e.target.value)}
               className="flex-1 bg-gray-900 border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500 font-sans"
+              aria-label="Chat message input"
             />
             <button
               type="submit"
               className="p-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl transition"
+              aria-label="Send message"
             >
               <Send className="w-4 h-4" />
             </button>

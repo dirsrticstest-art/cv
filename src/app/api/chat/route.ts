@@ -1,8 +1,37 @@
 import { NextResponse } from "next/server";
 
+const MAX_MESSAGE_LENGTH = 500;
+const MAX_MESSAGES = 20;
+
+function sanitizeInput(text: unknown): string {
+  if (typeof text !== "string") return "";
+  return text
+    .replace(/<[^>]*>/g, "")
+    .replace(/[^\w\s@.,!?'"\-:;/()]/g, "")
+    .trim()
+    .slice(0, MAX_MESSAGE_LENGTH);
+}
+
 export async function POST(req: Request) {
   try {
     const { messages } = await req.json();
+
+    if (!Array.isArray(messages) || messages.length === 0) {
+      return NextResponse.json({ error: "Invalid messages format" }, { status: 400 });
+    }
+
+    if (messages.length > MAX_MESSAGES) {
+      return NextResponse.json({ error: "Too many messages" }, { status: 400 });
+    }
+
+    const sanitizedMessages = messages.map((m: { role: string; content: string }) => ({
+      role: m.role === "user" ? "user" : "assistant",
+      content: sanitizeInput(m.content),
+    })).filter((m: { content: string }) => m.content.length > 0);
+
+    if (sanitizedMessages.length === 0) {
+      return NextResponse.json({ error: "Empty message" }, { status: 400 });
+    }
 
     const groqApiKey = process.env.GROQ_API_KEY;
 
@@ -43,7 +72,7 @@ PROJECT ARCHITECTURES & DEEP TECHNICAL DETAILS:
    - SKILLS DEMONSTRATED: Relational Database Modeling (PostgreSQL/SQLAlchemy), Background Email Automation (SMTP + Redis/RQ), Transaction Management, Clean Architecture, FastAPI, Pytest, Docker.
 
 OTHER PROFILE FACTS:
-- CANDIDATE: Ahmed Mohamed Abdelatif | Python Backend Developer & AI Automation Specialist | Based in Cairo, Egypt (Available On-site, Hybrid, Remote) | Email: ahmeeedmohaaamed1@gmail.com | GitHub: https://github.com/ahmed-abdelatif
+- CANDIDATE: Ahmed Mohamed Abdelatif | Python Backend Developer & AI Automation Specialist | Based in Cairo, Egypt (Available On-site, Hybrid, Remote)
 - EDUCATION: B.Sc. Computer Science at Egyptian Chinese University (ECU) in Cairo (Expected Graduation: 2029 - Locked). Military Status: Postponed for study.
 - EXPERIENCE: 3 months Full-Time On-Site at H2M (Developed MAXP Online backend endpoints, product financial margin & shipping calculators, Meta WhatsApp Cloud API marketing dispatches).
 
@@ -63,7 +92,7 @@ CONVERSATIONAL RULES:
         model: "llama-3.3-70b-versatile",
         messages: [
           { role: "system", content: systemPrompt },
-          ...messages
+          ...sanitizedMessages
         ],
         temperature: 0.3,
         max_tokens: 300
@@ -80,7 +109,7 @@ CONVERSATIONAL RULES:
     const reply = data.choices?.[0]?.message?.content || "I am Ahmed's AI Assistant. How can I help you explore his backend experience?";
 
     return NextResponse.json({ reply });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("API Route Exception:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }

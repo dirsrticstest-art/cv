@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Code2, ChevronRight, Globe, ExternalLink, Zap, X } from "lucide-react";
 import { projects } from "./data";
 
@@ -10,11 +10,24 @@ interface ProjectsProps {
 
 export default function Projects({ onProjectOpen }: ProjectsProps) {
   const [selectedProject, setSelectedProject] = useState<(typeof projects)[number] | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const handleOpen = (proj: (typeof projects)[number]) => {
     setSelectedProject(proj);
     onProjectOpen?.(proj);
   };
+
+  useEffect(() => {
+    if (selectedProject) {
+      closeButtonRef.current?.focus();
+      const handleEscape = (e: KeyboardEvent) => {
+        if (e.key === "Escape") setSelectedProject(null);
+      };
+      document.addEventListener("keydown", handleEscape);
+      return () => document.removeEventListener("keydown", handleEscape);
+    }
+  }, [selectedProject]);
 
   return (
     <section id="projects" className="space-y-6">
@@ -31,6 +44,10 @@ export default function Projects({ onProjectOpen }: ProjectsProps) {
           <div
             key={proj.id}
             onClick={() => handleOpen(proj)}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleOpen(proj); } }}
+            tabIndex={0}
+            role="button"
+            aria-label={`View details for ${proj.title}`}
             className="bg-gray-900/70 hover:bg-gray-900 border border-gray-800 hover:border-purple-800/60 rounded-xl p-6 flex flex-col justify-between cursor-pointer transition space-y-5 group shadow-sm"
           >
             <div className="space-y-3">
@@ -83,17 +100,25 @@ export default function Projects({ onProjectOpen }: ProjectsProps) {
 
       {selectedProject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#0b0f17]/80 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="bg-[#0b0f17] border border-purple-800/60 rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-8 space-y-6 relative shadow-2xl shadow-purple-950/50">
+          <div
+            ref={modalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="project-modal-title"
+            className="bg-[#0b0f17] border border-purple-800/60 rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-8 space-y-6 relative shadow-2xl shadow-purple-950/50"
+          >
             <button
+              ref={closeButtonRef}
               onClick={() => setSelectedProject(null)}
               className="absolute top-5 right-5 text-gray-400 hover:text-white p-1.5 rounded-lg bg-gray-900 border border-gray-800 transition text-xs font-mono flex items-center gap-1 z-10"
+              aria-label="Close project details"
             >
               <X className="w-4 h-4" /> Close
             </button>
 
             <div className="space-y-1">
               <span className="text-xs font-mono text-purple-400 font-semibold uppercase">Project Overview ({selectedProject.id})</span>
-              <h3 className="text-2xl font-bold text-white">{selectedProject.title}</h3>
+              <h3 id="project-modal-title" className="text-2xl font-bold text-white">{selectedProject.title}</h3>
               <p className="text-xs font-mono text-purple-300">{selectedProject.tagline}</p>
             </div>
 
@@ -170,7 +195,7 @@ export default function Projects({ onProjectOpen }: ProjectsProps) {
                   <a
                     href={selectedProject.liveDemo}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noreferrer noopener"
                     className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-5 py-2.5 rounded-lg transition shadow-md"
                   >
                     <Zap className="w-4 h-4" /> Live Demo <ExternalLink className="w-3.5 h-3.5" />
@@ -179,7 +204,7 @@ export default function Projects({ onProjectOpen }: ProjectsProps) {
                 <a
                   href={selectedProject.github}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noreferrer noopener"
                   className="flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs px-5 py-2.5 rounded-lg transition shadow-md"
                 >
                   <Globe className="w-4 h-4" /> View GitHub Repository <ExternalLink className="w-3.5 h-3.5" />

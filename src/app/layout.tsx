@@ -39,12 +39,21 @@ export const metadata: Metadata = {
     siteName: "Ahmed Abdelatif - CV",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "https://cv-tawny-two.vercel.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Ahmed Abdelatif - Python Backend Developer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Ahmed Abdelatif | Python Backend Developer",
     description:
       "Python Backend Developer specializing in FastAPI, PostgreSQL, Redis, and AI automation.",
+    images: ["https://cv-tawny-two.vercel.app/og-image.png"],
   },
   robots: {
     index: true,
@@ -58,6 +67,9 @@ export const metadata: Metadata = {
     },
   },
   manifest: "/manifest.json",
+  alternates: {
+    canonical: "https://cv-tawny-two.vercel.app",
+  },
 };
 
 export const viewport: Viewport = {
@@ -73,7 +85,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     name: "Ahmed Mohamed Abdelatif",
     jobTitle: "Python Backend Developer & AI Automation Specialist",
     url: "https://cv-tawny-two.vercel.app",
-    email: "ahmeeedmohaaamed1@gmail.com",
+    email: "mailto:ahmeeedmohaaamed1@gmail.com",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Cairo",
@@ -112,13 +124,26 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 try {
                   var theme = localStorage.getItem('theme') || 'dark';
                   document.documentElement.classList.add(theme);
+                  if (theme === 'light') {
+                    document.documentElement.classList.remove('dark');
+                  } else {
+                    document.documentElement.classList.remove('light');
+                  }
                 } catch(e) {}
               })();
             `,
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-purple-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:outline-none"
+        >
+          Skip to main content
+        </a>
+        {children}
+      </body>
     </html>
   );
 }
