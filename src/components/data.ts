@@ -252,40 +252,40 @@ export const certifications = [
     name: "SQL (Intermediate)",
     issuer: "HackerRank",
     date: "September 2026",
-    credentialId: "3578786AA39E",
-    url: "https://www.hackerrank.com/certificates/3578786AA39E",
+    credentialId: "203B6A8EDA03",
+    url: "https://www.hackerrank.com/certificates/203B6A8EDA03",
     skill: "SQL"
   },
   {
     name: "SQL (Advanced)",
     issuer: "HackerRank",
     date: "September 2026",
-    credentialId: "",
-    url: "",
+    credentialId: "EBFE57B420AB",
+    url: "https://www.hackerrank.com/certificates/EBFE57B420AB",
     skill: "SQL"
   },
   {
     name: "REST API (Intermediate)",
     issuer: "HackerRank",
     date: "September 2026",
-    credentialId: "",
-    url: "",
+    credentialId: "9FECDDDC70D8",
+    url: "https://www.hackerrank.com/certificates/9FECDDDC70D8",
     skill: "REST APIs"
   },
   {
     name: "Problem Solving (Basic)",
     issuer: "HackerRank",
     date: "September 2026",
-    credentialId: "",
-    url: "",
+    credentialId: "01777F8125A7",
+    url: "https://www.hackerrank.com/certificates/01777F8125A7",
     skill: "Problem Solving"
   },
   {
     name: "Problem Solving (Intermediate)",
     issuer: "HackerRank",
     date: "September 2026",
-    credentialId: "",
-    url: "",
+    credentialId: "B937B75D7029",
+    url: "https://www.hackerrank.com/certificates/B937B75D7029",
     skill: "Problem Solving"
   }
 ];
