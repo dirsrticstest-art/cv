@@ -50,7 +50,7 @@ export default function Header({ chatOpen, onToggleChat }: HeaderProps) {
           </a>
 
           <a
-            href="https://www.linkedin.com/in/ahmed-abdelatif"
+            href="https://www.linkedin.com/in/ahmed-mohamed-b69920435"
             target="_blank"
             rel="noreferrer noopener"
             className="flex items-center gap-1.5 bg-blue-950/60 hover:bg-blue-900/60 text-blue-300 px-3.5 py-1.5 rounded-lg border border-blue-800/50 transition"

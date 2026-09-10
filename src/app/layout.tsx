@@ -93,7 +93,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     },
     sameAs: [
       "https://github.com/ahmed-abdelatif",
-      "https://www.linkedin.com/in/ahmed-abdelatif",
+      "https://www.linkedin.com/in/ahmed-mohamed-b69920435",
     ],
     knowsAbout: [
       "Python",
