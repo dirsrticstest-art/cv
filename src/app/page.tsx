@@ -9,6 +9,7 @@ import Education from "@/components/Education";
 import Experience from "@/components/Experience";
 import Projects from "@/components/Projects";
 import Skills from "@/components/Skills";
+import Certifications from "@/components/Certifications";
 import Hobbies from "@/components/Hobbies";
 import Contact from "@/components/Contact";
 import AIAssistant from "@/components/AIAssistant";
@@ -46,6 +47,7 @@ export default function Home() {
         <Experience />
         <Projects onProjectOpen={handleProjectOpen} />
         <Skills onSkillOpen={handleSkillOpen} />
+        <Certifications />
         <Hobbies />
         <Contact />
       </main>

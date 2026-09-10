@@ -231,6 +231,65 @@ export const personalHobbies = [
   }
 ];
 
+export const certifications = [
+  {
+    name: "Python (Basic)",
+    issuer: "HackerRank",
+    date: "September 2026",
+    credentialId: "D208698872E9",
+    url: "https://www.hackerrank.com/certificates/D208698872E9",
+    skill: "Python"
+  },
+  {
+    name: "SQL (Basic)",
+    issuer: "HackerRank",
+    date: "September 2026",
+    credentialId: "3S7BFB6AASRE",
+    url: "https://www.hackerrank.com/certificates/3S7BFB6AASRE",
+    skill: "SQL"
+  },
+  {
+    name: "SQL (Intermediate)",
+    issuer: "HackerRank",
+    date: "September 2026",
+    credentialId: "3578786AA39E",
+    url: "https://www.hackerrank.com/certificates/3578786AA39E",
+    skill: "SQL"
+  },
+  {
+    name: "SQL (Advanced)",
+    issuer: "HackerRank",
+    date: "September 2026",
+    credentialId: "",
+    url: "",
+    skill: "SQL"
+  },
+  {
+    name: "REST API (Intermediate)",
+    issuer: "HackerRank",
+    date: "September 2026",
+    credentialId: "",
+    url: "",
+    skill: "REST APIs"
+  },
+  {
+    name: "Problem Solving (Basic)",
+    issuer: "HackerRank",
+    date: "September 2026",
+    credentialId: "",
+    url: "",
+    skill: "Problem Solving"
+  },
+  {
+    name: "Problem Solving (Intermediate)",
+    issuer: "HackerRank",
+    date: "September 2026",
+    credentialId: "",
+    url: "",
+    skill: "Problem Solving"
+  }
+];
+
 export const quickQuestions = [
   { label: "💡 Tell me about yourself", query: "Tell me about yourself and your background" },
   { label: "🛠️ Core Tech Stack", query: "What is your technical stack and skills?" },
