@@ -17,8 +17,7 @@ interface AIAssistantProps {
 }
 
 export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onSkillOpen, explainSection, onExplainDone }: AIAssistantProps) {
-  const explainRef = useRef(explainSection);
-  explainRef.current = explainSection;
+  const lastExplainedRef = useRef<string | null>(null);
   const [messages, setMessages] = useState([
     {
       sender: "ai",
@@ -267,19 +266,16 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
     skills: "Ahmed's technical skills span 6 categories. Backend Engineering with Python, FastAPI, and C++. Databases and Queues with PostgreSQL, SQLAlchemy, and Redis RQ. Integrations with WhatsApp API and SMTP. AI and Vector Retrieval with RAG and ChromaDB. Computer Science Core with Data Structures and OOP. And Tools with Docker, Pytest, Git, and Linux. He applies these skills across all his projects."
   };
 
-  const explainSectionHandler = useCallback((section: string) => {
-    const text = explanations[section] || "Feel free to ask about any section of Ahmed's portfolio.";
-    stopSpeaking();
-    stopListening();
-    setMessages((prev) => [...prev, { sender: "user", text: `Tell me about ${section}` }, { sender: "ai", text }]);
-    setTimeout(() => {
-      speakText(text);
-    }, 300);
-  }, [stopSpeaking, stopListening, speakText]);
-
   useEffect(() => {
-    if (explainSection && explainSection !== explainRef.current) {
-      explainSectionHandler(explainSection);
+    if (explainSection && explainSection !== lastExplainedRef.current) {
+      lastExplainedRef.current = explainSection;
+      const text = explanations[explainSection] || "Feel free to ask about any section of Ahmed's portfolio.";
+      stopSpeaking();
+      stopListening();
+      setMessages((prev) => [...prev, { sender: "user", text: `Tell me about ${explainSection}` }, { sender: "ai", text }]);
+      setTimeout(() => {
+        speakText(text);
+      }, 400);
       onExplainDone?.();
     }
   }, [explainSection]);
