@@ -24,6 +24,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
   const [inputMsg, setInputMsg] = useState("");
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [showMicPrompt, setShowMicPrompt] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
@@ -129,10 +130,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
         isSpeakingRef.current = false;
         setIsSpeaking(false);
         if (chatOpenRef.current) {
-          if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
-          restartTimerRef.current = setTimeout(() => {
-            startListening();
-          }, 500);
+          setShowMicPrompt(true);
         }
       };
 
@@ -183,6 +181,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
       recognition.onstart = () => {
         isListeningRef.current = true;
         setIsListening(true);
+        setShowMicPrompt(false);
         retryCountRef.current = 0;
       };
 
@@ -231,17 +230,24 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
+    let micPromptTimer: ReturnType<typeof setTimeout>;
     if (chatOpen) {
       retryCountRef.current = 0;
+      setShowMicPrompt(false);
       timer = setTimeout(() => {
         speakText(messages[0].text);
+        micPromptTimer = setTimeout(() => {
+          setShowMicPrompt(true);
+        }, 3500);
       }, 300);
     } else {
       stopListening();
       stopSpeaking();
+      setShowMicPrompt(false);
     }
     return () => {
       clearTimeout(timer);
+      clearTimeout(micPromptTimer);
       stopListening();
       stopSpeaking();
     };
@@ -382,6 +388,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
   const processUserQuery = async (userText: string) => {
     setMessages((prev) => [...prev, { sender: "user", text: userText }]);
     setInputMsg("");
+    setShowMicPrompt(false);
     currentLangRef.current = "en-US";
 
     const currentMessages = messagesRef.current;
@@ -423,6 +430,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
     if (!chatOpen) {
       onToggleChat();
     }
+    setShowMicPrompt(false);
     processUserQuery(queryText);
   };
 
@@ -544,19 +552,33 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
             ))}
           </div>
 
+          {/* Mic Prompt */}
+          {showMicPrompt && !isListening && !isSpeaking && (
+            <div className="px-3 py-2 bg-purple-900/30 light:bg-purple-50 border-b border-purple-700/30 light:border-purple-200 text-center">
+              <p className="text-[10px] text-purple-300 light:text-purple-700 font-mono animate-pulse">
+                Tap microphone below to start speaking
+              </p>
+            </div>
+          )}
+
           {/* Voice Input & Text Form */}
           <form onSubmit={handleSendMessage} className="p-3 border-t border-gray-800 light:border-gray-200 bg-gray-950 light:bg-white flex items-center gap-2">
             <button
               type="button"
-              onClick={startListening}
+              onClick={() => {
+                setShowMicPrompt(false);
+                startListening();
+              }}
               className={`p-2.5 rounded-xl transition border ${
                 isListening
                   ? "bg-red-600 text-white border-red-400 animate-pulse"
-                   : "bg-gray-800 light:bg-gray-100 text-purple-300 hover:bg-purple-900/50 light:hover:bg-purple-50 border-gray-700 light:border-gray-300"
+                  : showMicPrompt
+                    ? "bg-purple-600 text-white border-purple-400 animate-bounce shadow-lg shadow-purple-500/50"
+                    : "bg-gray-800 light:bg-gray-100 text-purple-300 hover:bg-purple-900/50 light:hover:bg-purple-50 border-gray-700 light:border-gray-300"
               }`}
               aria-label={isListening ? "Stop listening" : "Start voice input"}
             >
-              Mic
+              {isListening ? "Stop" : "Mic"}
             </button>
 
             <input
