@@ -14,9 +14,11 @@ interface AIAssistantProps {
   onSkillOpen?: (skill: SkillType) => void;
   explainSection?: string | null;
   onExplainDone?: () => void;
+  explainProject?: string | null;
+  onExplainProjectDone?: () => void;
 }
 
-export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onSkillOpen, explainSection, onExplainDone }: AIAssistantProps) {
+export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onSkillOpen, explainSection, onExplainDone, explainProject, onExplainProjectDone }: AIAssistantProps) {
   const lastExplainedRef = useRef<string | null>(null);
   const [messages, setMessages] = useState([
     {
@@ -279,6 +281,28 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
       onExplainDone?.();
     }
   }, [explainSection]);
+
+  const projectExplanations: Record<string, string> = {
+    "AI Customer Support Platform": "The AI Customer Support Platform is Ahmed's most comprehensive project. He built a full backend with FastAPI that receives customer messages via WhatsApp webhooks, classifies them by intent using an AI service layer, stores the entire conversation in PostgreSQL, and generates automated draft responses. The system uses Redis RQ for background processing, meaning messages are handled asynchronously without blocking. Ahmed specifically designed it with a replaceable AI boundary so the system can swap LLM providers without rewriting core logic.",
+    "Enterprise RAG Knowledge Assistant": "The Enterprise RAG Knowledge Assistant is Ahmed's AI-powered document search system. It takes PDF, DOCX, and TXT files, breaks them into overlapping text chunks, converts each chunk into a vector embedding using Sentence Transformers, and stores everything in ChromaDB. When a user asks a question, it finds the most semantically similar chunks and generates an answer with source citations. Ahmed built this to solve the problem of searching through large document collections without manually reading everything.",
+    "AI Document Intelligence Platform": "The AI Document Intelligence Platform handles heavy document processing workloads. Ahmed designed it with FastAPI upload endpoints that validate PDF, DOCX, and TXT files, then offload the actual extraction to Redis RQ background workers. Each job tracks its status through a queue, processing, completed, or failed state with real-time updates. Failed jobs automatically retry with exponential backoff. Ahmed built this to demonstrate handling long-running tasks without blocking API responses.",
+    "Medical Event Automation Platform": "The Medical Event Automation Platform manages event registrations and attendee workflows. Ahmed modeled relational database schemas with PostgreSQL and SQLAlchemy to handle event data, attendee information, and registration status. He built automated email dispatches through Redis RQ queues and SMTP integration, so registration confirmations and event reminders are sent in the background without manual intervention.",
+    "AI Lead Qualification & CRM Automation": "The AI Lead Qualification system uses Groq LLM to automatically classify inbound leads by quality and intent. Ahmed built a FastAPI backend that scores each lead, syncs results to a CRM using Celery async workers with Redis, and includes exponential backoff retries for reliability. Every lead qualification decision is logged in a PostgreSQL audit trail for compliance and debugging."
+  };
+
+  useEffect(() => {
+    if (explainProject && explainProject !== lastExplainedRef.current) {
+      lastExplainedRef.current = explainProject;
+      const text = projectExplanations[explainProject] || `Let me tell you about the ${explainProject} project. Ahmed built this as a production-ready backend system. Feel free to ask for more details.`;
+      stopSpeaking();
+      stopListening();
+      setMessages((prev) => [...prev, { sender: "user", text: `Tell me about ${explainProject}` }, { sender: "ai", text }]);
+      setTimeout(() => {
+        speakText(text);
+      }, 400);
+      onExplainProjectDone?.();
+    }
+  }, [explainProject]);
 
   useEffect(() => {
     if (chatOpen) {

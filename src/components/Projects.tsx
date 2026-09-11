@@ -7,9 +7,10 @@ import { projects } from "./data";
 interface ProjectsProps {
   onProjectOpen?: (project: (typeof projects)[number]) => void;
   onExplain?: (section: string) => void;
+  onExplainProject?: (title: string) => void;
 }
 
-export default function Projects({ onProjectOpen, onExplain }: ProjectsProps) {
+export default function Projects({ onProjectOpen, onExplain, onExplainProject }: ProjectsProps) {
   const [selectedProject, setSelectedProject] = useState<(typeof projects)[number] | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -17,6 +18,7 @@ export default function Projects({ onProjectOpen, onExplain }: ProjectsProps) {
   const handleOpen = (proj: (typeof projects)[number]) => {
     setSelectedProject(proj);
     onProjectOpen?.(proj);
+    onExplainProject?.(proj.title);
   };
 
   useEffect(() => {
