@@ -3,12 +3,20 @@
 import { Wrench } from "lucide-react";
 import { skillCategories } from "./data";
 
-export default function Skills() {
+interface SkillsProps {
+  onExplain?: (section: string) => void;
+}
+
+export default function Skills({ onExplain }: SkillsProps) {
   return (
     <section className="space-y-6">
-      <div className="flex items-center gap-3 border-b border-gray-800 light:border-gray-200 pb-3">
+      <div 
+        className="flex items-center gap-3 border-b border-gray-800 light:border-gray-200 pb-3 cursor-pointer hover:border-purple-500 transition"
+        onClick={() => onExplain?.("skills")}
+      >
         <Wrench className="w-5 h-5 text-purple-400" />
         <h2 className="text-2xl font-bold text-white light:text-gray-900">Technical Skills</h2>
+        <span className="text-[10px] font-mono text-purple-400 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-800/40">tap to hear</span>
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">

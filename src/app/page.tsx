@@ -17,6 +17,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Home() {
   const [chatOpen, setChatOpen] = useState(false);
+  const [explainSection, setExplainSection] = useState<string | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setChatOpen(true), 1200);
@@ -28,6 +29,10 @@ export default function Home() {
     setChatOpen(true);
   };
   const handleSkillOpen = () => {
+    setChatOpen(true);
+  };
+  const handleExplainSection = (section: string) => {
+    setExplainSection(section);
     setChatOpen(true);
   };
 
@@ -50,9 +55,9 @@ export default function Home() {
         <Hero />
         <Profile />
         <Capabilities />
-        <Experience />
-        <Projects onProjectOpen={handleProjectOpen} />
-        <Skills />
+        <Experience onExplain={handleExplainSection} />
+        <Projects onProjectOpen={handleProjectOpen} onExplain={handleExplainSection} />
+        <Skills onExplain={handleExplainSection} />
         <Education />
         <Certifications />
         <Hobbies />
@@ -69,6 +74,8 @@ export default function Home() {
         onToggleChat={handleToggleChat}
         onProjectOpen={handleProjectOpen}
         onSkillOpen={handleSkillOpen}
+        explainSection={explainSection}
+        onExplainDone={() => setExplainSection(null)}
       />
     </div>
   );

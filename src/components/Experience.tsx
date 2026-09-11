@@ -2,12 +2,20 @@
 
 import { Briefcase, CheckCircle2 } from "lucide-react";
 
-export default function Experience() {
+interface ExperienceProps {
+  onExplain?: (section: string) => void;
+}
+
+export default function Experience({ onExplain }: ExperienceProps) {
   return (
     <section id="experience" className="space-y-6">
-      <div className="flex items-center gap-3 border-b border-gray-800 light:border-gray-200 pb-3">
+      <div 
+        className="flex items-center gap-3 border-b border-gray-800 light:border-gray-200 pb-3 cursor-pointer hover:border-purple-500 transition"
+        onClick={() => onExplain?.("experience")}
+      >
         <Briefcase className="w-5 h-5 text-purple-400" />
         <h2 className="text-2xl font-bold text-white light:text-gray-900">Work Experience</h2>
+        <span className="text-[10px] font-mono text-purple-400 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-800/40">tap to hear</span>
       </div>
 
       <div className="bg-gray-900/70 light:bg-gray-50 border border-gray-800 light:border-gray-200 rounded-xl p-6 sm:p-8 space-y-6">

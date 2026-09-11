@@ -12,9 +12,11 @@ interface AIAssistantProps {
   onToggleChat: () => void;
   onProjectOpen?: (project: ProjectType) => void;
   onSkillOpen?: (skill: SkillType) => void;
+  explainSection?: string | null;
+  onExplainDone?: () => void;
 }
 
-export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onSkillOpen }: AIAssistantProps) {
+export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onSkillOpen, explainSection, onExplainDone }: AIAssistantProps) {
   const [messages, setMessages] = useState([
     {
       sender: "ai",
@@ -256,6 +258,21 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
       stopSpeaking();
     };
   }, [chatOpen]);
+
+  useEffect(() => {
+    if (explainSection && chatOpen) {
+      const explanations: Record<string, string> = {
+        experience: "Ahmed worked at H2M for 3 months as a Backend Developer on the MAXP Online platform. He built product pricing and profitability calculation tools, developed marketing campaign tracking and shipping analytics, and implemented Meta WhatsApp Cloud API automated marketing dispatches with webhooks and message templates. This was a hands-on role where he solved real business problems with Python backend systems.",
+        projects: "Ahmed has engineered 5 production-ready backend systems. First, an AI Customer Support Platform with WhatsApp API integration and automated message classification. Second, an Enterprise RAG Knowledge Assistant with ChromaDB vector search for document-based semantic search. Third, an AI Document Intelligence Platform with async PDF parsing and background workers. Fourth, a Medical Event Automation Platform with SMTP email dispatches and relational databases. Fifth, an AI Lead Qualification system with Groq LLM and Celery task queue. Each project demonstrates different backend engineering skills.",
+        skills: "Ahmed's technical skills span 6 categories. Backend Engineering with Python, FastAPI, and C++. Databases and Queues with PostgreSQL, SQLAlchemy, and Redis RQ. Integrations with WhatsApp API and SMTP. AI and Vector Retrieval with RAG and ChromaDB. Computer Science Core with Data Structures and OOP. And Tools with Docker, Pytest, Git, and Linux. He applies these skills across all his projects."
+      };
+      const text = explanations[explainSection] || "Feel free to ask about any section of Ahmed's portfolio.";
+      stopListening();
+      speakText(text);
+      setMessages((prev) => [...prev, { sender: "user", text: `Tell me about ${explainSection}` }, { sender: "ai", text }]);
+      onExplainDone?.();
+    }
+  }, [explainSection, chatOpen]);
 
   useEffect(() => {
     if (chatOpen) {

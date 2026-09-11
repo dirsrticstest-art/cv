@@ -6,9 +6,10 @@ import { projects } from "./data";
 
 interface ProjectsProps {
   onProjectOpen?: (project: (typeof projects)[number]) => void;
+  onExplain?: (section: string) => void;
 }
 
-export default function Projects({ onProjectOpen }: ProjectsProps) {
+export default function Projects({ onProjectOpen, onExplain }: ProjectsProps) {
   const [selectedProject, setSelectedProject] = useState<(typeof projects)[number] | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -32,9 +33,13 @@ export default function Projects({ onProjectOpen }: ProjectsProps) {
   return (
     <section id="projects" className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-800 light:border-gray-200 pb-3">
-        <div className="flex items-center gap-3">
+        <div 
+          className="flex items-center gap-3 cursor-pointer hover:border-purple-500 transition"
+          onClick={() => onExplain?.("projects")}
+        >
           <Code2 className="w-5 h-5 text-purple-400" />
           <h2 className="text-2xl font-bold text-white light:text-gray-900">Projects</h2>
+          <span className="text-[10px] font-mono text-purple-400 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-800/40">tap to hear</span>
         </div>
         <span className="text-xs text-gray-400 light:text-gray-500 font-mono">GitHub Repositories</span>
       </div>
