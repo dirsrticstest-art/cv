@@ -18,7 +18,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
   const [messages, setMessages] = useState([
     {
       sender: "ai",
-      text: "Hello! Welcome to Ahmed's Portfolio. I'm his AI Assistant — feel free to ask me anything about his projects, experience, or skills."
+      text: "Hello! Welcome to Ahmed's Portfolio. I'm his AI Assistant — tap the microphone below to start speaking, or type your question."
     }
   ]);
   const [inputMsg, setInputMsg] = useState("");
@@ -224,7 +224,6 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
     let timer: ReturnType<typeof setTimeout>;
     if (chatOpen) {
       retryCountRef.current = 0;
-      startListening();
       timer = setTimeout(() => {
         speakText(messages[0].text);
       }, 500);
@@ -473,9 +472,9 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
                       <span className="ml-1">Listening...</span>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-1 text-[10px] font-mono text-gray-400 light:text-gray-500">
-                      <span className="w-1.5 h-1.5 bg-purple-400 rounded-full" />
-                      <span className="ml-1">Voice Active</span>
+                    <div className="flex items-center gap-1 text-[10px] font-mono text-purple-400 light:text-purple-600">
+                      <span className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-pulse" />
+                      <span className="ml-1">Tap mic to start</span>
                     </div>
                   )}
                 </div>
@@ -547,10 +546,10 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
                   startListening();
                 }
               }}
-              className={`p-2.5 rounded-xl transition border ${
+              className={`p-2.5 rounded-xl transition border relative ${
                 isListening
                   ? "bg-red-600 text-white border-red-400 animate-pulse"
-                  : "bg-gray-800 light:bg-gray-100 text-purple-300 hover:bg-purple-900/50 light:hover:bg-purple-50 border-gray-700 light:border-gray-300"
+                  : "bg-purple-600 text-white border-purple-400 animate-pulse shadow-lg shadow-purple-500/50"
               }`}
               aria-label={isListening ? "Stop listening" : "Start voice input"}
             >
