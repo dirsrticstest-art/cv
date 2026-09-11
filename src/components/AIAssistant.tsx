@@ -132,7 +132,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
           if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
           restartTimerRef.current = setTimeout(() => {
             startListening();
-          }, 350);
+          }, 500);
         }
       };
 
@@ -256,103 +256,127 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
   const localFallbackReply = (qText: string) => {
     const q = qText.toLowerCase().trim();
 
-    if (q.includes("full name") || q.includes("who is ahmed") || q.includes("nationality") || q.includes("egyptian") || q.includes("personal profile") || q.includes("academic profile") || q.includes("student status") || q.includes("bio")) {
-      return "Ahmed Mohamed Abdelatif is an Egyptian Python Backend Developer & AI Automation Specialist based in Cairo. He is currently pursuing his B.Sc. in Computer Science at the Egyptian Chinese University (ECU) in Cairo with expected graduation in 2029. His military service status is officially postponed for study.";
+    if (q.includes("full name") || q.includes("who is ahmed") || q.includes("nationality") || q.includes("egyptian") || q.includes("personal profile") || q.includes("academic profile") || q.includes("student status") || q.includes("bio") || q.includes("about ahmed") || q.includes("tell me about") || q.includes("who are you")) {
+      return "Ahmed Mohamed Abdelatif is an Egyptian Python Backend Developer and AI Automation Specialist based in Cairo. He is currently pursuing his B.Sc. in Computer Science at the Egyptian Chinese University (ECU) with expected graduation in 2029. He has 3 months of hands-on experience at H2M working on MAXP Online platform, and has engineered 5 production-ready backend systems. His military service is officially postponed for study.";
     }
 
-    if (q.includes("h2m") || q.includes("maxp") || q.includes("max p") || q.includes("financial") || q.includes("experience") || q.includes("work") || q.includes("job") || q.includes("company") || q.includes("position")) {
-      return "At H2M for MAXP Online, Ahmed solved the problem of manual financial tracking and campaign marketing dispatches. As a Python Backend Developer, he engineered product financial calculation tools for profit margins and shipping costs, marketing campaign analytics, and Meta WhatsApp Cloud API automated marketing dispatches.";
+    if (q.includes("h2m") || q.includes("maxp") || q.includes("max p") || q.includes("financial") || q.includes("experience") || q.includes("work") || q.includes("job") || q.includes("company") || q.includes("position") || q.includes("where did he work") || q.includes("work experience")) {
+      return "At H2M for MAXP Online, Ahmed worked on-site for 3 months as a Python Backend Developer. He solved the problem of manual financial tracking and campaign marketing dispatches. He built product financial calculation tools for profit margins and shipping costs, developed marketing campaign tracking and shipping analytics, and implemented Meta WhatsApp Cloud API automated marketing dispatches with webhooks and message templates.";
     }
 
     if (q.includes("customer support") || q.includes("whatsapp") || q.includes("meta cloud") || q.includes("ticket") || q.includes("project 1") || q.includes("first project") || q.includes("ai support")) {
-      return "The AI Customer Support Platform (github.com/ahmed-abdelatif/AI_Customer_Support_Platform) is a backend system built with FastAPI for ticket management and WhatsApp automation. Ahmed built REST APIs, integrated Meta WhatsApp Cloud API webhooks, and implemented Redis/RQ background workers for message classification and automated AI response generation.";
+      return "The AI Customer Support Platform is a backend system built with FastAPI for ticket management and WhatsApp automation. Ahmed built REST APIs, integrated Meta WhatsApp Cloud API webhooks, and implemented Redis RQ background workers for message classification and automated AI response generation. The system classifies messages by intent (billing, technical, general) and generates draft responses asynchronously.";
     }
 
     if (q.includes("rag") || q.includes("vector") || q.includes("chromadb") || q.includes("sentence transformer") || q.includes("embedding") || q.includes("chunking") || q.includes("project 2") || q.includes("second project")) {
-      return "The Enterprise RAG Knowledge Assistant (github.com/ahmed-abdelatif/Enterprise_RAG_Knowledge_Assistant) is a document-based semantic search backend. Ahmed implemented document ingestion for PDF, DOCX, and TXT files, recursive text chunking, Sentence Transformers embeddings, ChromaDB vector indexing, and source-referenced question answering.";
+      return "The Enterprise RAG Knowledge Assistant is a document-based semantic search backend. Ahmed implemented document ingestion for PDF, DOCX, and TXT files, recursive text chunking with overlapping windows, Sentence Transformers embeddings, ChromaDB vector indexing, and source-referenced question answering. It answers questions using retrieved content instead of relying only on the model's memory.";
     }
 
     if (q.includes("document intelligence") || q.includes("pdf parsing") || q.includes("ocr") || q.includes("extraction") || q.includes("upload") || q.includes("project 3") || q.includes("third project")) {
-      return "The AI Document Intelligence Platform (github.com/ahmed-abdelatif/AI_Document_Intelligence_Platform) handles long-running document workloads. Ahmed designed multipart PDF/DOCX upload validation APIs and offloaded structured data extraction to Redis/RQ background workers with processing status tracking and retry mechanisms.";
+      return "The AI Document Intelligence Platform handles long-running document workloads. Ahmed designed multipart PDF and DOCX upload validation APIs and offloaded structured data extraction to Redis RQ background workers with processing status tracking and retry mechanisms. It processes documents in parallel with exponential backoff for failed jobs.";
     }
 
     if (q.includes("medical event") || q.includes("smtp") || q.includes("email automation") || q.includes("event management") || q.includes("registration") || q.includes("project 4") || q.includes("fourth project")) {
-      return "The Medical Event Automation Platform (github.com/ahmed-abdelatif/Medical_Event_Automation_Platform) manages event registrations and attendee workflows. Ahmed modeled relational database schemas with PostgreSQL and SQLAlchemy, and automated background email dispatches via Redis/RQ queues and SMTP integration.";
+      return "The Medical Event Automation Platform manages event registrations and attendee workflows. Ahmed modeled relational database schemas with PostgreSQL and SQLAlchemy, and automated background email dispatches via Redis RQ queues and SMTP integration. It handles bulk sending with rate limiting and delivery status tracking.";
     }
 
     if (q.includes("lead") || q.includes("crm") || q.includes("qualification") || q.includes("scoring") || q.includes("groq") || q.includes("project 5") || q.includes("fifth project")) {
-      return "The AI Lead Qualification & CRM Automation (github.com/dirsrticstest-art/AI_Lead_Qualification_Professional) classifies inbound leads using Groq LLM with a deterministic fallback. Ahmed built a FastAPI backend with Celery/Redis async CRM sync, exponential backoff retries, and a full PostgreSQL audit trail. Live demo: cv-tawny-two.vercel.app/api";
+      return "The AI Lead Qualification and CRM Automation classifies inbound leads using Groq LLM with a deterministic fallback. Ahmed built a FastAPI backend with Celery and Redis async CRM sync, exponential backoff retries, and a full PostgreSQL audit trail. You can try the live demo at cv-tawny-two.vercel.app/api.";
     }
 
     if (q.includes("project") || q.includes("projects") || q.includes("built") || q.includes("portfolio") || q.includes("repos") || q.includes("systems")) {
-      return "Ahmed engineered 5 production-ready backend systems: 1. AI Customer Support Platform (FastAPI & WhatsApp API), 2. Enterprise RAG Knowledge Assistant (ChromaDB vector search), 3. AI Document Intelligence Platform (Async PDF parsing), 4. Medical Event Automation Platform (SMTP dispatches), and 5. AI Lead Qualification & CRM Automation (Groq LLM + Celery). Which project would you like to explore?";
+      return "Ahmed engineered 5 production-ready backend systems: 1. AI Customer Support Platform with WhatsApp API integration. 2. Enterprise RAG Knowledge Assistant with ChromaDB vector search. 3. AI Document Intelligence Platform with async PDF parsing. 4. Medical Event Automation Platform with SMTP email dispatches. 5. AI Lead Qualification with Groq LLM and Celery. Each project demonstrates different backend engineering skills. Which one would you like to explore?";
     }
 
     if (q.includes("value") || q.includes("proposition") || q.includes("capability") || q.includes("specialist") || q.includes("asynchronous") || q.includes("background")) {
-      return "Ahmed's core value propositions center around: 1. Asynchronous REST API engineering with FastAPI & Pydantic. 2. Offloading heavy background tasks & notification dispatches using Redis/RQ. 3. Building RAG vector search pipelines with ChromaDB and integrating Meta WhatsApp Cloud API webhooks.";
+      return "Ahmed's core value propositions: 1. Asynchronous REST API engineering with FastAPI and Pydantic for strict validation. 2. Offloading heavy background tasks and notification dispatches using Redis and RQ. 3. Building RAG vector search pipelines with ChromaDB. 4. Integrating Meta WhatsApp Cloud API webhooks for automated messaging.";
     }
 
-    if (q.includes("back-end engineering") || q.includes("backend engineering") || q.includes("backend skill")) {
-      return "In Backend Engineering, Ahmed specializes in Python, FastAPI for high-performance async REST APIs, Pydantic for strict schema validation, webhooks processing, and C++ for algorithmic problem solving. Applied across all his 4 backend systems and at H2M.";
+    if (q.includes("back-end") || q.includes("backend") || q.includes("python") || q.includes("fastapi")) {
+      return "In Backend Engineering, Ahmed specializes in Python and FastAPI for high-performance async REST APIs, Pydantic for strict schema validation, webhooks processing, and C++ for algorithmic problem solving. He has applied these skills across all his 5 backend systems and at H2M.";
     }
 
-    if (q.includes("databases & queues") || q.includes("database") || q.includes("databases") || q.includes("queues") || q.includes("postgres") || q.includes("sqlalchemy") || q.includes("redis queue")) {
-      return "In Databases & Queues, Ahmed designs relational database schemas with PostgreSQL and SQLAlchemy ORM, uses SQLite for rapid prototyping, and offloads heavy async background tasks to Redis and RQ (Redis Queue).";
+    if (q.includes("database") || q.includes("databases") || q.includes("queues") || q.includes("postgres") || q.includes("sqlalchemy") || q.includes("redis")) {
+      return "Ahmed designs relational database schemas with PostgreSQL and SQLAlchemy ORM, uses SQLite for rapid prototyping, and offloads heavy async background tasks to Redis and RQ (Redis Queue). He understands when to use each technology based on the problem requirements.";
     }
 
-    if (q.includes("integrations & automation") || q.includes("integrations") || q.includes("whatsapp cloud") || q.includes("smtp email")) {
-      return "In Integrations & Automation, Ahmed integrates Meta WhatsApp Cloud API webhooks for automated customer messaging and SMTP integration for automated background email dispatches.";
+    if (q.includes("integration") || q.includes("automation") || q.includes("whatsapp") || q.includes("smtp") || q.includes("webhook")) {
+      return "Ahmed integrates Meta WhatsApp Cloud API webhooks for automated customer messaging and SMTP integration for automated background email dispatches. He has hands-on experience building webhook processing systems and message template engines.";
     }
 
-    if (q.includes("ai & vector") || q.includes("vector retrieval") || q.includes("rag pipeline") || q.includes("chromadb") || q.includes("sentence transformers")) {
-      return "In AI & Vector Retrieval, Ahmed builds end-to-end RAG pipelines, document text chunking, dense vector embeddings with Sentence Transformers, and semantic vector search using ChromaDB with source references.";
+    if (q.includes("ai") || q.includes("rag") || q.includes("vector") || q.includes("chromadb") || q.includes("embedding") || q.includes("llm") || q.includes("groq")) {
+      return "Ahmed builds AI-powered systems including RAG pipelines with ChromaDB and Sentence Transformers for semantic search, lead classification with Groq LLM, and document intelligence with structured data extraction. He understands both the AI and backend engineering aspects of these systems.";
     }
 
-    if (q.includes("computer science core") || q.includes("cs core") || q.includes("data structures") || q.includes("algorithms") || q.includes("oop")) {
-      return "In Computer Science Core, Ahmed applies solid OOP principles, clean code architecture, logging standards, and competitive algorithmic problem solving in C++.";
+    if (q.includes("data structure") || q.includes("algorithm") || q.includes("oop") || q.includes("computer science")) {
+      return "Ahmed applies solid computer science principles including OOP, clean code architecture, logging standards, and competitive algorithmic problem solving in C++. He is studying Computer Science at ECU with coursework in Data Structures, Algorithms, Databases, and Software Engineering.";
     }
 
-    if (q.includes("tools & testing") || q.includes("devops") || q.includes("docker") || q.includes("pytest") || q.includes("linux")) {
-      return "In Tools & Testing, Ahmed containerizes backend services with Docker, writes automated backend test suites with Pytest, manages version control with Git/GitHub, and works natively in Linux environments.";
+    if (q.includes("docker") || q.includes("pytest") || q.includes("linux") || q.includes("git") || q.includes("tool") || q.includes("devops")) {
+      return "Ahmed containerizes backend services with Docker, writes automated backend test suites with Pytest, manages version control with Git and GitHub, and works natively in Linux environments. He follows best practices for testing and deployment.";
     }
 
-    if (q.includes("skill") || q.includes("skills") || q.includes("tech") || q.includes("stack") || q.includes("technical")) {
-      return "Ahmed's Technical Stack spans 6 core categories: 1. Backend Engineering (Python, FastAPI, C++). 2. Databases & Queues (PostgreSQL, SQLAlchemy, Redis/RQ). 3. Integrations (WhatsApp API, SMTP). 4. AI & Vector Retrieval (RAG, ChromaDB). 5. CS Core (Data Structures, OOP). 6. Tools (Docker, Pytest, Git, Linux). Which category would you like details on?";
+    if (q.includes("skill") || q.includes("skills") || q.includes("tech") || q.includes("stack") || q.includes("technical") || q.includes("what can he do")) {
+      return "Ahmed's Technical Stack spans 6 core categories: 1. Backend Engineering with Python, FastAPI, and C++. 2. Databases and Queues with PostgreSQL, SQLAlchemy, and Redis RQ. 3. Integrations with WhatsApp API and SMTP. 4. AI and Vector Retrieval with RAG and ChromaDB. 5. Computer Science Core with Data Structures and OOP. 6. Tools with Docker, Pytest, Git, and Linux. Which category would you like details on?";
     }
 
-    if (q.includes("ecu") || q.includes("education") || q.includes("university") || q.includes("degree") || q.includes("college") || q.includes("graduation")) {
-      return "Ahmed is studying Computer Science at the Egyptian Chinese University (ECU) in Cairo, expected to graduate in 2029. Relevant coursework includes Data Structures, Algorithms, Databases, OOP, and Software Engineering.";
+    if (q.includes("ecu") || q.includes("education") || q.includes("university") || q.includes("degree") || q.includes("college") || q.includes("graduation") || q.includes("study")) {
+      return "Ahmed is studying Computer Science at the Egyptian Chinese University (ECU) in Cairo, expected to graduate in 2029. Relevant coursework includes Data Structures, Algorithms, Databases, Object-Oriented Programming, and Software Engineering. He applies these principles in all his projects.";
     }
 
-    if (q.includes("hobby") || q.includes("hobbies") || q.includes("interest") || q.includes("mindset") || q.includes("free time") || q.includes("passion") || q.includes("outside")) {
-      return "Outside of coding, Ahmed enjoys exploring how systems work, experimenting with AI tools, and practicing algorithms. He's also curious about cybersecurity and how AI can make systems smarter and safer.";
+    if (q.includes("hobby") || q.includes("hobbies") || q.includes("interest") || q.includes("free time") || q.includes("passion") || q.includes("outside") || q.includes("fun")) {
+      return "Outside of coding, Ahmed enjoys exploring how systems work, experimenting with AI tools, and practicing algorithmic problem solving. He is curious about cybersecurity and how AI can make systems smarter and safer. He also enjoys learning about new backend technologies and frameworks.";
     }
 
-    if (q.includes("strength") || q.includes("weakness") || q.includes("why hire") || q.includes("location") || q.includes("cairo") || q.includes("available") || q.includes("relocate") || q.includes("remote")) {
-      return "Ahmed's main strengths are designing clean asynchronous REST APIs with FastAPI and engineering reliable Redis background worker queues. He is based in Cairo, Egypt, and available for backend and AI automation roles.";
+    if (q.includes("strength") || q.includes("weakness") || q.includes("why hire") || q.includes("good at")) {
+      return "Ahmed's main strengths are designing clean asynchronous REST APIs with FastAPI, engineering reliable Redis background worker queues, and building AI-powered systems. He is a quick learner who cares about understanding how systems actually work, not just making them run.";
     }
 
-    if (q.includes("looking for") || q.includes("opportunity") || q.includes("role") || q.includes("team") || q.includes("grow")) {
-      return "Ahmed is looking for a team where he can work on real backend and automation problems, learn from experienced engineers, and keep building systems that actually get used.";
+    if (q.includes("location") || q.includes("cairo") || q.includes("available") || q.includes("relocate") || q.includes("remote") || q.includes("where")) {
+      return "Ahmed is based in Cairo, Egypt. He is available for Backend and AI Automation roles, whether on-site, hybrid, or remote. He is flexible and eager to work with teams that value clean, maintainable code.";
     }
 
-    if (q.includes("how i work") || q.includes("approach") || q.includes("mindset") || q.includes("philosophy") || q.includes("how do you work")) {
-      return "Ahmed's approach: 1. Build from the problem — understand what the system needs before choosing the implementation. 2. Keep systems practical — prefer simple, maintainable solutions over unnecessary complexity. 3. Design for change — separate services so systems can evolve without rewriting.";
+    if (q.includes("looking for") || q.includes("opportunity") || q.includes("role") || q.includes("team") || q.includes("grow") || q.includes("career")) {
+      return "Ahmed is looking for a team where he can work on real backend and automation problems, learn from experienced engineers, and keep building systems that actually get used. He wants to grow his skills while contributing meaningful work.";
+    }
+
+    if (q.includes("approach") || q.includes("mindset") || q.includes("philosophy") || q.includes("how do you work") || q.includes("how does he work")) {
+      return "Ahmed's approach: 1. Build from the problem — understand what the system needs before choosing the implementation. 2. Keep systems practical — prefer simple, maintainable solutions over unnecessary complexity. 3. Design for change — separate services so systems can evolve without rewriting everything.";
     }
 
     if (q.includes("email") || q.includes("contact") || q.includes("reach") || q.includes("hire") || q.includes("gmail") || q.includes("github") || q.includes("linkedin")) {
-      return "You can reach Ahmed directly via email or explore his open-source code repositories on GitHub at github.com/ahmed-abdelatif.";
+      return "You can reach Ahmed via email at ahmeeedmohaaamed1@gmail.com, on LinkedIn at linkedin.com/in/ahmed-mohamed-b69920435, or explore his open-source code repositories on GitHub at github.com/ahmed-abdelatif.";
     }
 
-    if (q.includes("hello") || q.includes("hi") || q.includes("hey") || q.includes("greetings") || q.includes("good morning") || q.includes("good afternoon")) {
-      return "Hello! How can I assist you today? Feel free to ask me about Ahmed's 4 backend projects, H2M work experience, ECU computer science degree, or tech stack!";
+    if (q.includes("hello") || q.includes("hi") || q.includes("hey") || q.includes("greetings") || q.includes("good morning") || q.includes("how are you")) {
+      return "Hello! I'm doing well, thank you for asking. I'm Ahmed's AI Assistant, here to help you learn about his background, projects, and skills. What would you like to know?";
     }
 
     if (q.includes("thanks") || q.includes("thank you") || q.includes("great") || q.includes("awesome") || q.includes("perfect")) {
-      return "You're very welcome! Feel free to ask any other questions about Ahmed's experience, background, or projects!";
+      return "You're very welcome! I'm here to help. Feel free to ask any other questions about Ahmed's experience, background, or projects.";
     }
 
-    return "Ahmed Mohamed Abdelatif is a Python Backend Developer based in Cairo, studying Computer Science at ECU (graduation 2029). He has hands-on experience at H2M and engineered 5 production-ready backend systems. How can I help you explore his profile?";
+    if (q.includes("salary") || q.includes("pay") || q.includes("compensation") || q.includes("how much")) {
+      return "Ahmed is open to discussing compensation based on the role and responsibilities. As a backend developer with 3 months of experience and 5 production projects, he is competitive and eager to prove his value.";
+    }
+
+    if (q.includes("certificate") || q.includes("certification") || q.includes("hackerrank") || q.includes("badge")) {
+      return "Ahmed has 7 HackerRank certifications: Python Basic, SQL Basic, SQL Intermediate, SQL Advanced, REST API Intermediate, Problem Solving Basic, and Problem Solving Intermediate. These demonstrate his proficiency in core backend technologies.";
+    }
+
+    if (q.includes("problem solving") || q.includes("coding challenge") || q.includes("competitive")) {
+      return "Ahmed practices competitive algorithmic problem solving in C++. He has completed multiple problem-solving challenges on HackerRank and applies these skills to design efficient algorithms for his backend systems.";
+    }
+
+    if (q.includes("clean code") || q.includes("best practice") || q.includes("architecture") || q.includes("design")) {
+      return "Ahmed follows clean code principles: meaningful naming, modular design, comprehensive logging, input validation with Pydantic, and separation of concerns. He designs systems with clear boundaries between services so they can evolve independently.";
+    }
+
+    if (q.includes("test") || q.includes("quality") || q.includes("reliable")) {
+      return "Ahmed writes automated backend test suites with Pytest, containerizes services with Docker for consistent environments, and follows best practices for testing and deployment. He believes in building reliable systems that work consistently.";
+    }
+
+    return "Ahmed Mohamed Abdelatif is a Python Backend Developer based in Cairo, studying Computer Science at ECU (graduation 2029). He has hands-on experience at H2M and engineered 5 production-ready backend systems. Feel free to ask about his projects, skills, experience, education, or anything else you'd like to know!";
   };
 
   const processUserQuery = async (userText: string) => {
