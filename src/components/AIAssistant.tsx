@@ -121,29 +121,39 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
       utterance.onstart = () => {
         isSpeakingRef.current = true;
         setIsSpeaking(true);
+        stopListening();
       };
 
       utterance.onend = () => {
         isSpeakingRef.current = false;
         setIsSpeaking(false);
+        if (chatOpenRef.current) {
+          setTimeout(() => startListening(), 600);
+        }
       };
 
       utterance.onerror = () => {
         isSpeakingRef.current = false;
         setIsSpeaking(false);
+        if (chatOpenRef.current) {
+          setTimeout(() => startListening(), 600);
+        }
       };
 
       window.speechSynthesis.speak(utterance);
     }
-  }, [voicesList]);
+  }, [voicesList, stopListening, startListening]);
 
   const stopSpeaking = useCallback(() => {
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
       window.speechSynthesis.cancel();
       isSpeakingRef.current = false;
       setIsSpeaking(false);
+      if (chatOpenRef.current) {
+        setTimeout(() => startListening(), 300);
+      }
     }
-  }, []);
+  }, [startListening]);
 
   const stopListening = useCallback(() => {
     if (recognitionRef.current) {
@@ -181,7 +191,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
       recognition.onend = () => {
         isListeningRef.current = false;
         setIsListening(false);
-        if (chatOpenRef.current) {
+        if (chatOpenRef.current && !isSpeakingRef.current) {
           if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
           restartTimerRef.current = setTimeout(() => {
             startListening();
@@ -193,7 +203,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
         console.warn("SpeechRecognition error:", event.error);
         isListeningRef.current = false;
         setIsListening(false);
-        if (chatOpenRef.current && event.error !== "not-allowed") {
+        if (chatOpenRef.current && event.error !== "not-allowed" && !isSpeakingRef.current) {
           if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
           restartTimerRef.current = setTimeout(() => {
             startListening();
