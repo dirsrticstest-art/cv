@@ -166,17 +166,6 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
     try {
       stopListening();
 
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-          stream.getTracks().forEach(t => t.stop());
-        } catch (permErr) {
-          isListeningRef.current = false;
-          setIsListening(false);
-          return;
-        }
-      }
-
       const recognition = new SpeechRecognitionClass();
       recognitionRef.current = recognition;
       recognition.lang = "en-US";
@@ -201,6 +190,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
       };
 
       recognition.onerror = (event: any) => {
+        console.warn("SpeechRecognition error:", event.error);
         isListeningRef.current = false;
         setIsListening(false);
         if (chatOpenRef.current && event.error !== "not-allowed") {
@@ -235,11 +225,6 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
     let timer: ReturnType<typeof setTimeout>;
     if (chatOpen) {
       retryCountRef.current = 0;
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ audio: true })
-          .then((stream) => { stream.getTracks().forEach(t => t.stop()); })
-          .catch(() => {});
-      }
       timer = setTimeout(() => {
         speakText(messages[0].text);
       }, 500);
@@ -555,10 +540,19 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
           <form onSubmit={handleSendMessage} className="p-3 border-t border-gray-800 light:border-gray-200 bg-gray-950 light:bg-white flex items-center gap-2">
             <button
               type="button"
-              onClick={() => {
+              onClick={async () => {
                 if (isListening) {
                   stopListening();
                 } else {
+                  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    try {
+                      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                      stream.getTracks().forEach(t => t.stop());
+                    } catch (e) {
+                      console.warn("Mic permission denied:", e);
+                      return;
+                    }
+                  }
                   startListening();
                 }
               }}
