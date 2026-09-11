@@ -18,7 +18,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
   const [messages, setMessages] = useState([
     {
       sender: "ai",
-      text: "Hello! Welcome to Ahmed Mohamed Abdelatif's developer CV. I am Ahmed's AI Personal Assistant—how can I help you?"
+      text: "Hello! Welcome to Ahmed's Portfolio. I am Ahmed's AI Assistant — how can I help you?"
     }
   ]);
   const [inputMsg, setInputMsg] = useState("");
@@ -233,16 +233,18 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
     if (chatOpen) {
       retryCountRef.current = 0;
       timer = setTimeout(() => {
-        startListening();
+        speakText(messages[0].text);
       }, 300);
     } else {
       stopListening();
+      stopSpeaking();
     }
     return () => {
       clearTimeout(timer);
       stopListening();
+      stopSpeaking();
     };
-  }, [chatOpen, startListening, stopListening]);
+  }, [chatOpen, startListening, stopListening, speakText, stopSpeaking]);
 
   useEffect(() => {
     if (chatOpen) {
