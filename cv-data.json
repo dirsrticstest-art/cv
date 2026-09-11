@@ -110,7 +110,7 @@
     { "category": "Databases & Queues", "items": "PostgreSQL, Redis, RQ, Celery" },
     { "category": "Integrations & Automation", "items": "Meta WhatsApp Cloud API, SMTP, Webhooks, Groq LLM" },
     { "category": "AI & Vector Retrieval", "items": "RAG, ChromaDB, Sentence Transformers, Embeddings" },
-    { "category": "Computer Science Core", "items": "Data Structures, Algorithms, OOP, Clean Code" },
+    { "category": "Computer Science Core", "items": "Data Structures, Algorithms, OOP" },
     { "category": "Tools & DevOps", "items": "Git, Docker, Linux, Pytest" }
   ],
   "languages": "Arabic (Native), English (Professional Working Proficiency)",

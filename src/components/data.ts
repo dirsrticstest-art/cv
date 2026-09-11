@@ -149,8 +149,8 @@ export const skillCategories = [
   {
     category: "Computer Science Core",
     icon: Shield,
-    skills: ["Data Structures", "Algorithms", "OOP", "Clean Code"],
-    description: "Applying solid CS principles through coursework and C++ problem solving."
+    skills: ["Data Structures", "Algorithms", "OOP"],
+    description: "Applying solid CS principles through coursework and problem solving."
   },
   {
     category: "Tools & DevOps",
