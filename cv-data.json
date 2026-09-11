@@ -1,14 +1,14 @@
 {
   "personal": {
     "name": "Ahmed Mohamed Abdelatif",
-    "title": "Python Backend Developer & AI Automation Specialist",
+    "title": "Python Backend Developer | AI Automation Specialist",
     "email": "ahmeeedmohaaamed1@gmail.com",
     "location": "Cairo, Egypt",
     "github": "github.com/ahmed-abdelatif",
     "linkedin": "linkedin.com/in/ahmed-mohamed-b69920435",
     "website": "cv-tawny-two.vercel.app"
   },
-  "about": "Hi, I'm Ahmed. I'm a Computer Science student and Python Backend Developer who enjoys turning real business problems into simple, reliable systems. I've worked on backend APIs, automation workflows, databases, messaging integrations, and AI-powered systems. I also have hands-on experience from my 3-month on-site role at H2M, where I worked on business tools and Meta WhatsApp Cloud API workflows. I'm still early in my career, but I care a lot about understanding how systems actually work — not just making them run.",
+  "about": "Python Backend Developer with hands-on experience building REST APIs, automation workflows, and AI-powered systems using FastAPI, PostgreSQL, and Redis. Completed a 3-month on-site role at H2M, where I built Meta WhatsApp Cloud API integrations, product analytics tools, and automated marketing dispatches. Currently pursuing B.Sc. in Computer Science at ECU (Expected 2029). Seeking a Backend or AI Automation role where I can contribute to production systems and grow as an engineer.",
   "capabilities": [
     { "title": "Build from the problem", "desc": "Understand what the system actually needs before choosing the implementation." },
     { "title": "Keep systems practical", "desc": "Prefer simple, maintainable solutions over unnecessary complexity." },
@@ -18,102 +18,97 @@
     "title": "Backend Developer",
     "company": "H2M — MAXP Online Platform",
     "type": "Full-time | On-site | Cairo, Egypt | 3 Months",
-    "description": "Built and maintained backend tools and customer messaging workflows for MAXP Online:",
+    "description": "Built and maintained Python backend systems and customer messaging workflows for MAXP Online:",
     "highlights": [
-      "Built product pricing and profitability calculation tools.",
-      "Developed marketing campaign tracking and shipping analytics.",
-      "Built customer performance analytics tools.",
-      "Built WhatsApp workflows using webhooks and message templates.",
-      "Implemented automated replies and customer conversation workflows.",
-      "Worked on scheduled marketing campaigns and Meta WhatsApp Cloud API integrations."
+      "Built REST APIs for product pricing, profitability calculation, and shipping analytics using Python and FastAPI.",
+      "Developed marketing campaign tracking dashboards with PostgreSQL for real-time business intelligence.",
+      "Implemented Meta WhatsApp Cloud API integrations using webhooks for automated customer messaging workflows.",
+      "Built automated reply systems and scheduled marketing dispatches with Redis/RQ background processing."
     ],
-    "workflow": "Webhook → Backend → Business Logic → WhatsApp API"
+    "workflow": "Webhook → FastAPI → Business Logic → PostgreSQL → Redis/RQ → WhatsApp API"
   },
   "projects": [
     {
       "title": "AI Customer Support Platform",
-      "tagline": "Customer support backend that classifies messages and generates responses",
-      "description": "Receives customer messages, classifies the request, stores the conversation, and generates a response through a replaceable AI service layer.",
-      "proof": "Handles incoming WhatsApp webhooks, classifies messages by intent (billing, technical, general), stores full conversation history, and generates draft responses — all asynchronously.",
-      "architecture": "Customer → FastAPI → Classification → AI Service → Response → Database",
+      "tagline": "WhatsApp-integrated customer support backend with AI-powered message classification",
+      "description": "Backend system that receives customer messages via WhatsApp webhooks, classifies intent using an AI service layer, stores conversation history in PostgreSQL, and generates automated draft responses asynchronously.",
+      "proof": "Production system handling incoming WhatsApp webhooks, message classification by intent (billing, technical, general), full conversation state management, and AI-powered response generation — all decoupled via Redis/RQ background workers.",
+      "architecture": "WhatsApp Webhook → FastAPI → Intent Classification → AI Service → PostgreSQL → Redis/RQ",
       "bullets": [
-        "REST API for customer conversations, tickets, and messages",
-        "Message classification layer for intent detection",
-        "PostgreSQL conversation storage with status tracking",
-        "Redis/RQ background processing for async message handling",
-        "AI service boundary for future LLM integration"
+        "Built REST APIs for customer conversations, tickets, and message management with Pydantic validation.",
+        "Implemented intent detection layer classifying messages into billing, technical, and general categories.",
+        "Designed PostgreSQL schema for conversation storage with status tracking and message history.",
+        "Built Redis/RQ background workers for async message handling and AI response generation.",
+        "Designed replaceable AI service boundary for seamless LLM provider integration."
       ],
       "tech": ["Python", "FastAPI", "PostgreSQL", "Redis/RQ", "Docker", "Pytest"]
     },
     {
       "title": "Enterprise RAG Knowledge Assistant",
-      "tagline": "Document-based AI assistant that answers questions using retrieved content",
-      "description": "A document-based AI assistant that answers questions using retrieved content instead of relying only on the model's memory.",
-      "proof": "Ingests PDF/DOCX/TXT files, chunks text with overlapping windows, generates embeddings via Sentence Transformers, indexes in ChromaDB, and returns source-cited answers.",
-      "architecture": "Document → Ingestion → Chunking → Embeddings → ChromaDB → Retrieval → Answer",
+      "tagline": "Document-based semantic search backend with source-cited AI responses",
+      "description": "Retrieval-Augmented Generation system that ingests PDF/DOCX/TXT documents, generates embeddings via Sentence Transformers, indexes in ChromaDB, and returns source-cited answers to user queries.",
+      "proof": "Full RAG pipeline handling document ingestion, recursive text chunking with overlapping windows, ChromaDB vector indexing, semantic similarity search, and source-referenced response generation with file citations.",
+      "architecture": "Document Ingestion → Text Chunking → Sentence Transformers → ChromaDB → Semantic Retrieval → Cited Answer",
       "bullets": [
-        "PDF/DOCX/TXT ingestion with format-specific parsers",
-        "Text chunking with overlapping windows for context preservation",
-        "ChromaDB semantic vector storage and retrieval",
-        "Source-aware response generation with file citations",
-        "Async document processing via Redis/RQ"
+        "Built document ingestion pipeline supporting PDF, DOCX, and TXT with format-specific parsers.",
+        "Implemented recursive text chunking with overlapping windows for context preservation.",
+        "Generated dense vector embeddings using Sentence Transformers and indexed in ChromaDB.",
+        "Built semantic similarity search with source citation and file reference tracking.",
+        "Designed async document processing pipeline via Redis/RQ for large knowledge bases."
       ],
       "tech": ["Python", "FastAPI", "ChromaDB", "Sentence Transformers", "PostgreSQL", "Redis/RQ"]
     },
     {
       "title": "AI Document Intelligence Platform",
-      "tagline": "Async document processing and structured data extraction pipeline",
-      "description": "Backend pipeline for uploading documents, extracting content, and processing structured information asynchronously using background workers.",
-      "proof": "Handles concurrent document uploads, processes them in parallel Redis/RQ workers, tracks status (queued → processing → completed/failed), and retries failures with exponential backoff.",
-      "architecture": "Upload → Validation → Job Queue → Background Worker → Extraction → Status Tracking",
+      "tagline": "Async document processing pipeline with parallel background workers",
+      "description": "Backend pipeline for concurrent document uploads, structured data extraction, and heavy processing workloads using Redis/RQ background workers with status tracking and retry logic.",
+      "proof": "Handles concurrent PDF/DOCX/TXT uploads, processes documents in parallel Redis/RQ workers, tracks job status (queued → processing → completed/failed), and retries failures with exponential backoff.",
+      "architecture": "Upload → FastAPI Validation → Redis/RQ Job Queue → Parallel Workers → Extraction → Status Tracking",
       "bullets": [
-        "Document upload and validation APIs (PDF/DOCX/TXT)",
-        "Text extraction and structured data processing",
-        "Redis/RQ background processing for long-running jobs",
-        "Processing status tracking with real-time updates",
-        "Auto-retry with exponential backoff for failed jobs",
-        "Modular extraction layer for plugging in AI/OCR services"
+        "Built document upload and validation APIs supporting PDF, DOCX, and TXT formats.",
+        "Implemented Redis/RQ background job processing for long-running document extraction tasks.",
+        "Designed job status tracking system with real-time updates (queued → processing → completed/failed).",
+        "Built auto-retry mechanism with exponential backoff for failed processing jobs.",
+        "Designed modular extraction layer for plugging in AI/OCR services."
       ],
       "tech": ["Python", "FastAPI", "PostgreSQL", "Redis/RQ", "Docker", "Pytest"]
     },
     {
       "title": "Medical Event Automation Platform",
-      "tagline": "Event management and automated email notification system",
-      "description": "Backend system for managing event registrations and automating email communication workflows via background queues.",
-      "proof": "Manages attendee registrations, sends automated confirmation and reminder emails via SMTP through Redis/RQ queues, with delivery status tracking and retry logic for failed dispatches.",
-      "architecture": "Registration → PostgreSQL → Email Queue → Redis/RQ → SMTP → Status Tracking",
+      "tagline": "Event registration backend with automated SMTP email notifications",
+      "description": "Backend system for managing medical event registrations, attendee workflows, and automated email communication via Redis/RQ background queues with SMTP integration.",
+      "proof": "Manages attendee registrations with PostgreSQL relational models, sends automated confirmation and reminder emails via SMTP through Redis/RQ queues, with per-email delivery status tracking and retry logic.",
+      "architecture": "Registration API → PostgreSQL → Redis/RQ Email Queue → SMTP Dispatch → Delivery Status Tracking",
       "bullets": [
-        "Event and registration management APIs",
-        "PostgreSQL relational models for events and attendees",
-        "Redis/RQ background email dispatch via SMTP",
-        "Bulk sending with rate limiting and retry logic",
-        "Delivery status tracking for each email"
+        "Built REST APIs for event and attendee registration management with relational data models.",
+        "Designed PostgreSQL schemas using SQLAlchemy for events, attendees, and registration workflows.",
+        "Implemented Redis/RQ background email dispatch via SMTP with rate limiting.",
+        "Built delivery status tracking for each email with retry logic for failed dispatches.",
+        "Designed bulk email sending with queue management and rate limiting."
       ],
       "tech": ["Python", "FastAPI", "PostgreSQL", "Redis/RQ", "SMTP", "Docker"]
     },
     {
       "title": "AI Lead Qualification & CRM Automation",
-      "tagline": "AI-powered lead scoring with async CRM webhook sync",
-      "description": "Receives inbound leads, uses an LLM to classify and score them, and asynchronously syncs qualified leads to an external CRM.",
-      "proof": "Classifies leads into sales, support, partnership, or general categories with confidence scores. Maintains a full audit trail, handles CRM sync failures with exponential backoff retries, and stays operational when AI is unavailable via deterministic fallback.",
-      "architecture": "Lead → FastAPI → AI Classification → PostgreSQL → Celery Worker → CRM Webhook",
+      "tagline": "LLM-powered lead scoring with async CRM webhook synchronization",
+      "description": "Receives inbound leads via REST API, uses Groq LLM to classify and score them, maintains a full PostgreSQL audit trail, and asynchronously syncs qualified leads to an external CRM via Celery workers.",
+      "proof": "Classifies leads into sales, support, partnership, or general categories with confidence scores using Groq LLM. Maintains indexed audit trail, handles CRM sync failures with exponential backoff retries, and stays operational via deterministic fallback when AI is unavailable.",
+      "architecture": "Lead Input → FastAPI → Groq LLM Classification → PostgreSQL Audit → Celery Worker → CRM Webhook",
       "bullets": [
-        "REST API for lead creation, listing, and retrieval",
-        "Pydantic request validation with email verification",
-        "AI service layer with Groq LLM and deterministic fallback",
-        "Structured output validation (category, score, priority)",
-        "PostgreSQL persistence with indexed audit trail",
-        "Celery/Redis async CRM sync with exponential backoff",
-        "Docker Compose stack (PostgreSQL, Redis, API, Worker)"
+        "Built REST API for lead creation, listing, and retrieval with Pydantic email validation.",
+        "Implemented AI service layer with Groq LLM for lead classification and structured output validation.",
+        "Built deterministic fallback logic ensuring system availability when LLM is unavailable.",
+        "Designed PostgreSQL persistence with indexed audit trail for compliance and debugging.",
+        "Implemented Celery/Redis async CRM sync with exponential backoff retry mechanism.",
+        "Containerized full stack with Docker Compose (PostgreSQL, Redis, API, Worker)."
       ],
-      "tech": ["Python", "FastAPI", "PostgreSQL", "Celery", "Redis", "Groq LLM", "Docker"],
-      "liveDemo": "https://ai-lead-qualification-api.onrender.com"
+      "tech": ["Python", "FastAPI", "PostgreSQL", "Celery", "Redis", "Groq LLM", "Docker"]
     }
   ],
   "skills": [
     { "category": "Backend Engineering", "items": "Python, FastAPI, REST APIs, Pydantic" },
-    { "category": "Databases & Queues", "items": "PostgreSQL, Redis, RQ" },
-    { "category": "Integrations & Automation", "items": "Meta WhatsApp Cloud API, SMTP, Webhooks, Celery, Groq LLM" },
+    { "category": "Databases & Queues", "items": "PostgreSQL, Redis, RQ, Celery" },
+    { "category": "Integrations & Automation", "items": "Meta WhatsApp Cloud API, SMTP, Webhooks, Groq LLM" },
     { "category": "AI & Vector Retrieval", "items": "RAG, ChromaDB, Sentence Transformers, Embeddings" },
     { "category": "Computer Science Core", "items": "Data Structures, Algorithms, OOP, Clean Code" },
     { "category": "Tools & DevOps", "items": "Git, Docker, Linux, Pytest" }
