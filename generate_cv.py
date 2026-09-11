@@ -14,7 +14,7 @@ with open(os.path.join(script_dir, "cv-data.json"), "r", encoding="utf-8") as f:
 
 def clean(text):
     """Replace Unicode chars not supported by Helvetica."""
-    return text.replace("\u2014", "-").replace("\u2013", "-").replace("\u2018", "'").replace("\u2019", "'").replace("\u201c", '"').replace("\u201d", '"')
+    return text.replace("\u2014", "-").replace("\u2013", "-").replace("\u2018", "'").replace("\u2019", "'").replace("\u201c", '"').replace("\u201d", '"').replace("\u2192", "->")
 
 class CV(FPDF):
     def header(self):
@@ -87,9 +87,21 @@ pdf = CV()
 pdf.set_auto_page_break(auto=True, margin=20)
 pdf.add_page()
 
-# Personal Profile
-pdf.section_title("Personal Profile")
-pdf.body_text(data["profile"])
+# About
+pdf.section_title("About")
+pdf.body_text(data["about"])
+
+# How I Work
+pdf.section_title("How I Work")
+for cap in data["capabilities"]:
+    pdf.set_font("Helvetica", "B", 10)
+    pdf.set_text_color(30, 30, 30)
+    pdf.cell(0, 5.5, clean(cap["title"]), new_x="LMARGIN", new_y="NEXT")
+    pdf.set_font("Helvetica", "", 9)
+    pdf.set_text_color(80, 80, 80)
+    pdf.multi_cell(0, 5, clean(cap["desc"]))
+    pdf.ln(1)
+pdf.ln(2)
 
 # Work Experience
 exp = data["experience"]
@@ -98,6 +110,11 @@ pdf.subsection(clean(f"{exp['title']} - {exp['company']}"), clean(exp["type"]), 
 pdf.body_text(exp["description"])
 for h in exp["highlights"]:
     pdf.bullet(h)
+if "workflow" in exp:
+    pdf.ln(1)
+    pdf.set_font("Helvetica", "I", 9)
+    pdf.set_text_color(100, 60, 180)
+    pdf.cell(0, 5, clean(f"Workflow: {exp['workflow']}"), new_x="LMARGIN", new_y="NEXT")
 pdf.ln(2)
 
 # Projects
@@ -144,11 +161,19 @@ pdf.section_title("Certifications")
 for cert in data["certifications"]:
     pdf.set_font("Helvetica", "B", 10)
     pdf.set_text_color(30, 30, 30)
-    pdf.cell(0, 5.5, clean(f"{cert['name']} — {cert['issuer']}"), new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 5.5, clean(f"{cert['name']} - {cert['issuer']}"), new_x="LMARGIN", new_y="NEXT")
     pdf.set_font("Helvetica", "", 9)
     pdf.set_text_color(80, 80, 80)
-    pdf.cell(0, 5, clean(f"Issued: {cert['date']}  |  Credential ID: {cert['credentialId']}"), new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 5, clean(f"Credential ID: {cert['credentialId']}"), new_x="LMARGIN", new_y="NEXT")
     pdf.ln(1)
+
+# Outside the Code
+pdf.section_title("Outside the Code")
+pdf.body_text(data["outsideTheCode"])
+
+# What I'm Looking For
+pdf.section_title("What I'm Looking For")
+pdf.body_text(data["lookingFor"])
 
 output_path = os.path.join(script_dir, "public", "Ahmed_Abdelatif_CV.pdf")
 pdf.output(output_path)
