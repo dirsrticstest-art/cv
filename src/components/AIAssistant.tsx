@@ -280,7 +280,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
     }
 
     if (q.includes("lead") || q.includes("crm") || q.includes("qualification") || q.includes("scoring") || q.includes("groq") || q.includes("project 5") || q.includes("fifth project")) {
-      return "The AI Lead Qualification & CRM Automation (github.com/dirsrticstest-art/AI_Lead_Qualification_Professional) classifies inbound leads using Groq LLM with a deterministic fallback. Ahmed built a FastAPI backend with Celery/Redis async CRM sync, exponential backoff retries, and a full PostgreSQL audit trail. Live demo: ai-lead-qualification-api.onrender.com";
+      return "The AI Lead Qualification & CRM Automation (github.com/dirsrticstest-art/AI_Lead_Qualification_Professional) classifies inbound leads using Groq LLM with a deterministic fallback. Ahmed built a FastAPI backend with Celery/Redis async CRM sync, exponential backoff retries, and a full PostgreSQL audit trail. Live demo: cv-tawny-two.vercel.app/api";
     }
 
     if (q.includes("project") || q.includes("projects") || q.includes("built") || q.includes("portfolio") || q.includes("repos") || q.includes("systems")) {

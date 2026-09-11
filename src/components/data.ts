@@ -123,7 +123,7 @@ export const projects = [
     ],
     builtWith: ["Python", "FastAPI", "PostgreSQL", "Celery", "Redis", "Groq LLM", "Docker"],
     github: "https://github.com/dirsrticstest-art/AI_Lead_Qualification_Professional",
-    liveDemo: "https://ai-lead-qualification-api.onrender.com"
+    liveDemo: "https://cv-tawny-two.vercel.app/api"
   }
 ];
 
