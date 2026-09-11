@@ -89,7 +89,8 @@
         "Designed Docker Compose stack with PostgreSQL, Redis, API, and worker containers.",
         "Added Render Blueprint deployment configuration for production hosting."
       ],
-      "tech": ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Pydantic", "Celery", "Redis", "Groq LLM", "Docker", "Pytest"]
+      "tech": ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Pydantic", "Celery", "Redis", "Groq LLM", "Docker", "Pytest"],
+      "liveDemo": "https://ai-lead-qualification-api.onrender.com"
     }
   ],
   "skills": [

@@ -156,7 +156,7 @@ export const projects = [
     ],
     builtWith: ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Pydantic", "Celery", "Redis", "Groq LLM", "Docker", "Pytest"],
     github: "https://github.com/dirsrticstest-art/AI_Lead_Qualification_Professional",
-    liveDemo: null
+    liveDemo: "https://ai-lead-qualification-api.onrender.com"
   }
 ];
 
