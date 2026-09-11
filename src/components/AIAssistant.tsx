@@ -342,6 +342,18 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
   const localFallbackReply = (qText: string) => {
     const q = qText.toLowerCase().trim();
 
+    if (q.includes("hello") || q.includes("hi ") || q === "hi" || q.includes("hey") || q.includes("welcome") || q.includes("good morning") || q.includes("good evening") || q.includes("good afternoon")) {
+      return "Hello! Welcome to Ahmed's Portfolio. I'm his AI Assistant. You can ask me about Ahmed's experience at H2M, his projects, technical skills, education, certifications, or anything else you'd like to know.";
+    }
+
+    if (q.includes("well") || q.includes("how are you") || q.includes("how's it going") || q.includes("what's up") || q.includes("sup")) {
+      return "I'm doing great, thanks for asking! I'm here to tell you about Ahmed's work. You can ask about his experience, projects, skills, education, or certifications.";
+    }
+
+    if (q.includes("certification") || q.includes("certificate") || q.includes("certifications") || q.includes("hackerrank") || q.includes("certificate")) {
+      return "Ahmed has 7 HackerRank certifications: 1. Python Basic. 2. SQL Basic. 3. SQL Intermediate. 4. SQL Intermediate. 5. SQL Advanced. 6. REST API Intermediate. 7. Problem Solving Basic. 8. Problem Solving Intermediate. These certifications validate his skills in Python, SQL, API design, and algorithmic problem solving.";
+    }
+
     if (q.includes("h2m") || q.includes("maxp") || q.includes("max p") || q.includes("financial") || q.includes("work experience") || q.includes("where did he work") || q.includes("work at") || q.includes("job at")) {
       return "At H2M for MAXP Online, Ahmed worked on-site for 3 months as a Python Backend Developer. He solved the problem of manual financial tracking and campaign marketing dispatches. He built product financial calculation tools for profit margins and shipping costs, developed marketing campaign tracking and shipping analytics, and implemented Meta WhatsApp Cloud API automated marketing dispatches with webhooks and message templates.";
     }
@@ -362,7 +374,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
       return "The Medical Event Automation Platform manages event registrations and attendee workflows. Ahmed modeled relational database schemas with PostgreSQL and SQLAlchemy, and automated background email dispatches via Redis RQ queues and SMTP integration.";
     }
 
-    if (q.includes("lead") || q.includes("crm") || q.includes("qualification") || q.includes("scoring") || q.includes("groq") || q.includes("project 5") || q.includes("fifth project")) {
+    if (q.includes("ai lead") || q.includes("crm") || q.includes("qualification") || q.includes("scoring") || q.includes("groq") || q.includes("project 5") || q.includes("fifth project")) {
       return "The AI Lead Qualification and CRM Automation classifies inbound leads using Groq LLM with a deterministic fallback. Ahmed built a FastAPI backend with Celery and Redis async CRM sync, exponential backoff retries, and a full PostgreSQL audit trail.";
     }
 
@@ -390,8 +402,8 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
       return "Ahmed integrates Meta WhatsApp Cloud API webhooks for automated customer messaging and SMTP integration for automated background email dispatches.";
     }
 
-    if (q.includes("ai") || q.includes("rag") || q.includes("vector") || q.includes("chromadb") || q.includes("embedding") || q.includes("llm")) {
-      return "Ahmed builds AI-powered systems including RAG pipelines with ChromaDB and Sentence Transformers for semantic search, lead classification with Groq LLM, and document intelligence with structured data extraction.";
+    if (q.includes("ai project") || q.includes("ai system") || q.includes("ai work") || q.includes("ai automation") || q.includes("machine learning") || q.includes("nlp") || q.includes("natural language")) {
+      return "Ahmed builds AI-powered systems including RAG pipelines with ChromaDB and Sentence Transformers for semantic search, lead classification with Groq LLM, and document intelligence with structured data extraction. His AI projects focus on practical backend integration rather than just model training.";
     }
 
     if (q.includes("data structure") || q.includes("algorithm") || q.includes("oop") || q.includes("computer science")) {
@@ -426,8 +438,24 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
       return "Ahmed's military service is officially postponed for study. He is focusing on his Computer Science degree and building his backend engineering portfolio.";
     }
 
-    if (q.includes("full name") || q.includes("who is ahmed") || q.includes("nationality") || q.includes("egyptian") || q.includes("bio") || q.includes("personal") || q.includes("academic") || q.includes("student") || q.includes("about ahmed") || q.includes("tell me about") || q.includes("who are you") || q.includes("tell me about yourself")) {
+    if (q.includes("thank") || q.includes("thanks") || q.includes("bye") || q.includes("goodbye")) {
+      return "You're welcome! If you have any more questions about Ahmed's work, feel free to ask. Have a great day!";
+    }
+
+    if (q.includes("rag") || q.includes("vector") || q.includes("chromadb") || q.includes("embedding") || q.includes("semantic")) {
+      return "Ahmed builds RAG (Retrieval Augmented Generation) systems using ChromaDB for vector storage and Sentence Transformers for creating embeddings. He implements semantic search over document collections with source citations.";
+    }
+
+    if (q.includes("full name") || q.includes("who is ahmed") || q.includes("nationality") || q.includes("egyptian") || q.includes("bio") || q.includes("personal") || q.includes("academic") || q.includes("student") || q.includes("about ahmed")) {
       return "Ahmed Mohamed Abdelatif is an Egyptian Python Backend Developer and AI Automation Specialist based in Cairo. He is currently pursuing his B.Sc. in Computer Science at the Egyptian Chinese University (ECU) with expected graduation in 2029. He has 3 months of hands-on experience at H2M working on MAXP Online platform, and has engineered 5 production-ready backend systems. His military service is officially postponed for study.";
+    }
+
+    if (q.includes("tell me about yourself") || q.includes("who are you") || q.includes("introduce") || q.includes("tell me about you")) {
+      return "I'm Ahmed's AI Assistant. Ahmed is a Python Backend Developer and AI Automation Specialist. He's a CS student at ECU with 3 months of experience at H2M. He's built 5 production-ready backend systems. Ask me about his experience, projects, skills, education, or certifications!";
+    }
+
+    if (q.includes("tell me about") || q.includes("what about") || q.includes("details of")) {
+      return "I can tell you about Ahmed's experience at H2M, his 5 backend projects, his technical skills, his education at ECU, or his 7 HackerRank certifications. What interests you?";
     }
 
     return "Feel free to ask about Ahmed's projects, skills, experience, education, certifications, or anything else you'd like to know!";
