@@ -18,6 +18,11 @@ import ThemeToggle from "@/components/ThemeToggle";
 export default function Home() {
   const [chatOpen, setChatOpen] = useState(false);
 
+  useEffect(() => {
+    const timer = setTimeout(() => setChatOpen(true), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
   const handleToggleChat = () => setChatOpen(!chatOpen);
   const handleProjectOpen = () => {
     setChatOpen(true);
