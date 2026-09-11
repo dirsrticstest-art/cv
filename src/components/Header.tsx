@@ -17,6 +17,10 @@ export default function Header({ chatOpen, onToggleChat }: HeaderProps) {
               AHMED MOHAMED ABDELATIF
             </span>
 
+            <span className="text-[10px] font-mono text-purple-400 bg-purple-950/60 light:bg-purple-50 px-2 py-0.5 rounded border border-purple-800/40 light:border-purple-200 font-semibold">
+              Portfolio
+            </span>
+
             <div className="flex items-center gap-2 bg-purple-950/60 light:bg-purple-50 border border-purple-800/50 light:border-purple-200 px-3 py-1 rounded-full shadow-sm">
               <div className="flex items-center gap-1.5 text-xs font-mono text-gray-300 light:text-gray-600">
                 <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />

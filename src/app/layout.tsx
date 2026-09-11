@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ahmed Abdelatif | Python Backend Developer & AI Automation",
+  title: "Ahmed Abdelatif | Portfolio - Python Backend Developer",
   description:
-    "Python Backend Developer specializing in FastAPI, PostgreSQL, Redis queues, WhatsApp Cloud API integrations, and AI-powered automation systems. View my projects and experience.",
+    "Portfolio of Ahmed Abdelatif - Python Backend Developer specializing in FastAPI, PostgreSQL, Redis queues, WhatsApp Cloud API integrations, and AI-powered automation systems.",
   keywords: [
     "Python Developer",
     "FastAPI",
@@ -29,14 +29,15 @@ export const metadata: Metadata = {
     "RAG",
     "ChromaDB",
     "Cairo Egypt",
+    "Portfolio",
   ],
   authors: [{ name: "Ahmed Mohamed Abdelatif" }],
   openGraph: {
-    title: "Ahmed Abdelatif | Python Backend Developer & AI Automation",
+    title: "Ahmed Abdelatif | Portfolio - Python Backend Developer",
     description:
-      "Python Backend Developer specializing in FastAPI, PostgreSQL, Redis queues, WhatsApp Cloud API integrations, and AI-powered automation systems.",
+      "Portfolio of Ahmed Abdelatif - Python Backend Developer specializing in FastAPI, PostgreSQL, Redis queues, WhatsApp Cloud API integrations, and AI-powered automation systems.",
     url: "https://cv-tawny-two.vercel.app",
-    siteName: "Ahmed Abdelatif - CV",
+    siteName: "Ahmed Abdelatif - Portfolio",
     locale: "en_US",
     type: "website",
     images: [
@@ -44,15 +45,15 @@ export const metadata: Metadata = {
         url: "https://cv-tawny-two.vercel.app/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Ahmed Abdelatif - Python Backend Developer",
+        alt: "Ahmed Abdelatif - Python Backend Developer Portfolio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ahmed Abdelatif | Python Backend Developer",
+    title: "Ahmed Abdelatif | Portfolio",
     description:
-      "Python Backend Developer specializing in FastAPI, PostgreSQL, Redis, and AI automation.",
+      "Portfolio of Ahmed Abdelatif - Python Backend Developer specializing in FastAPI, PostgreSQL, Redis, and AI automation.",
     images: ["https://cv-tawny-two.vercel.app/og-image.png"],
   },
   robots: {

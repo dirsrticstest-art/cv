@@ -54,7 +54,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="max-w-5xl mx-auto px-6 mt-16 pt-8 border-t border-gray-800 light:border-gray-200 text-center text-xs text-gray-500 light:text-gray-400 font-mono">
-        <p>&copy; 2026 Ahmed Mohamed Abdelatif | Python Backend Developer & AI Automation.</p>
+        <p>&copy; 2026 Ahmed Mohamed Abdelatif | Portfolio - Python Backend Developer & AI Automation.</p>
       </footer>
 
       <AIAssistant 
