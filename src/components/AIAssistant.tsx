@@ -235,6 +235,11 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
     let timer: ReturnType<typeof setTimeout>;
     if (chatOpen) {
       retryCountRef.current = 0;
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ audio: true })
+          .then((stream) => { stream.getTracks().forEach(t => t.stop()); })
+          .catch(() => {});
+      }
       timer = setTimeout(() => {
         speakText(messages[0].text);
       }, 500);
