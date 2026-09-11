@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Profile from "@/components/Profile";
@@ -25,6 +25,13 @@ export default function Home() {
   const handleSkillOpen = () => {
     setChatOpen(true);
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setChatOpen(true);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#0b0f17] text-gray-100 selection:bg-purple-600 selection:text-white pb-24 font-sans relative dark:bg-[#0b0f17] light:bg-white light:text-gray-900">

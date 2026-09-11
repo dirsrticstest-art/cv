@@ -18,7 +18,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
   const [messages, setMessages] = useState([
     {
       sender: "ai",
-      text: "Hello! Welcome to Ahmed's Portfolio. I am Ahmed's AI Assistant — how can I help you?"
+      text: "Hello! Welcome to Ahmed's Portfolio. I'm his AI Assistant — feel free to ask me anything about his projects, experience, or skills."
     }
   ]);
   const [inputMsg, setInputMsg] = useState("");
@@ -73,9 +73,10 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
   const selectBestEnglishVoice = (availableVoices: SpeechSynthesisVoice[]) => {
     if (!availableVoices || availableVoices.length === 0) return null;
     return (
-      availableVoices.find((v) => v.lang.startsWith("en") && v.name.includes("Online (Natural)") && (v.name.includes("Guy") || v.name.includes("Ryan") || v.name.includes("Male"))) ||
+      availableVoices.find((v) => v.lang.startsWith("en") && v.name.includes("Natural") && (v.name.includes("Guy") || v.name.includes("Ryan") || v.name.includes("Daniel"))) ||
+      availableVoices.find((v) => v.lang.startsWith("en") && v.name.includes("Online (Natural)")) ||
       availableVoices.find((v) => v.lang.startsWith("en") && v.name.includes("Natural")) ||
-      availableVoices.find((v) => v.lang.startsWith("en") && (v.name.includes("Guy") || v.name.includes("Ryan") || v.name.includes("Daniel") || v.name.includes("David") || v.name.includes("Google"))) ||
+      availableVoices.find((v) => v.lang.startsWith("en") && (v.name.includes("Guy") || v.name.includes("Ryan") || v.name.includes("Daniel") || v.name.includes("David"))) ||
       availableVoices.find((v) => v.lang.startsWith("en"))
     );
   };
@@ -109,8 +110,8 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
 
       const utterance = new SpeechSynthesisUtterance(cleanText);
       utterance.lang = "en-US";
-      utterance.rate = 0.92;
-      utterance.pitch = 1.0;
+      utterance.rate = 0.78;
+      utterance.pitch = 0.95;
 
       const available = voicesList.length > 0 ? voicesList : window.speechSynthesis.getVoices();
       const bestVoice = selectBestEnglishVoice(available);
