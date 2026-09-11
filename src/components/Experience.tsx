@@ -4,9 +4,10 @@ import { Briefcase, CheckCircle2 } from "lucide-react";
 
 interface ExperienceProps {
   onExplain?: (section: string) => void;
+  onExplainItem?: (item: string) => void;
 }
 
-export default function Experience({ onExplain }: ExperienceProps) {
+export default function Experience({ onExplain, onExplainItem }: ExperienceProps) {
   return (
     <section id="experience" className="space-y-6">
       <div 
@@ -40,9 +41,13 @@ export default function Experience({ onExplain }: ExperienceProps) {
           </p>
 
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-gray-800/60 light:bg-gray-100 p-5 rounded-lg border border-gray-700/80 light:border-gray-200 space-y-2.5">
+            <div 
+              onClick={() => onExplainItem?.("financial analytics")}
+              className="bg-gray-800/60 light:bg-gray-100 p-5 rounded-lg border border-gray-700/80 light:border-gray-200 space-y-2.5 cursor-pointer hover:border-purple-500 transition"
+            >
               <h4 className="font-bold text-purple-300 light:text-purple-700 text-xs uppercase tracking-wider flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" /> MAXP Business & Financial Analytics
+                <span className="text-[9px] font-mono text-purple-400 bg-purple-950/60 px-1.5 py-0.5 rounded border border-purple-800/40 ml-auto">tap to hear</span>
               </h4>
               <ul className="text-xs text-gray-300 light:text-gray-600 space-y-2 list-disc list-inside">
                 <li>Built product pricing and profitability calculation tools.</li>
@@ -51,9 +56,13 @@ export default function Experience({ onExplain }: ExperienceProps) {
               </ul>
             </div>
 
-            <div className="bg-gray-800/60 light:bg-gray-100 p-5 rounded-lg border border-gray-700/80 light:border-gray-200 space-y-2.5">
+            <div 
+              onClick={() => onExplainItem?.("whatsapp api")}
+              className="bg-gray-800/60 light:bg-gray-100 p-5 rounded-lg border border-gray-700/80 light:border-gray-200 space-y-2.5 cursor-pointer hover:border-purple-500 transition"
+            >
               <h4 className="font-bold text-purple-300 light:text-purple-700 text-xs uppercase tracking-wider flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Meta WhatsApp Cloud API
+                <span className="text-[9px] font-mono text-purple-400 bg-purple-950/60 px-1.5 py-0.5 rounded border border-purple-800/40 ml-auto">tap to hear</span>
               </h4>
               <ul className="text-xs text-gray-300 light:text-gray-600 space-y-2 list-disc list-inside">
                 <li>Built WhatsApp workflows using webhooks and message templates.</li>

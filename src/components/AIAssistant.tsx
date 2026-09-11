@@ -16,9 +16,11 @@ interface AIAssistantProps {
   onExplainDone?: () => void;
   explainProject?: string | null;
   onExplainProjectDone?: () => void;
+  explainItem?: string | null;
+  onExplainItemDone?: () => void;
 }
 
-export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onSkillOpen, explainSection, onExplainDone, explainProject, onExplainProjectDone }: AIAssistantProps) {
+export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onSkillOpen, explainSection, onExplainDone, explainProject, onExplainProjectDone, explainItem, onExplainItemDone }: AIAssistantProps) {
   const lastExplainedRef = useRef<string | null>(null);
   const [messages, setMessages] = useState([
     {
@@ -303,6 +305,33 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
       onExplainProjectDone?.();
     }
   }, [explainProject]);
+
+  const itemExplanations: Record<string, string> = {
+    "financial analytics": "At H2M, Ahmed built the MAXP Business and Financial Analytics tools. He developed product pricing calculators that factor in shipping costs, profit margins, and market positioning. He also built marketing campaign tracking dashboards that monitor campaign performance, shipping analytics that track delivery costs and timelines, and customer performance analytics that help the business understand customer behavior patterns. All of these tools were built with Python backend systems and connected to the MAXP Online platform's database.",
+    "whatsapp api": "Ahmed worked extensively with the Meta WhatsApp Cloud API at H2M. He built webhook handlers that receive incoming customer messages, implemented message template systems for automated responses, and created customer conversation workflows that route messages to the right department. He also built scheduled marketing campaign dispatches that send bulk messages through the WhatsApp API, and integrated the whole system with the backend's business logic layer. The architecture pattern was: Webhook → Backend → Business Logic → WhatsApp API.",
+    "backend engineering": "Ahmed's backend engineering skills focus on building asynchronous REST APIs with Python and FastAPI. He uses Pydantic for input validation and data modeling, and designs clean API endpoints with proper error handling. He builds APIs that handle real business logic — not just CRUD operations — with background task processing, database integration, and external API connections.",
+    "databases & queues": "Ahmed designs relational database schemas using PostgreSQL and SQLAlchemy ORM. He models complex relationships between entities, writes efficient queries, and uses Redis RQ for background job processing. He understands when to use database transactions, how to design for data consistency, and how to offload long-running tasks to background workers.",
+    "integrations & automation": "Ahmed connects backend systems to external services. He's worked with the Meta WhatsApp Cloud API for message automation, SMTP for email dispatches, and webhooks for real-time event handling. He builds automation workflows that run in the background without blocking API responses.",
+    "ai & vector retrieval": "Ahmed builds AI-powered systems using RAG (Retrieval Augmented Generation). He uses ChromaDB for vector storage, Sentence Transformers for creating embeddings, and implements semantic search over document collections. He understands text chunking strategies, embedding dimensions, and how to retrieve the most relevant content for AI-generated answers.",
+    "computer science core": "Ahmed applies solid computer science principles through his university coursework and C++ problem solving. He understands data structures like arrays, linked lists, trees, and graphs. He knows algorithms for sorting, searching, and optimization. He practices object-oriented programming and clean code principles.",
+    "tools & devops": "Ahmed uses Git for version control, Docker for containerizing services, Linux for server management, and Pytest for testing. He writes automated tests, uses Docker Compose for multi-service development environments, and follows CI/CD best practices.",
+    "education": "Ahmed is pursuing a B.Sc. in Computer Science at the Egyptian Chinese University in Cairo. He's currently enrolled and expects to graduate in 2029. His relevant coursework includes Data Structures, Algorithms, Databases, Object-Oriented Programming, and Software Engineering. He applies what he learns in class to his real-world projects."
+  };
+
+  useEffect(() => {
+    if (explainItem && explainItem !== lastExplainedRef.current) {
+      lastExplainedRef.current = explainItem;
+      const key = explainItem.toLowerCase();
+      const text = itemExplanations[key] || `Let me tell you about ${explainItem}. This is one of Ahmed's key competencies that he applies across his projects.`;
+      stopSpeaking();
+      stopListening();
+      setMessages((prev) => [...prev, { sender: "user", text: `Tell me about ${explainItem}` }, { sender: "ai", text }]);
+      setTimeout(() => {
+        speakText(text);
+      }, 400);
+      onExplainItemDone?.();
+    }
+  }, [explainItem]);
 
   useEffect(() => {
     if (chatOpen) {

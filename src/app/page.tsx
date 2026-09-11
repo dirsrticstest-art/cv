@@ -19,6 +19,7 @@ export default function Home() {
   const [chatOpen, setChatOpen] = useState(false);
   const [explainSection, setExplainSection] = useState<string | null>(null);
   const [explainProject, setExplainProject] = useState<string | null>(null);
+  const [explainItem, setExplainItem] = useState<string | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setChatOpen(true), 1200);
@@ -38,6 +39,10 @@ export default function Home() {
   };
   const handleExplainProject = (title: string) => {
     setExplainProject(title);
+    setChatOpen(true);
+  };
+  const handleExplainItem = (item: string) => {
+    setExplainItem(item);
     setChatOpen(true);
   };
 
@@ -60,10 +65,10 @@ export default function Home() {
         <Hero />
         <Profile />
         <Capabilities />
-        <Experience onExplain={handleExplainSection} />
+        <Experience onExplain={handleExplainSection} onExplainItem={handleExplainItem} />
         <Projects onProjectOpen={handleProjectOpen} onExplain={handleExplainSection} onExplainProject={handleExplainProject} />
-        <Skills onExplain={handleExplainSection} />
-        <Education />
+        <Skills onExplain={handleExplainSection} onExplainItem={handleExplainItem} />
+        <Education onExplainItem={handleExplainItem} />
         <Certifications />
         <Hobbies />
         <Contact />
@@ -83,6 +88,8 @@ export default function Home() {
         onExplainDone={() => setExplainSection(null)}
         explainProject={explainProject}
         onExplainProjectDone={() => setExplainProject(null)}
+        explainItem={explainItem}
+        onExplainItemDone={() => setExplainItem(null)}
       />
     </div>
   );
