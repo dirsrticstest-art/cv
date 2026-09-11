@@ -423,7 +423,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
     }
 
     if (q.includes("looking for") || q.includes("opportunity") || q.includes("role") || q.includes("team") || q.includes("grow") || q.includes("career")) {
-      return "Ahmed is looking for a team where he can work on real backend and automation problems, learn from experienced engineers, and keep building systems that actually get used.";
+      return "Ahmed is looking for a team where he can contribute to real backend and automation problems, keep growing as an engineer, and build systems that actually get used.";
     }
 
     if (q.includes("approach") || q.includes("mindset") || q.includes("philosophy") || q.includes("how do you work") || q.includes("how does he work")) {
@@ -455,7 +455,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
     }
 
     if (q.includes("tell me about") || q.includes("what about") || q.includes("details of")) {
-      return "I can tell you about Ahmed's experience at H2M, his 5 backend projects, his technical skills, his education at ECU, or his 7 HackerRank certifications. What interests you?";
+      return "I can tell you about Ahmed's experience at H2M, his 5 backend projects, his technical skills, his education at ECU, or his 9 HackerRank certifications. What interests you?";
     }
 
     return "Feel free to ask about Ahmed's projects, skills, experience, education, certifications, or anything else you'd like to know!";

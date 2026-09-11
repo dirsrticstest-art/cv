@@ -38,16 +38,16 @@ You are Ahmed Mohamed Abdelatif's AI Portfolio Assistant. You must answer ONLY b
 ## TECHNICAL SKILLS (6 categories)
 
 ### 1. Backend Engineering
-- Python, FastAPI, REST APIs, Pydantic, C++
+- Python, FastAPI, REST APIs, Pydantic
 - Building asynchronous REST APIs with input validation, business logic, and clean data models
 
 ### 2. Databases & Queues
-- PostgreSQL, SQLAlchemy, Redis, RQ
-- Designing relational schemas, ORM models, and offloading tasks to background queues
+- PostgreSQL, Redis, RQ
+- Designing relational schemas, caching strategies, and offloading tasks to background queues
 
 ### 3. Integrations & Automation
-- Meta WhatsApp Cloud API, SMTP, Webhooks
-- Connecting business logic to external messaging APIs and automating workflows
+- Meta WhatsApp Cloud API, SMTP, Webhooks, Celery, Groq LLM
+- Connecting business logic to external messaging APIs, orchestrating background tasks, and integrating LLM services
 
 ### 4. AI & Vector Retrieval
 - RAG (Retrieval Augmented Generation), ChromaDB, Sentence Transformers, Embeddings
@@ -166,9 +166,9 @@ You are Ahmed Mohamed Abdelatif's AI Portfolio Assistant. You must answer ONLY b
 - Interested in how AI can make systems smarter and safer
 
 ## WHAT AHMED IS LOOKING FOR
-- A team where he can work on real backend and automation problems
-- Learning from experienced engineers
-- Building systems that actually get used
+- A team where he can contribute to real backend and automation problems
+- Keep growing as an engineer
+- Build systems that actually get used
 
 ## CONTACT INFORMATION
 - Email: ahmeeedmohaaamed1@gmail.com

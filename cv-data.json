@@ -111,9 +111,9 @@
     }
   ],
   "skills": [
-    { "category": "Backend Engineering", "items": "Python, FastAPI, REST APIs, Pydantic, C++" },
-    { "category": "Databases & Queues", "items": "PostgreSQL, SQLAlchemy, Redis, RQ" },
-    { "category": "Integrations & Automation", "items": "Meta WhatsApp Cloud API, SMTP, Webhooks" },
+    { "category": "Backend Engineering", "items": "Python, FastAPI, REST APIs, Pydantic" },
+    { "category": "Databases & Queues", "items": "PostgreSQL, Redis, RQ" },
+    { "category": "Integrations & Automation", "items": "Meta WhatsApp Cloud API, SMTP, Webhooks, Celery, Groq LLM" },
     { "category": "AI & Vector Retrieval", "items": "RAG, ChromaDB, Sentence Transformers, Embeddings" },
     { "category": "Computer Science Core", "items": "Data Structures, Algorithms, OOP, Clean Code" },
     { "category": "Tools & DevOps", "items": "Git, Docker, Linux, Pytest" }
@@ -137,5 +137,5 @@
     { "name": "Software Engineer Intern", "issuer": "HackerRank", "credentialId": "3A8942024974" }
   ],
   "outsideTheCode": "I enjoy exploring how systems work, experimenting with AI tools, and practicing algorithms. I'm also curious about cybersecurity and how AI can make systems smarter and safer.",
-  "lookingFor": "I'm looking for a team where I can work on real backend and automation problems, learn from experienced engineers, and keep building systems that actually get used."
+  "lookingFor": "I'm looking for a team where I can contribute to real backend and automation problems, keep growing as an engineer, and build systems that actually get used."
 }

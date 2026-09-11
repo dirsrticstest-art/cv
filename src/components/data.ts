@@ -21,18 +21,18 @@ export const projects = [
     id: "01",
     title: "AI Customer Support Platform",
     repoName: "AI_Customer_Support_Platform",
-    tagline: "Customer support backend that classifies messages and generates responses",
-    description: "Receives customer messages, classifies the request, stores the conversation, and generates a response through a replaceable AI service layer.",
-    proof: "Handles incoming WhatsApp webhooks, classifies messages by intent (billing, technical, general), stores full conversation history, and generates draft responses — all asynchronously.",
+    tagline: "Conversational AI backend that triages and responds to customer inquiries via WhatsApp",
+    description: "A message intake system that receives customer messages through WhatsApp webhooks, classifies intent, maintains full conversation context, and drafts AI-generated responses — turning raw inbound messages into structured support workflows.",
+    proof: "Bridges the WhatsApp Cloud API webhook format into a typed internal message model, classifies incoming intent (billing, technical, general) to route conversations, and keeps a complete conversation history so context carries across messages — not just one-shot Q&A.",
     architecture: [
-      "Customer → FastAPI → Classification → AI Service → Response → Database"
+      "WhatsApp Webhook → FastAPI → Intent Classifier → Conversation Store → AI Draft → Reply"
     ],
     whatIBuilt: [
-      "REST API for customer conversations, tickets, and messages",
-      "Message classification layer for intent detection",
-      "PostgreSQL conversation storage with status tracking",
-      "Redis/RQ background processing for async message handling",
-      "AI service boundary for future LLM integration"
+      "WhatsApp Cloud API webhook receiver with payload normalization",
+      "Intent classification layer routing messages by category",
+      "Conversation state management across multiple messages",
+      "AI response drafting with replaceable model backend",
+      "Message status pipeline from received to drafted to sent"
     ],
     builtWith: ["Python", "FastAPI", "PostgreSQL", "Redis/RQ", "Docker", "Pytest"],
     github: "https://github.com/ahmed-abdelatif/AI_Customer_Support_Platform",
@@ -42,18 +42,18 @@ export const projects = [
     id: "02",
     title: "Enterprise RAG Knowledge Assistant",
     repoName: "Enterprise_RAG_Knowledge_Assistant",
-    tagline: "Document-based AI assistant that answers questions using retrieved content",
-    description: "A document-based AI assistant that answers questions using retrieved content instead of relying only on the model's memory.",
-    proof: "Ingests PDF/DOCX/TXT files, chunks text with overlapping windows, generates embeddings via Sentence Transformers, indexes in ChromaDB, and returns source-cited answers.",
+    tagline: "Semantic search over document collections with source-cited retrieval",
+    description: "A retrieval-augmented generation system that ingests PDFs, DOCX, and TXT files, converts them into vector embeddings, and answers questions by searching for semantically similar passages — then cites the exact source file in every response.",
+    proof: "The core challenge is making retrieval actually useful: chunking strategy matters (overlapping windows preserve context across boundaries), embedding quality determines whether answers are relevant, and ChromaDB's similarity search has to surface the right passage from thousands of candidates. Each answer includes file-level citations so responses are verifiable.",
     architecture: [
-      "Document → Ingestion → Chunking → Embeddings → ChromaDB → Retrieval → Answer"
+      "Upload → Parser → Chunker → Sentence Transformers → ChromaDB → Similarity Search → LLM + Citations"
     ],
     whatIBuilt: [
-      "PDF/DOCX/TXT ingestion with format-specific parsers",
-      "Text chunking with overlapping windows for context preservation",
-      "ChromaDB semantic vector storage and retrieval",
-      "Source-aware response generation with file citations",
-      "Async document processing via Redis/RQ"
+      "Format-specific document parsers (PDF extraction, DOCX parsing, TXT reading)",
+      "Overlapping-window text chunking to preserve context at section boundaries",
+      "Sentence Transformers embedding pipeline with ChromaDB indexing",
+      "Similarity-based retrieval that returns ranked passages with source metadata",
+      "Response generation that cites the originating file and passage"
     ],
     builtWith: ["Python", "FastAPI", "ChromaDB", "Sentence Transformers", "PostgreSQL", "Redis/RQ"],
     github: "https://github.com/ahmed-abdelatif/Enterprise_RAG_Knowledge_Assistant",
@@ -63,19 +63,19 @@ export const projects = [
     id: "03",
     title: "AI Document Intelligence Platform",
     repoName: "AI_Document_Intelligence_Platform",
-    tagline: "Async document processing and structured data extraction pipeline",
-    description: "Backend pipeline for uploading documents, extracting content, and processing structured information asynchronously using background workers.",
-    proof: "Handles concurrent document uploads, processes them in parallel Redis/RQ workers, tracks status (queued → processing → completed/failed), and retries failures with exponential backoff.",
+    tagline: "Background document processing pipeline with job orchestration",
+    description: "An async extraction pipeline designed around the lifecycle of a long-running job: documents are uploaded, validated, queued, picked up by background workers, and their status is tracked from queued through processing to completion or failure — with automatic retry on transient errors.",
+    proof: "The engineering challenge here isn't AI — it's job orchestration. Multiple concurrent uploads can't block the API, workers process documents in parallel, and the system has to handle partial failures gracefully. Exponential backoff retries failed extractions, and the status tracking surface gives visibility into pipeline health.",
     architecture: [
-      "Upload → Validation → Job Queue → Background Worker → Extraction → Status Tracking"
+      "Upload API → Validation → Redis Queue → RQ Worker (parallel) → Status DB → Retry Logic"
     ],
     whatIBuilt: [
-      "Document upload and validation APIs (PDF/DOCX/TXT)",
-      "Text extraction and structured data processing",
-      "Redis/RQ background processing for long-running jobs",
-      "Processing status tracking with real-time updates",
-      "Auto-retry with exponential backoff for failed jobs",
-      "Modular extraction layer for plugging in AI/OCR services"
+      "Document upload endpoint with format validation and size limits",
+      "Redis/RQ job queue with worker pool for parallel extraction",
+      "Status state machine: queued → processing → completed/failed",
+      "Exponential backoff retry logic for transient worker failures",
+      "Modular extraction service boundary for plugging in OCR or AI extractors",
+      "Background job monitoring and failure tracking"
     ],
     builtWith: ["Python", "FastAPI", "PostgreSQL", "Redis/RQ", "Docker", "Pytest"],
     github: "https://github.com/ahmed-abdelatif/AI_Document_Intelligence_Platform",
@@ -85,18 +85,19 @@ export const projects = [
     id: "04",
     title: "Medical Event Automation Platform",
     repoName: "Medical_Event_Automation_Platform",
-    tagline: "Event management and automated email notification system",
-    description: "Backend system for managing event registrations and automating email communication workflows via background queues.",
-    proof: "Manages attendee registrations, sends automated confirmation and reminder emails via SMTP through Redis/RQ queues, with delivery status tracking and retry logic for failed dispatches.",
+    tagline: "Automated event registration and email notification workflows",
+    description: "A notification automation backend for medical events: attendees register, the system queues and dispatches confirmation and reminder emails through SMTP, and tracks delivery status — ensuring no one misses an update due to a failed send.",
+    proof: "The unique constraint here is reliability in notification delivery. Emails can't just fire-and-forget; each dispatch has a delivery status (sent, failed, retried), bulk sends are rate-limited to avoid SMTP throttling, and failed emails are retried automatically. This keeps the communication pipeline resilient even when individual sends fail.",
     architecture: [
-      "Registration → PostgreSQL → Email Queue → Redis/RQ → SMTP → Status Tracking"
+      "Registration API → PostgreSQL → Email Job Queue → RQ Worker → SMTP Dispatch → Delivery Status"
     ],
     whatIBuilt: [
-      "Event and registration management APIs",
-      "PostgreSQL relational models for events and attendees",
-      "Redis/RQ background email dispatch via SMTP",
-      "Bulk sending with rate limiting and retry logic",
-      "Delivery status tracking for each email"
+      "Event registration API with attendee management",
+      "Relational data models linking events to registered attendees",
+      "Background email job queue with SMTP dispatch workers",
+      "Rate-limited bulk sending to respect SMTP provider limits",
+      "Per-email delivery status tracking and failed-send retry",
+      "Automated reminder scheduling for upcoming events"
     ],
     builtWith: ["Python", "FastAPI", "PostgreSQL", "Redis/RQ", "SMTP", "Docker"],
     github: "https://github.com/ahmed-abdelatif/Medical_Event_Automation_Platform",
@@ -106,20 +107,19 @@ export const projects = [
     id: "05",
     title: "AI Lead Qualification & CRM Automation",
     repoName: "AI_Lead_Qualification_Professional",
-    tagline: "AI-powered lead scoring with async CRM webhook sync",
-    description: "Receives inbound leads, uses an LLM to classify and score them, and asynchronously syncs qualified leads to an external CRM.",
-    proof: "Classifies leads into sales, support, partnership, or general categories with confidence scores. Maintains a full audit trail, handles CRM sync failures with exponential backoff retries, and stays operational when AI is unavailable via deterministic fallback.",
+    tagline: "LLM-powered lead scoring with external CRM integration",
+    description: "An intake system that accepts inbound leads, sends them to a Groq LLM for classification and confidence scoring, persists the results with a full audit trail, and asynchronously syncs qualified leads to an external CRM via webhook — with fallback logic when the AI service is unavailable.",
+    proof: "The hard part is bridging an external LLM's output into a reliable business workflow. The system validates structured LLM responses (category, score, priority), handles the case where Groq is down by falling back to deterministic rules, and syncs to a third-party CRM without blocking the API. Every classification is logged for auditing.",
     architecture: [
-      "Lead → FastAPI → AI Classification → PostgreSQL → Celery Worker → CRM Webhook"
+      "Lead API → Pydantic Validation → Groq LLM → Structured Output Check → PostgreSQL → Celery → CRM Webhook"
     ],
     whatIBuilt: [
-      "REST API for lead creation, listing, and retrieval",
-      "Pydantic request validation with email verification",
-      "AI service layer with Groq LLM and deterministic fallback",
-      "Structured output validation (category, score, priority)",
-      "PostgreSQL persistence with indexed audit trail",
-      "Celery/Redis async CRM sync with exponential backoff",
-      "Docker Compose stack (PostgreSQL, Redis, API, Worker)"
+      "Lead intake API with Pydantic validation and email verification",
+      "Groq LLM integration with structured output parsing and validation",
+      "Deterministic fallback classifier when AI service is unavailable",
+      "Celery worker for async CRM webhook sync with retry logic",
+      "Indexed audit trail capturing every classification decision",
+      "Docker Compose deployment (API, Worker, PostgreSQL, Redis)"
     ],
     builtWith: ["Python", "FastAPI", "PostgreSQL", "Celery", "Redis", "Groq LLM", "Docker"],
     github: "https://github.com/dirsrticstest-art/AI_Lead_Qualification_Professional",
@@ -131,19 +131,19 @@ export const skillCategories = [
   {
     category: "Backend Engineering",
     icon: Server,
-    skills: ["Python", "FastAPI", "REST APIs", "Pydantic", "C++"],
+    skills: ["Python", "FastAPI", "REST APIs", "Pydantic"],
     description: "Building asynchronous REST APIs with input validation, business logic, and clean data models."
   },
   {
     category: "Databases & Queues",
     icon: Database,
-    skills: ["PostgreSQL", "SQLAlchemy", "Redis", "RQ"],
-    description: "Designing relational schemas, ORM models, and offloading tasks to background queues."
+    skills: ["PostgreSQL", "Redis", "RQ"],
+    description: "Designing relational schemas and offloading tasks to background queues."
   },
   {
     category: "Integrations & Automation",
     icon: Layers,
-    skills: ["Meta WhatsApp Cloud API", "SMTP", "Webhooks"],
+    skills: ["Meta WhatsApp Cloud API", "SMTP", "Webhooks", "Celery", "Groq LLM"],
     description: "Connecting business logic to external messaging APIs and automating workflows."
   },
   {
@@ -186,7 +186,7 @@ export const valuePropositions = [
 
 export const personalHobbies = `I enjoy exploring how systems work, experimenting with AI tools, and practicing algorithms. I'm also curious about cybersecurity and how AI can make systems smarter and safer.`;
 
-export const whatILookingFor = `I'm looking for a team where I can work on real backend and automation problems, learn from experienced engineers, and keep building systems that actually get used.`;
+export const whatILookingFor = `I'm looking for a team where I can contribute to real backend and automation problems, keep growing as an engineer, and build systems that actually get used.`;
 
 export const certifications = [
   {
