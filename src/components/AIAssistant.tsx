@@ -158,13 +158,24 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
     }
   }, []);
 
-  const startListening = useCallback(() => {
+  const startListening = useCallback(async () => {
     if (typeof window === "undefined" || !chatOpenRef.current) return;
     const SpeechRecognitionClass = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SpeechRecognitionClass) return;
 
     try {
       stopListening();
+
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          stream.getTracks().forEach(t => t.stop());
+        } catch (permErr) {
+          isListeningRef.current = false;
+          setIsListening(false);
+          return;
+        }
+      }
 
       const recognition = new SpeechRecognitionClass();
       recognitionRef.current = recognition;
