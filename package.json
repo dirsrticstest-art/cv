@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:cv": "node export-cv-data.js && python generate_cv.py",
     "start": "next start",
     "lint": "eslint"
   },

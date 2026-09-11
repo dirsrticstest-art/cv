@@ -126,6 +126,37 @@ export const projects = [
     builtWith: ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Pydantic", "Redis", "RQ", "SMTP", "Docker", "Pytest"],
     github: "https://github.com/ahmed-abdelatif/Medical_Event_Automation_Platform",
     liveDemo: null
+  },
+  {
+    id: "05",
+    title: "AI Lead Qualification & CRM Automation",
+    repoName: "AI_Lead_Qualification_Professional",
+    tagline: "AI-powered lead scoring with async CRM webhook sync",
+    description: "A production-style FastAPI workflow that receives inbound leads, uses an LLM to classify and score them, persists qualification and audit data in PostgreSQL, and asynchronously syncs qualified leads to an external CRM through Celery/Redis with retries and failure isolation.",
+    whyBuilt: "Sales teams waste hours manually sorting inbound leads. I built this system to automate lead classification and scoring using AI, ensuring high-priority leads get immediate attention while reducing manual triage time.",
+    caseStudy: {
+      problem: "Inbound leads arrive through multiple channels with varying quality. Manual qualification is slow, inconsistent, and high-value leads get lost in the queue. There was no automated way to classify lead intent, score urgency, or sync qualified leads to a CRM without blocking the API.",
+      process: "I designed a decoupled architecture: the FastAPI layer receives leads, validates input with Pydantic, and offloads AI classification to a provider abstraction layer that supports Groq LLM with a deterministic fallback. Qualified leads are persisted in PostgreSQL with a full audit trail. A Celery worker with Redis broker asynchronously syncs qualified leads to external CRM webhooks, with exponential backoff retries and failure isolation.",
+      result: "The system classifies leads into sales, support, partnership, or general categories with confidence scores and priority levels. It maintains a full audit trail, handles CRM sync failures gracefully with retries, and remains operational even when the AI provider is unavailable through its deterministic fallback."
+    },
+    metrics: [
+      { label: "AI Provider", value: "Groq + Fallback" },
+      { label: "CRM Sync", value: "Celery/Redis" },
+      { label: "Retry Logic", value: "Exponential Backoff" }
+    ],
+    whatIBuilt: [
+      "Built FastAPI REST API for lead creation, listing, and retrieval with automatic Swagger docs.",
+      "Implemented Pydantic request validation with email verification and field constraints.",
+      "Built AI service layer with provider abstraction supporting Groq LLM and deterministic fallback.",
+      "Implemented structured AI output validation with category, score, priority, and next_action.",
+      "Added PostgreSQL persistence with SQLAlchemy ORM and indexed audit event trail.",
+      "Built Celery/Redis async CRM webhook sync with exponential backoff retries and jitter.",
+      "Designed Docker Compose stack with PostgreSQL, Redis, API, and worker containers.",
+      "Added Render Blueprint deployment configuration for production hosting."
+    ],
+    builtWith: ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Pydantic", "Celery", "Redis", "Groq LLM", "Docker", "Pytest"],
+    github: "https://github.com/dirsrticstest-art/AI_Lead_Qualification_Professional",
+    liveDemo: null
   }
 ];
 

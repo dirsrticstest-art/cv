@@ -1,0 +1,136 @@
+{
+  "personal": {
+    "name": "Ahmed Mohamed Abdelatif",
+    "title": "Python Backend Developer & AI Automation Specialist",
+    "email": "ahmeeedmohaaamed1@gmail.com",
+    "location": "Cairo, Egypt",
+    "github": "github.com/ahmed-abdelatif",
+    "linkedin": "linkedin.com/in/ahmed-mohamed-b69920435",
+    "website": "cv-tawny-two.vercel.app"
+  },
+  "profile": "Ahmed Mohamed Abdelatif is an Egyptian Python Backend Developer & AI Automation Specialist based in Cairo. Currently pursuing B.Sc. in Computer Science at the Egyptian Chinese University (ECU) with expected graduation in 2029. Military service status is officially postponed for study.",
+  "experience": {
+    "title": "Backend Developer",
+    "company": "H2M — MAXP Online Platform",
+    "type": "Full-time | On-site | Cairo, Egypt | 3 Months",
+    "description": "Built and maintained backend tools and customer messaging workflows for MAXP Online:",
+    "highlights": [
+      "Built product pricing and profitability calculation tools.",
+      "Developed marketing campaign tracking and shipping analytics.",
+      "Built customer performance analytics tools.",
+      "Built WhatsApp workflows using webhooks and message templates.",
+      "Implemented automated replies and customer conversation workflows.",
+      "Worked on scheduled marketing campaigns and Meta WhatsApp Cloud API integrations."
+    ]
+  },
+  "projects": [
+    {
+      "title": "AI Customer Support Platform",
+      "description": "Backend system for managing customer support conversations and automating WhatsApp workflows, featuring an AI service layer for message classification and response generation.",
+      "bullets": [
+        "Built FastAPI REST APIs for customers, tickets, conversations, and messages.",
+        "Implemented WhatsApp webhook handling and Meta WhatsApp Cloud API integration.",
+        "Added Redis/RQ background jobs for asynchronous message and AI processing.",
+        "Built an AI service layer for message classification and response generation.",
+        "Implemented PostgreSQL persistence and background job status tracking.",
+        "Added error handling for failed background jobs."
+      ],
+      "tech": ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Pydantic", "Redis", "RQ", "Docker", "Pytest"]
+    },
+    {
+      "title": "Enterprise RAG Knowledge Assistant",
+      "description": "A document-based knowledge assistant backend that performs document ingestion, text chunking, embedding generation, ChromaDB vector storage, semantic retrieval, and source-aware answer generation.",
+      "bullets": [
+        "Built document ingestion for PDF, DOCX, and TXT files.",
+        "Implemented text extraction, chunking, and overlapping document segments.",
+        "Generated semantic embeddings using Sentence Transformers.",
+        "Stored and searched document vectors using ChromaDB.",
+        "Built a RAG retrieval pipeline with source references.",
+        "Added Redis/RQ background indexing and failed-job handling."
+      ],
+      "tech": ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Redis", "RQ", "ChromaDB", "Sentence Transformers", "Docker", "Pytest"]
+    },
+    {
+      "title": "AI Document Intelligence Platform",
+      "description": "Backend pipeline for uploading documents, extracting content, processing structured information, and executing long-running processing tasks asynchronously using background workers.",
+      "bullets": [
+        "Built PDF, DOCX, and TXT document upload and validation APIs.",
+        "Implemented document storage and text extraction.",
+        "Added structured data processing through a separated extraction service.",
+        "Implemented Redis/RQ background processing for long-running document jobs.",
+        "Added processing status tracking and failed-job retry handling.",
+        "Designed the extraction layer so external AI/OCR services can be integrated later."
+      ],
+      "tech": ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Pydantic", "Redis", "RQ", "Docker", "Pytest"]
+    },
+    {
+      "title": "Medical Event Automation Platform",
+      "description": "Backend system for managing event-related data, attendee registrations, and automating communication workflows such as background email dispatches via SMTP.",
+      "bullets": [
+        "Built FastAPI APIs for event-related data and registration workflows.",
+        "Implemented relational database models using PostgreSQL and SQLAlchemy.",
+        "Added Redis/RQ background jobs for automated email notifications.",
+        "Integrated SMTP for email delivery.",
+        "Implemented job status tracking and retry handling.",
+        "Added error and rollback handling for failed operations."
+      ],
+      "tech": ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Pydantic", "Redis", "RQ", "SMTP", "Docker", "Pytest"]
+    },
+    {
+      "title": "AI Lead Qualification & CRM Automation",
+      "description": "A production-style FastAPI workflow that receives inbound leads, uses an LLM to classify and score them, persists qualification and audit data in PostgreSQL, and asynchronously syncs qualified leads to an external CRM through Celery/Redis with retries and failure isolation.",
+      "bullets": [
+        "Built FastAPI REST API for lead creation, listing, and retrieval with automatic Swagger docs.",
+        "Implemented Pydantic request validation with email verification and field constraints.",
+        "Built AI service layer with provider abstraction supporting Groq LLM and deterministic fallback.",
+        "Implemented structured AI output validation with category, score, priority, and next_action.",
+        "Added PostgreSQL persistence with SQLAlchemy ORM and indexed audit event trail.",
+        "Built Celery/Redis async CRM webhook sync with exponential backoff retries and jitter.",
+        "Designed Docker Compose stack with PostgreSQL, Redis, API, and worker containers.",
+        "Added Render Blueprint deployment configuration for production hosting."
+      ],
+      "tech": ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Pydantic", "Celery", "Redis", "Groq LLM", "Docker", "Pytest"]
+    }
+  ],
+  "skills": [
+    {
+      "category": "Backend Engineering",
+      "items": "Python, FastAPI, REST APIs, Webhooks, Pydantic, C++"
+    },
+    {
+      "category": "Databases & Queues",
+      "items": "PostgreSQL, SQLite, SQLAlchemy, Redis, RQ (Redis Queue)"
+    },
+    {
+      "category": "Integrations & Automation",
+      "items": "Meta WhatsApp Cloud API, SMTP, Third-party APIs"
+    },
+    {
+      "category": "AI & Vector Retrieval",
+      "items": "RAG Pipelines, ChromaDB, Sentence Transformers, Embeddings"
+    },
+    {
+      "category": "Computer Science Core",
+      "items": "Data Structures, Algorithms, OOP, Clean Code & Logging"
+    },
+    {
+      "category": "Tools & Testing",
+      "items": "Git, GitHub, Docker, Linux, Pytest"
+    }
+  ],
+  "languages": "Arabic (Native), English (Professional Working Proficiency)",
+  "education": {
+    "degree": "B.Sc. Computer Science",
+    "university": "Egyptian Chinese University (ECU) — Cairo, Egypt",
+    "details": "Expected Graduation: 2029 | Military Service: Postponed for Study"
+  },
+  "certifications": [
+    { "name": "Python (Basic)", "issuer": "HackerRank", "date": "September 2026", "credentialId": "D208698872E9" },
+    { "name": "SQL (Basic)", "issuer": "HackerRank", "date": "September 2026", "credentialId": "3S7BFB6AASRE" },
+    { "name": "SQL (Intermediate)", "issuer": "HackerRank", "date": "September 2026", "credentialId": "203B6A8EDA03" },
+    { "name": "SQL (Advanced)", "issuer": "HackerRank", "date": "September 2026", "credentialId": "EBFE57B420AB" },
+    { "name": "REST API (Intermediate)", "issuer": "HackerRank", "date": "September 2026", "credentialId": "9FECDDDC70D8" },
+    { "name": "Problem Solving (Basic)", "issuer": "HackerRank", "date": "September 2026", "credentialId": "01777F8125A7" },
+    { "name": "Problem Solving (Intermediate)", "issuer": "HackerRank", "date": "September 2026", "credentialId": "B937B75D7029" }
+  ]
+}
