@@ -1,5 +1,5 @@
 """
-ATS-Friendly CV Generator
+ATS-Friendly CV Generator V2 - 2 Pages Only
 Reads from cv-data.json (single source of truth) and generates a clean PDF.
 Run: python generate_cv.py
 """
@@ -19,161 +19,177 @@ def clean(text):
 class CV(FPDF):
     def header(self):
         p = data["personal"]
-        self.set_font("Helvetica", "B", 22)
+        self.set_font("Helvetica", "B", 20)
         self.set_text_color(30, 30, 30)
-        self.cell(0, 12, clean(p["name"]), new_x="LMARGIN", new_y="NEXT", align="C")
-        self.set_font("Helvetica", "", 11)
+        self.cell(0, 10, clean(p["name"]), new_x="LMARGIN", new_y="NEXT", align="C")
+        self.set_font("Helvetica", "", 10)
         self.set_text_color(100, 60, 180)
-        self.cell(0, 7, clean(p["title"]), new_x="LMARGIN", new_y="NEXT", align="C")
-        self.set_font("Helvetica", "", 9)
+        self.cell(0, 6, clean(p["title"]), new_x="LMARGIN", new_y="NEXT", align="C")
+        self.set_font("Helvetica", "", 8)
         self.set_text_color(80, 80, 80)
-        self.cell(0, 6, clean(f"{p['location']}  |  {p['email']}  |  {p['github']}  |  {p['linkedin']}"), new_x="LMARGIN", new_y="NEXT", align="C")
-        self.ln(4)
+        self.cell(0, 5, clean(f"{p['location']}  |  {p['email']}  |  {p['github']}  |  {p['linkedin']}"), new_x="LMARGIN", new_y="NEXT", align="C")
+        self.ln(2)
         self.set_draw_color(100, 60, 180)
-        self.set_line_width(0.5)
+        self.set_line_width(0.4)
         self.line(10, self.get_y(), 200, self.get_y())
-        self.ln(6)
+        self.ln(4)
 
     def footer(self):
-        self.set_y(-15)
-        self.set_font("Helvetica", "I", 8)
+        self.set_y(-12)
+        self.set_font("Helvetica", "I", 7)
         self.set_text_color(150, 150, 150)
         self.cell(0, 10, f"Page {self.page_no()}", align="C")
 
     def section_title(self, title):
-        self.set_font("Helvetica", "B", 13)
+        self.set_font("Helvetica", "B", 11)
         self.set_text_color(100, 60, 180)
-        self.cell(0, 8, title, new_x="LMARGIN", new_y="NEXT")
+        self.cell(0, 6, title, new_x="LMARGIN", new_y="NEXT")
         self.set_draw_color(100, 60, 180)
-        self.set_line_width(0.3)
+        self.set_line_width(0.2)
         self.line(10, self.get_y(), 200, self.get_y())
-        self.ln(3)
-
-    def body_text(self, text):
-        self.set_font("Helvetica", "", 10)
-        self.set_text_color(50, 50, 50)
-        self.multi_cell(0, 5.5, clean(text))
         self.ln(2)
 
-    def bullet(self, text):
-        self.set_font("Helvetica", "", 10)
+    def body_text(self, text, size=9):
+        self.set_font("Helvetica", "", size)
         self.set_text_color(50, 50, 50)
-        self.cell(5, 5.5, "-")
-        self.multi_cell(0, 5.5, clean(text))
+        self.set_x(10)
+        self.multi_cell(190, 4.5, clean(text))
         self.ln(1)
 
+    def bullet(self, text, size=9):
+        self.set_font("Helvetica", "", size)
+        self.set_text_color(50, 50, 50)
+        self.set_x(10)
+        self.multi_cell(190, 4.5, clean(f"  - {text}"))
+
     def subsection(self, title, subtitle="", details=""):
-        self.set_font("Helvetica", "B", 11)
+        self.set_font("Helvetica", "B", 10)
         self.set_text_color(30, 30, 30)
-        self.cell(0, 6, clean(title), new_x="LMARGIN", new_y="NEXT")
+        self.set_x(10)
+        self.cell(190, 5, clean(title), new_x="LMARGIN", new_y="NEXT")
         if subtitle:
-            self.set_font("Helvetica", "I", 10)
+            self.set_font("Helvetica", "I", 9)
             self.set_text_color(100, 60, 180)
-            self.cell(0, 5.5, clean(subtitle), new_x="LMARGIN", new_y="NEXT")
+            self.set_x(10)
+            self.cell(190, 4.5, clean(subtitle), new_x="LMARGIN", new_y="NEXT")
         if details:
-            self.set_font("Helvetica", "", 9)
+            self.set_font("Helvetica", "", 8)
             self.set_text_color(120, 120, 120)
-            self.cell(0, 5, clean(details), new_x="LMARGIN", new_y="NEXT")
-        self.ln(2)
+            self.set_x(10)
+            self.cell(190, 4, clean(details), new_x="LMARGIN", new_y="NEXT")
+        self.ln(1)
 
     def tag_line(self, tags):
-        self.set_font("Helvetica", "", 9)
+        self.set_font("Helvetica", "", 8)
         self.set_text_color(80, 80, 80)
-        self.cell(0, 5, clean("Technologies: " + " | ".join(tags)), new_x="LMARGIN", new_y="NEXT")
-        self.ln(2)
+        self.set_x(10)
+        self.cell(190, 4, clean("Tech: " + " | ".join(tags)), new_x="LMARGIN", new_y="NEXT")
+        self.ln(1)
 
 
 pdf = CV()
-pdf.set_auto_page_break(auto=True, margin=20)
+pdf.set_auto_page_break(auto=True, margin=15)
 pdf.add_page()
 
-# About
+# About (compact)
 pdf.section_title("About")
-pdf.body_text(data["about"])
+pdf.body_text(data["about"], size=9)
 
-# How I Work
-pdf.section_title("How I Work")
-for cap in data["capabilities"]:
-    pdf.set_font("Helvetica", "B", 10)
-    pdf.set_text_color(30, 30, 30)
-    pdf.cell(0, 5.5, clean(cap["title"]), new_x="LMARGIN", new_y="NEXT")
-    pdf.set_font("Helvetica", "", 9)
-    pdf.set_text_color(80, 80, 80)
-    pdf.multi_cell(0, 5, clean(cap["desc"]))
-    pdf.ln(1)
+# How I Work (inline)
+pdf.set_font("Helvetica", "B", 10)
+pdf.set_text_color(100, 60, 180)
+pdf.set_x(10)
+pdf.cell(190, 5, "How I Work:", new_x="LMARGIN", new_y="NEXT")
+pdf.set_font("Helvetica", "", 9)
+pdf.set_text_color(50, 50, 50)
+how_text = " | ".join([f"{c['title']}: {c['desc']}" for c in data["capabilities"]])
+pdf.set_x(10)
+pdf.multi_cell(190, 4.5, clean(how_text))
 pdf.ln(2)
 
 # Work Experience
 exp = data["experience"]
 pdf.section_title("Work Experience")
 pdf.subsection(clean(f"{exp['title']} - {exp['company']}"), clean(exp["type"]), "")
-pdf.body_text(exp["description"])
 for h in exp["highlights"]:
-    pdf.bullet(h)
+    pdf.bullet(h, size=9)
 if "workflow" in exp:
     pdf.ln(1)
-    pdf.set_font("Helvetica", "I", 9)
+    pdf.set_font("Helvetica", "I", 8)
     pdf.set_text_color(100, 60, 180)
-    pdf.cell(0, 5, clean(f"Workflow: {exp['workflow']}"), new_x="LMARGIN", new_y="NEXT")
+    pdf.set_x(10)
+    pdf.cell(190, 4, clean(f"Workflow: {exp['workflow']}"), new_x="LMARGIN", new_y="NEXT")
 pdf.ln(2)
 
-# Projects
+# Projects (compact - only title + 2 key bullets + tech)
 pdf.section_title("Engineered Projects")
 for proj in data["projects"]:
-    pdf.set_font("Helvetica", "B", 11)
+    pdf.set_font("Helvetica", "B", 10)
     pdf.set_text_color(30, 30, 30)
-    pdf.cell(0, 6, clean(proj["title"]), new_x="LMARGIN", new_y="NEXT")
-    pdf.set_font("Helvetica", "", 9)
+    pdf.set_x(10)
+    pdf.cell(190, 5, clean(proj["title"]), new_x="LMARGIN", new_y="NEXT")
+    pdf.set_font("Helvetica", "", 8)
     pdf.set_text_color(80, 80, 80)
-    pdf.multi_cell(0, 5, clean(proj["description"]))
-    pdf.ln(1)
-    for b in proj["bullets"]:
-        pdf.bullet(b)
+    pdf.set_x(10)
+    pdf.multi_cell(190, 4, clean(proj["description"]))
+    # Only top 2 bullets to save space
+    for b in proj["bullets"][:2]:
+        pdf.bullet(b, size=8)
     pdf.tag_line(proj["tech"])
 
-# Skills
+# Skills (compact)
 pdf.section_title("Technical Skills")
 for skill in data["skills"]:
-    pdf.set_font("Helvetica", "B", 10)
+    pdf.set_font("Helvetica", "B", 9)
     pdf.set_text_color(100, 60, 180)
-    pdf.cell(50, 5.5, clean(skill["category"] + ":"))
-    pdf.set_font("Helvetica", "", 10)
+    pdf.set_x(10)
+    pdf.cell(45, 4.5, clean(skill["category"] + ":"))
+    pdf.set_font("Helvetica", "", 9)
     pdf.set_text_color(50, 50, 50)
-    pdf.multi_cell(0, 5.5, clean(skill["items"]))
-    pdf.ln(1)
+    pdf.cell(145, 4.5, clean(skill["items"]), new_x="LMARGIN", new_y="NEXT")
+pdf.ln(1)
 
 # Languages
-pdf.set_font("Helvetica", "B", 10)
+pdf.set_font("Helvetica", "B", 9)
 pdf.set_text_color(100, 60, 180)
-pdf.cell(50, 5.5, "Languages:")
-pdf.set_font("Helvetica", "", 10)
+pdf.set_x(10)
+pdf.cell(25, 4.5, "Languages:")
+pdf.set_font("Helvetica", "", 9)
 pdf.set_text_color(50, 50, 50)
-pdf.multi_cell(0, 5.5, clean(data["languages"]))
-pdf.ln(3)
+pdf.cell(0, 4.5, clean(data["languages"]), new_x="LMARGIN", new_y="NEXT")
+pdf.ln(2)
 
 # Education
 edu = data["education"]
 pdf.section_title("Education")
 pdf.subsection(clean(edu["degree"]), clean(edu["university"]), clean(edu["details"]))
+pdf.set_font("Helvetica", "", 8)
+pdf.set_text_color(80, 80, 80)
+pdf.set_x(10)
+pdf.cell(190, 4, clean(f"Coursework: {edu['coursework']}"), new_x="LMARGIN", new_y="NEXT")
+pdf.ln(2)
 
-# Certifications
-pdf.section_title("Certifications")
-for cert in data["certifications"]:
-    pdf.set_font("Helvetica", "B", 10)
-    pdf.set_text_color(30, 30, 30)
-    pdf.cell(0, 5.5, clean(f"{cert['name']} - {cert['issuer']}"), new_x="LMARGIN", new_y="NEXT")
-    pdf.set_font("Helvetica", "", 9)
-    pdf.set_text_color(80, 80, 80)
-    pdf.cell(0, 5, clean(f"Credential ID: {cert['credentialId']}"), new_x="LMARGIN", new_y="NEXT")
-    pdf.ln(1)
+# Certifications (compact list)
+pdf.section_title("Certifications (9 - HackerRank)")
+pdf.set_font("Helvetica", "", 8)
+pdf.set_text_color(50, 50, 50)
+cert_names = [c['name'] for c in data["certifications"]]
+# Write in rows of 3
+for i in range(0, len(cert_names), 3):
+    row = cert_names[i:i+3]
+    pdf.set_x(10)
+    pdf.cell(190, 4, " | ".join(row), new_x="LMARGIN", new_y="NEXT")
+pdf.ln(2)
 
-# Outside the Code
+# Outside the Code (compact)
 pdf.section_title("Outside the Code")
-pdf.body_text(data["outsideTheCode"])
+pdf.body_text(data["outsideTheCode"], size=8)
 
-# What I'm Looking For
-pdf.section_title("What I'm Looking For")
-pdf.body_text(data["lookingFor"])
+# What I'm Looking For (compact)
+pdf.set_font("Helvetica", "I", 8)
+pdf.set_text_color(80, 80, 80)
+pdf.set_x(10)
+pdf.multi_cell(190, 4, clean(data["lookingFor"]))
 
 output_path = os.path.join(script_dir, "public", "Ahmed_Abdelatif_CV.pdf")
 pdf.output(output_path)
