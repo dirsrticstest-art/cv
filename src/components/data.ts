@@ -230,6 +230,18 @@ export const certifications = [
     issuer: "HackerRank",
     credentialId: "B937B75D7029",
     url: "https://www.hackerrank.com/certificates/B937B75D7029"
+  },
+  {
+    name: "Software Engineer",
+    issuer: "HackerRank",
+    credentialId: "372DEB12F161",
+    url: "https://www.hackerrank.com/certificates/372DEB12F161"
+  },
+  {
+    name: "Software Engineer Intern",
+    issuer: "HackerRank",
+    credentialId: "3A8942024974",
+    url: "https://www.hackerrank.com/certificates/3A8942024974"
   }
 ];
 

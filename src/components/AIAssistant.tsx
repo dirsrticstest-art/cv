@@ -351,7 +351,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
     }
 
     if (q.includes("certification") || q.includes("certificate") || q.includes("certifications") || q.includes("hackerrank") || q.includes("certificate")) {
-      return "Ahmed has 7 HackerRank certifications: 1. Python Basic. 2. SQL Basic. 3. SQL Intermediate. 4. SQL Intermediate. 5. SQL Advanced. 6. REST API Intermediate. 7. Problem Solving Basic. 8. Problem Solving Intermediate. These certifications validate his skills in Python, SQL, API design, and algorithmic problem solving.";
+      return "Ahmed has 9 HackerRank certifications: 1. Python Basic. 2. SQL Basic. 3. SQL Intermediate. 4. SQL Advanced. 5. REST API Intermediate. 6. Problem Solving Basic. 7. Problem Solving Intermediate. 8. Software Engineer. 9. Software Engineer Intern. These certifications validate his skills in Python, SQL, API design, problem solving, and software engineering.";
     }
 
     if (q.includes("h2m") || q.includes("maxp") || q.includes("max p") || q.includes("financial") || q.includes("work experience") || q.includes("where did he work") || q.includes("work at") || q.includes("job at")) {

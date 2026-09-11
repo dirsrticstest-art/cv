@@ -132,7 +132,9 @@
     { "name": "SQL (Advanced)", "issuer": "HackerRank", "credentialId": "EBFE57B420AB" },
     { "name": "REST API (Intermediate)", "issuer": "HackerRank", "credentialId": "9FECDDDC70D8" },
     { "name": "Problem Solving (Basic)", "issuer": "HackerRank", "credentialId": "01777F8125A7" },
-    { "name": "Problem Solving (Intermediate)", "issuer": "HackerRank", "credentialId": "B937B75D7029" }
+    { "name": "Problem Solving (Intermediate)", "issuer": "HackerRank", "credentialId": "B937B75D7029" },
+    { "name": "Software Engineer", "issuer": "HackerRank", "credentialId": "372DEB12F161" },
+    { "name": "Software Engineer Intern", "issuer": "HackerRank", "credentialId": "3A8942024974" }
   ],
   "outsideTheCode": "I enjoy exploring how systems work, experimenting with AI tools, and practicing algorithms. I'm also curious about cybersecurity and how AI can make systems smarter and safer.",
   "lookingFor": "I'm looking for a team where I can work on real backend and automation problems, learn from experienced engineers, and keep building systems that actually get used."
