@@ -9,7 +9,7 @@ export default function Capabilities() {
     <section className="space-y-6">
       <div className="flex items-center gap-3 border-b border-gray-800 light:border-gray-200 pb-3">
         <Target className="w-5 h-5 text-purple-400" />
-        <h2 className="text-2xl font-bold text-white light:text-gray-900">Backend Engineering Capabilities</h2>
+        <h2 className="text-2xl font-bold text-white light:text-gray-900">How I Work</h2>
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">

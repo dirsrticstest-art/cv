@@ -404,7 +404,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
           <Bot className="w-5 h-5 text-purple-200 group-hover:rotate-12 transition" />
           <div className="text-left">
             <span className="text-xs font-bold block">Ask Ahmed&apos;s Assistant</span>
-            <span className="text-[10px] text-purple-200/80 block font-mono">Interactive Voice Mode Active</span>
+            <span className="text-[10px] text-purple-200/80 block font-mono">Ask about my experience</span>
           </div>
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse ml-1" />
         </button>

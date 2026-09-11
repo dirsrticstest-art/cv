@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Mail, Globe, FileText } from "lucide-react";
+import { whatILookingFor } from "./data";
 
 export default function Contact() {
   return (
@@ -12,7 +13,7 @@ export default function Contact() {
             What I&apos;m Looking For
           </h2>
           <p className="text-xs sm:text-sm text-gray-300 light:text-gray-600 leading-relaxed">
-            I am looking for opportunities where I can grow as a Python Backend Developer, work on real business problems, and build automation and AI-powered systems with an experienced engineering team.
+            {whatILookingFor}
           </p>
         </div>
 
@@ -23,7 +24,7 @@ export default function Contact() {
             rel="noreferrer"
             className="flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold px-7 py-3.5 rounded-lg transition text-sm shadow-lg shadow-purple-950/80"
           >
-            <Mail className="w-4 h-4" /> Direct Gmail (ahmeeedmohaaamed1@gmail.com)
+            <Mail className="w-4 h-4" /> Email
           </a>
 
           <a 
@@ -42,7 +43,7 @@ export default function Contact() {
             rel="noreferrer"
             className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 light:bg-gray-100 light:hover:bg-gray-200 text-gray-200 light:text-gray-700 font-semibold px-6 py-3.5 rounded-lg border border-gray-700 light:border-gray-300 transition text-sm"
           >
-            <Globe className="w-4 h-4" /> GitHub Profile
+            <Globe className="w-4 h-4" /> GitHub
           </a>
 
           <a 
@@ -50,7 +51,7 @@ export default function Contact() {
             download
             className="flex items-center gap-2 bg-emerald-700 hover:bg-emerald-600 text-white font-semibold px-6 py-3.5 rounded-lg transition text-sm"
           >
-            <FileText className="w-4 h-4" /> Download CV PDF
+            <FileText className="w-4 h-4" /> Download CV
           </a>
         </div>
       </div>

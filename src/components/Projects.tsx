@@ -34,9 +34,9 @@ export default function Projects({ onProjectOpen }: ProjectsProps) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-800 light:border-gray-200 pb-3">
         <div className="flex items-center gap-3">
           <Code2 className="w-5 h-5 text-purple-400" />
-          <h2 className="text-2xl font-bold text-white light:text-gray-900">Engineered Systems & Projects</h2>
+          <h2 className="text-2xl font-bold text-white light:text-gray-900">Projects</h2>
         </div>
-        <span className="text-xs text-gray-400 light:text-gray-500 font-mono">Repositories on GitHub</span>
+        <span className="text-xs text-gray-400 light:text-gray-500 font-mono">GitHub Repositories</span>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
@@ -48,20 +48,20 @@ export default function Projects({ onProjectOpen }: ProjectsProps) {
             tabIndex={0}
             role="button"
             aria-label={`View details for ${proj.title}`}
-            className="bg-gray-900/70 light:bg-gray-50 hover:bg-gray-900 light:hover:bg-gray-100 border border-gray-800 light:border-gray-200 hover:border-purple-800/60 rounded-xl p-6 flex flex-col justify-between cursor-pointer transition space-y-5 group shadow-sm"
+            className="bg-gray-900/70 light:bg-gray-50 hover:bg-gray-900 light:hover:bg-gray-100 border border-gray-800 light:border-gray-200 hover:border-purple-800/60 rounded-xl p-6 flex flex-col justify-between cursor-pointer transition space-y-4 group shadow-sm"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono text-purple-400 bg-purple-950/60 light:bg-purple-50 px-2.5 py-0.5 rounded border border-purple-800/40 light:border-purple-200 font-semibold">
-                  Project #{proj.id}
+                  #{proj.id}
                 </span>
                 <span className="text-xs text-purple-300 light:text-purple-700 font-mono flex items-center gap-1 group-hover:text-purple-200">
-                  Details & Technical Bullets <ChevronRight className="w-3.5 h-3.5" />
+                  Details <ChevronRight className="w-3.5 h-3.5" />
                 </span>
               </div>
 
               <div>
-                <h3 className="text-xl font-bold text-white light:text-gray-900 group-hover:text-purple-300 transition">
+                <h3 className="text-lg font-bold text-white light:text-gray-900 group-hover:text-purple-300 transition">
                   {proj.title}
                 </h3>
                 <p className="text-xs font-mono text-purple-400 pt-0.5">
@@ -73,22 +73,21 @@ export default function Projects({ onProjectOpen }: ProjectsProps) {
                 {proj.description}
               </p>
 
-              {proj.metrics && (
-                <div className="flex flex-wrap gap-3 pt-1">
-                  {proj.metrics.map((m: { label: string; value: string }, i: number) => (
-                    <span key={i} className="text-[10px] font-mono text-purple-300 bg-purple-950/30 px-2 py-0.5 rounded border border-purple-900/40">
-                      {m.value} {m.label}
-                    </span>
-                  ))}
+              {/* Architecture Flow */}
+              {proj.architecture && (
+                <div className="bg-gray-800/50 light:bg-gray-100 rounded-lg p-3 border border-gray-700/50 light:border-gray-200">
+                  <div className="text-[10px] font-mono text-gray-400 light:text-gray-500 uppercase mb-1.5">Architecture</div>
+                  <div className="text-xs font-mono text-purple-300 light:text-purple-600">
+                    {proj.architecture[0]}
+                  </div>
                 </div>
               )}
             </div>
 
             <div className="space-y-2 pt-2 border-t border-gray-800/80 light:border-gray-200">
-              <div className="text-[11px] font-mono text-gray-400 light:text-gray-500 uppercase font-semibold">Technologies:</div>
               <div className="flex flex-wrap gap-1.5">
                 {proj.builtWith.map((tech: string, i: number) => (
-                  <span key={i} className="text-[11px] font-mono bg-gray-800 light:bg-gray-100 text-gray-300 light:text-gray-700 px-2 py-0.5 rounded border border-gray-700 light:border-gray-300 font-medium">
+                  <span key={i} className="text-[10px] font-mono bg-gray-800 light:bg-gray-100 text-gray-300 light:text-gray-700 px-2 py-0.5 rounded border border-gray-700 light:border-gray-300">
                     {tech}
                   </span>
                 ))}
@@ -117,53 +116,35 @@ export default function Projects({ onProjectOpen }: ProjectsProps) {
             </button>
 
             <div className="space-y-1">
-              <span className="text-xs font-mono text-purple-400 font-semibold uppercase">Project Overview ({selectedProject.id})</span>
+              <span className="text-xs font-mono text-purple-400 font-semibold uppercase">Project ({selectedProject.id})</span>
               <h3 id="project-modal-title" className="text-2xl font-bold text-white light:text-gray-900">{selectedProject.title}</h3>
               <p className="text-xs font-mono text-purple-300">{selectedProject.tagline}</p>
             </div>
 
             <div className="space-y-4">
+              {/* What it does */}
               <div>
-                <h4 className="text-xs font-mono text-emerald-400 uppercase font-semibold mb-1">Why I Built This</h4>
+                <h4 className="text-xs font-mono text-emerald-400 uppercase font-semibold mb-1">What It Does</h4>
                 <p className="text-xs text-gray-300 light:text-gray-600 leading-relaxed bg-emerald-950/20 light:bg-emerald-50 p-4 rounded-lg border border-emerald-800/30 light:border-emerald-200">
-                  {selectedProject.whyBuilt}
+                  {selectedProject.proof || selectedProject.description}
                 </p>
               </div>
 
-              {selectedProject.metrics && (
-                <div className="grid grid-cols-3 gap-3">
-                  {selectedProject.metrics.map((m: { label: string; value: string }, i: number) => (
-                    <div key={i} className="text-center p-3 bg-gray-800/50 light:bg-gray-100 rounded-lg border border-gray-700 light:border-gray-200">
-                      <div className="text-lg font-bold text-purple-400">{m.value}</div>
-                      <div className="text-[10px] text-gray-400 light:text-gray-500 font-mono">{m.label}</div>
+              {/* Architecture */}
+              {selectedProject.architecture && (
+                <div>
+                  <h4 className="text-xs font-mono text-blue-400 uppercase font-semibold mb-1">Architecture</h4>
+                  <div className="bg-gray-800/50 light:bg-gray-100 p-4 rounded-lg border border-gray-700/50 light:border-gray-200">
+                    <div className="text-xs font-mono text-purple-300 light:text-purple-600">
+                      {selectedProject.architecture[0]}
                     </div>
-                  ))}
-                </div>
-              )}
-
-              {selectedProject.caseStudy && (
-                <div className="space-y-3">
-                  <h4 className="text-xs font-mono text-purple-400 uppercase font-semibold">Case Study</h4>
-
-                  <div className="bg-gray-800/40 light:bg-gray-50 p-4 rounded-lg border border-gray-800 light:border-gray-200 space-y-1">
-                    <h5 className="text-[11px] font-mono text-red-400 uppercase font-bold">Problem</h5>
-                    <p className="text-xs text-gray-300 light:text-gray-600 leading-relaxed">{selectedProject.caseStudy.problem}</p>
-                  </div>
-
-                  <div className="bg-gray-800/40 light:bg-gray-50 p-4 rounded-lg border border-gray-800 light:border-gray-200 space-y-1">
-                    <h5 className="text-[11px] font-mono text-blue-400 uppercase font-bold">Process</h5>
-                    <p className="text-xs text-gray-300 light:text-gray-600 leading-relaxed">{selectedProject.caseStudy.process}</p>
-                  </div>
-
-                  <div className="bg-gray-800/40 light:bg-gray-50 p-4 rounded-lg border border-gray-800 light:border-gray-200 space-y-1">
-                    <h5 className="text-[11px] font-mono text-emerald-400 uppercase font-bold">Result</h5>
-                    <p className="text-xs text-gray-300 light:text-gray-600 leading-relaxed">{selectedProject.caseStudy.result}</p>
                   </div>
                 </div>
               )}
 
+              {/* What I Built */}
               <div>
-                <h4 className="text-xs font-mono text-gray-400 light:text-gray-500 uppercase font-semibold mb-2">Technical Bullets & Implementation</h4>
+                <h4 className="text-xs font-mono text-gray-400 light:text-gray-500 uppercase font-semibold mb-2">What I Built</h4>
                 <ul className="text-xs text-gray-300 light:text-gray-600 space-y-2 list-disc list-inside bg-gray-800/40 light:bg-gray-50 p-4 rounded-lg border border-gray-800 light:border-gray-200">
                   {selectedProject.whatIBuilt.map((bullet: string, i: number) => (
                     <li key={i}>{bullet}</li>
@@ -171,8 +152,9 @@ export default function Projects({ onProjectOpen }: ProjectsProps) {
                 </ul>
               </div>
 
+              {/* Stack */}
               <div>
-                <h4 className="text-xs font-mono text-gray-400 light:text-gray-500 uppercase font-semibold mb-2">Technologies Used</h4>
+                <h4 className="text-xs font-mono text-gray-400 light:text-gray-500 uppercase font-semibold mb-2">Stack</h4>
                 <div className="flex flex-wrap gap-1.5">
                   {selectedProject.builtWith.map((t: string, i: number) => (
                     <span key={i} className="text-xs font-mono bg-purple-950/60 text-purple-300 px-3 py-1 rounded-md border border-purple-800/40 font-medium">
@@ -207,7 +189,7 @@ export default function Projects({ onProjectOpen }: ProjectsProps) {
                   rel="noreferrer noopener"
                   className="flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs px-5 py-2.5 rounded-lg transition shadow-md"
                 >
-                  <Globe className="w-4 h-4" /> View GitHub Repository <ExternalLink className="w-3.5 h-3.5" />
+                  <Globe className="w-4 h-4" /> GitHub <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               </div>
             </div>
