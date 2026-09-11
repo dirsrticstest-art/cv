@@ -35,6 +35,8 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
   const chatOpenRef = useRef(chatOpen);
   const retryCountRef = useRef(0);
   const MAX_RETRIES = 3;
+  const stopListeningRef = useRef<() => void>(() => {});
+  const startListeningRef = useRef<() => Promise<void>>(async () => {});
 
   const [voicesList, setVoicesList] = useState<SpeechSynthesisVoice[]>([]);
 
@@ -121,14 +123,14 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
       utterance.onstart = () => {
         isSpeakingRef.current = true;
         setIsSpeaking(true);
-        stopListening();
+        stopListeningRef.current();
       };
 
       utterance.onend = () => {
         isSpeakingRef.current = false;
         setIsSpeaking(false);
         if (chatOpenRef.current) {
-          setTimeout(() => startListening(), 600);
+          setTimeout(() => startListeningRef.current(), 600);
         }
       };
 
@@ -136,24 +138,21 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
         isSpeakingRef.current = false;
         setIsSpeaking(false);
         if (chatOpenRef.current) {
-          setTimeout(() => startListening(), 600);
+          setTimeout(() => startListeningRef.current(), 600);
         }
       };
 
       window.speechSynthesis.speak(utterance);
     }
-  }, [voicesList, stopListening, startListening]);
+  }, [voicesList]);
 
   const stopSpeaking = useCallback(() => {
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
       window.speechSynthesis.cancel();
       isSpeakingRef.current = false;
       setIsSpeaking(false);
-      if (chatOpenRef.current) {
-        setTimeout(() => startListening(), 300);
-      }
     }
-  }, [startListening]);
+  }, []);
 
   const stopListening = useCallback(() => {
     if (recognitionRef.current) {
@@ -230,6 +229,9 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
       setIsListening(false);
     }
   }, [stopListening, stopSpeaking]);
+
+  stopListeningRef.current = stopListening;
+  startListeningRef.current = startListening;
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
