@@ -94,18 +94,7 @@ pdf.add_page()
 # About (compact)
 pdf.section_title("About")
 pdf.body_text(data["about"], size=9)
-
-# How I Work (inline)
-pdf.set_font("Helvetica", "B", 10)
-pdf.set_text_color(100, 60, 180)
-pdf.set_x(10)
-pdf.cell(190, 5, "How I Work:", new_x="LMARGIN", new_y="NEXT")
-pdf.set_font("Helvetica", "", 9)
-pdf.set_text_color(50, 50, 50)
-how_text = " | ".join([f"{c['title']}: {c['desc']}" for c in data["capabilities"]])
-pdf.set_x(10)
-pdf.multi_cell(190, 4.5, clean(how_text))
-pdf.ln(2)
+pdf.ln(1)
 
 # Work Experience
 exp = data["experience"]

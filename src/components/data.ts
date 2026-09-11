@@ -10,7 +10,7 @@ import {
   Target
 } from "lucide-react";
 
-export const aboutText = `Python Backend Developer with hands-on experience building REST APIs, automation workflows, and AI-powered systems using FastAPI, PostgreSQL, and Redis. Completed a 3-month on-site role at H2M, where I built Meta WhatsApp Cloud API integrations, product analytics tools, and automated marketing dispatches. Currently pursuing B.Sc. in Computer Science at ECU (Expected 2029). Seeking a Backend or AI Automation role where I can contribute to production systems and grow as an engineer.`;
+export const aboutText = `Python Backend Developer and AI Automation Specialist with hands-on experience building REST APIs, automation workflows, and AI-powered systems using FastAPI, PostgreSQL, Redis, and Docker. Completed a 3-month on-site role at H2M, building Meta WhatsApp Cloud API integrations and product analytics tools. Pursuing B.Sc. in Computer Science at ECU (Expected 2029).`;
 
 export const projects = [
   {
