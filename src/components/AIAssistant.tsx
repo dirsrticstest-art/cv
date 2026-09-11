@@ -24,7 +24,6 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
   const [inputMsg, setInputMsg] = useState("");
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [assistantStarted, setAssistantStarted] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
@@ -237,6 +236,17 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
   useEffect(() => {
     if (chatOpen) {
       retryCountRef.current = 0;
+      speakText(messages[0].text);
+      setTimeout(() => {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          navigator.mediaDevices.getUserMedia({ audio: true })
+            .then((stream) => {
+              stream.getTracks().forEach(t => t.stop());
+              startListening();
+            })
+            .catch(() => {});
+        }
+      }, 1200);
     } else {
       stopListening();
       stopSpeaking();
@@ -245,7 +255,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
       stopListening();
       stopSpeaking();
     };
-  }, [chatOpen, startListening, stopListening, speakText, stopSpeaking]);
+  }, [chatOpen]);
 
   useEffect(() => {
     if (chatOpen) {
@@ -512,30 +522,6 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
 
           {/* Chat Body */}
           <div className="flex-1 p-4 overflow-y-auto space-y-3 text-xs font-sans">
-            {!assistantStarted && (
-              <div className="flex justify-center py-6">
-                <button
-                  onClick={async () => {
-                    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                      try {
-                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                        stream.getTracks().forEach(t => t.stop());
-                      } catch (e) {
-                        console.warn("Mic permission denied:", e);
-                        return;
-                      }
-                    }
-                    setAssistantStarted(true);
-                    speakText(messages[0].text);
-                    setTimeout(() => startListening(), 1200);
-                  }}
-                  className="bg-purple-600 hover:bg-purple-500 text-white font-medium px-6 py-3 rounded-xl shadow-lg transition transform hover:scale-105 border border-purple-400/30 flex items-center gap-2"
-                >
-                  <Bot className="w-5 h-5" />
-                  <span>Start Voice Assistant</span>
-                </button>
-              </div>
-            )}
             {messages.map((m, i) => (
               <div
                 key={i}
