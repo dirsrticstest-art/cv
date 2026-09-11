@@ -177,7 +177,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
       const recognition = new SpeechRecognitionClass();
       recognitionRef.current = recognition;
       recognition.lang = "en-US";
-      recognition.continuous = false;
+      recognition.continuous = true;
       recognition.interimResults = false;
 
       recognition.onstart = () => {
@@ -193,7 +193,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
           if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
           restartTimerRef.current = setTimeout(() => {
             startListening();
-          }, 250);
+          }, 300);
         }
       };
 
