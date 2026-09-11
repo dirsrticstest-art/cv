@@ -6,12 +6,12 @@ import { Mail, Globe, FileText } from "lucide-react";
 export default function Contact() {
   return (
     <section className="space-y-6">
-      <div className="bg-gradient-to-br from-gray-900 via-gray-900 to-purple-950/40 border border-gray-800 rounded-xl p-8 sm:p-12 space-y-6 text-center shadow-lg relative overflow-hidden">
+      <div className="bg-gradient-to-br from-gray-900 via-gray-900 to-purple-950/40 light:from-gray-50 light:via-gray-50 light:to-purple-50 border border-gray-800 light:border-gray-200 rounded-xl p-8 sm:p-12 space-y-6 text-center shadow-lg relative overflow-hidden">
         <div className="max-w-2xl mx-auto space-y-4 relative z-10">
-          <h2 className="text-3xl font-extrabold text-white">
+          <h2 className="text-3xl font-extrabold text-white light:text-gray-900">
             What I&apos;m Looking For
           </h2>
-          <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+          <p className="text-xs sm:text-sm text-gray-300 light:text-gray-600 leading-relaxed">
             I am looking for opportunities where I can grow as a Python Backend Developer, work on real business problems, and build automation and AI-powered systems with an experienced engineering team.
           </p>
         </div>
@@ -27,7 +27,7 @@ export default function Contact() {
           </a>
 
           <a 
-            href="https://www.linkedin.com/in/ahmed-abdelatif" 
+            href="https://www.linkedin.com/in/ahmed-mohamed-b69920435" 
             target="_blank"
             rel="noreferrer"
             className="flex items-center gap-2 bg-blue-700 hover:bg-blue-600 text-white font-semibold px-6 py-3.5 rounded-lg transition text-sm"
@@ -40,7 +40,7 @@ export default function Contact() {
             href="https://github.com/ahmed-abdelatif" 
             target="_blank" 
             rel="noreferrer"
-            className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-gray-200 font-semibold px-6 py-3.5 rounded-lg border border-gray-700 transition text-sm"
+            className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 light:bg-gray-100 light:hover:bg-gray-200 text-gray-200 light:text-gray-700 font-semibold px-6 py-3.5 rounded-lg border border-gray-700 light:border-gray-300 transition text-sm"
           >
             <Globe className="w-4 h-4" /> GitHub Profile
           </a>

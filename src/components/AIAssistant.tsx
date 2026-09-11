@@ -410,19 +410,19 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
         </button>
       ) : (
         <div
-          className="bg-gray-900 w-[350px] sm:w-[390px] h-[510px] rounded-2xl shadow-2xl flex flex-col border border-purple-800/60 overflow-hidden"
+          className="bg-gray-900 light:bg-white w-[350px] sm:w-[390px] h-[510px] rounded-2xl shadow-2xl flex flex-col border border-purple-800/60 light:border-gray-200 overflow-hidden"
           role="dialog"
           aria-modal="true"
           aria-label="AI Assistant Chat"
         >
           {/* Header */}
-          <div className="p-4 bg-purple-950/90 border-b border-gray-800 flex items-center justify-between">
+          <div className="p-4 bg-purple-950/90 light:bg-purple-50 border-b border-gray-800 light:border-gray-200 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <div className="p-2 rounded-lg bg-purple-600/30 text-purple-300 border border-purple-500/30">
                 <Bot className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
+                <h4 className="text-xs font-bold text-white light:text-gray-900 flex items-center gap-1.5">
                   Ahmed&apos;s Voice AI Assistant
                 </h4>
                 <div className="flex items-center gap-1 mt-0.5">
@@ -442,7 +442,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
                       <span className="ml-1">Listening...</span>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-1 text-[10px] font-mono text-gray-400">
+                    <div className="flex items-center gap-1 text-[10px] font-mono text-gray-400 light:text-gray-500">
                       <span className="w-1.5 h-1.5 bg-purple-400 rounded-full" />
                       <span className="ml-1">Voice Active</span>
                     </div>
@@ -455,7 +455,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
               {isSpeaking && (
                 <button
                   onClick={stopSpeaking}
-                  className="text-xs bg-red-950/80 text-red-300 px-2 py-1 rounded border border-red-800 font-mono"
+                  className="text-xs bg-red-950/80 light:bg-red-50 text-red-300 light:text-red-700 px-2 py-1 rounded border border-red-800 light:border-red-200 font-mono"
                   aria-label="Mute voice"
                 >
                   Mute
@@ -463,7 +463,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
               )}
               <button
                 onClick={onToggleChat}
-                className="text-gray-400 hover:text-white text-xs font-mono p-1"
+                className="text-gray-400 light:text-gray-500 hover:text-white light:hover:text-gray-900 text-xs font-mono p-1"
                 aria-label="Close chat"
               >
                 X
@@ -482,7 +482,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
                   className={`max-w-[85%] p-3 rounded-xl leading-relaxed whitespace-pre-line ${
                     m.sender === "user"
                       ? "bg-purple-600 text-white rounded-br-none font-medium"
-                      : "bg-gray-800 text-gray-200 rounded-bl-none border border-gray-700"
+                      : "bg-gray-800 light:bg-gray-100 text-gray-200 light:text-gray-700 rounded-bl-none border border-gray-700 light:border-gray-200"
                   }`}
                 >
                   {m.text}
@@ -493,12 +493,12 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
           </div>
 
           {/* Quick Action Chips Bar */}
-          <div className="px-3 py-2 bg-gray-900/90 border-t border-gray-800 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+          <div className="px-3 py-2 bg-gray-900/90 light:bg-gray-50 border-t border-gray-800 light:border-gray-200 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
             {quickQuestions.map((q, idx) => (
               <button
                 key={idx}
                 onClick={() => handleChipClick(q.query)}
-                className="bg-gray-800 hover:bg-purple-950 text-gray-300 hover:text-purple-200 px-2.5 py-1 rounded-lg text-[10px] font-mono border border-gray-700/80 whitespace-nowrap transition"
+                className="bg-gray-800 hover:bg-purple-950 light:bg-gray-100 light:hover:bg-purple-50 text-gray-300 hover:text-purple-200 light:text-gray-600 light:hover:text-purple-700 px-2.5 py-1 rounded-lg text-[10px] font-mono border border-gray-700/80 light:border-gray-200 whitespace-nowrap transition"
               >
                 {q.label}
               </button>
@@ -506,14 +506,14 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
           </div>
 
           {/* Voice Input & Text Form */}
-          <form onSubmit={handleSendMessage} className="p-3 border-t border-gray-800 bg-gray-950 flex items-center gap-2">
+          <form onSubmit={handleSendMessage} className="p-3 border-t border-gray-800 light:border-gray-200 bg-gray-950 light:bg-white flex items-center gap-2">
             <button
               type="button"
               onClick={startListening}
               className={`p-2.5 rounded-xl transition border ${
                 isListening
                   ? "bg-red-600 text-white border-red-400 animate-pulse"
-                  : "bg-gray-800 text-purple-300 hover:bg-purple-900/50 border-gray-700"
+                   : "bg-gray-800 light:bg-gray-100 text-purple-300 hover:bg-purple-900/50 light:hover:bg-purple-50 border-gray-700 light:border-gray-300"
               }`}
               aria-label={isListening ? "Stop listening" : "Start voice input"}
             >
@@ -525,7 +525,7 @@ export default function AIAssistant({ chatOpen, onToggleChat, onProjectOpen, onS
               placeholder={isListening ? "Listening to your voice..." : "Type or speak your question..."}
               value={inputMsg}
               onChange={(e) => setInputMsg(e.target.value)}
-              className="flex-1 bg-gray-900 border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500 font-sans"
+              className="flex-1 bg-gray-900 light:bg-gray-50 border border-gray-800 light:border-gray-200 rounded-xl px-3 py-2 text-xs text-white light:text-gray-900 focus:outline-none focus:border-purple-500 font-sans"
               aria-label="Chat message input"
             />
             <button
